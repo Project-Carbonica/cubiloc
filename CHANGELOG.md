@@ -1,12 +1,14 @@
 # Changelog
 
-## 0.3.0 (2025-11-26)
-
-### feat
-
-* [05577] feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice (deichor)
+## 0.4.0 (2025-11-26)
 
 ### refactor
 
-* [c1952] refactor: consolidate release workflow steps and improve version handling (deichor)
+* [01902] refactor: remove DI modules, add Spring example and fix config loading (deichor)
+
+### feat
+
+* [ad83b] feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency (deichor)
+
+* [f1801] feat: Enhance I18n with locale provider support and refactor DI integration (deichor)
 
