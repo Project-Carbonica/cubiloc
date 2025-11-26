@@ -7,22 +7,41 @@ import net.cubizor.cubiloc.config.MessageConfig;
  * Provider interface for I18n dependency injection support.
  * Provides access to the I18n instance and MessageConfig classes.
  * 
- * <p>Example usage with Guice:</p>
+ * <p><b>Note:</b> This class is now optional. You can inject {@link I18n} directly
+ * and use {@code i18n.config(player, MyMessages.class)} to get localized messages.</p>
+ * 
+ * <p>Example usage with Dagger/Guice:</p>
  * <pre>
- * public class MyPlugin {
+ * // Direct I18n injection (preferred)
+ * public class MyService {
+ *     {@literal @}Inject
+ *     private I18n i18n;
+ *     
+ *     public void sendMessage(Player player) {
+ *         MyMessages msg = i18n.config(player, MyMessages.class);
+ *         player.sendMessage(i18n.get(player, msg.welcome())
+ *             .with("player", player.getName())
+ *             .component());
+ *     }
+ * }
+ * 
+ * // Or with I18nProvider (legacy)
+ * public class MyService {
  *     {@literal @}Inject
  *     private I18nProvider i18nProvider;
  *     
  *     public void sendMessage(Player player) {
  *         MyMessages msg = i18nProvider.config(player, MyMessages.class);
- *         Component message = i18nProvider.i18n().get(player, msg.welcome())
+ *         player.sendMessage(i18nProvider.i18n().get(player, msg.welcome())
  *             .with("player", player.getName())
- *             .component();
- *         player.sendMessage(message);
+ *             .component());
  *     }
  * }
  * </pre>
+ * 
+ * @deprecated Use {@link I18n} directly. This class is kept for backward compatibility.
  */
+@Deprecated
 public class I18nProvider {
     
     private final I18n i18n;

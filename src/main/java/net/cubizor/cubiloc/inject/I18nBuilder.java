@@ -3,19 +3,23 @@ package net.cubizor.cubiloc.inject;
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubiloc.I18n;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.locale.LocaleProvider;
+import net.cubizor.cubiloc.locale.PlayerLocaleProvider;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Builder for creating I18n instances with dependency injection support.
- * Use this class to configure and create an I18nProvider for DI frameworks.
+ * Use this class to configure and create an I18n instance for DI frameworks.
  * 
  * <p>Example usage:</p>
  * <pre>
- * I18nProvider provider = I18nBuilder.create("tr_TR")
+ * I18n i18n = I18nBuilder.create("en-US")
+ *     .registerPlayerLocaleProvider()  // Auto-detect player locale
  *     .register(MyMessages.class)
  *         .path("messages")
  *         .suffix(".yml")
@@ -25,22 +29,23 @@ import java.util.List;
  *     .loadColorScheme("dark", "themes/dark.json")
  *     .loadColorScheme("light", "themes/light.json")
  *     .defaultScheme("dark")
- *     .buildProvider();
+ *     .build();
  * </pre>
  * 
- * <p>For Guice:</p>
+ * <p>For Dagger:</p>
  * <pre>
- * public class I18nModule extends AbstractModule {
- *     private final I18nProvider provider;
+ * {@literal @}Module
+ * public class I18nModule {
+ *     private final I18n i18n;
  *     
- *     public I18nModule(I18nProvider provider) {
- *         this.provider = provider;
+ *     public I18nModule(I18n i18n) {
+ *         this.i18n = i18n;
  *     }
  *     
- *     {@literal @}Override
- *     protected void configure() {
- *         bind(I18nProvider.class).toInstance(provider);
- *         bind(I18n.class).toInstance(provider.i18n());
+ *     {@literal @}Provides
+ *     {@literal @}Singleton
+ *     public I18n provideI18n() {
+ *         return i18n;
  *     }
  * }
  * </pre>
@@ -50,16 +55,21 @@ public class I18nBuilder {
     private final I18n i18n;
     private final List<ConfigRegistrationBuilder<?>> registrations = new ArrayList<>();
     private final List<ColorSchemeLoader> colorSchemes = new ArrayList<>();
+    private final List<LocaleProvider<?>> localeProviders = new ArrayList<>();
     private String defaultScheme;
     
     private I18nBuilder(String defaultLocale) {
         this.i18n = new I18n(defaultLocale);
     }
     
+    private I18nBuilder(Locale defaultLocale) {
+        this.i18n = new I18n(defaultLocale);
+    }
+    
     /**
      * Creates a new I18nBuilder with the specified default locale.
      * 
-     * @param defaultLocale the default locale (e.g., "tr_TR", "en_US")
+     * @param defaultLocale the default locale (e.g., "tr_TR", "en_US", "en-US")
      * @return the builder
      */
     public static I18nBuilder create(String defaultLocale) {
@@ -67,12 +77,58 @@ public class I18nBuilder {
     }
     
     /**
-     * Creates a new I18nBuilder with default locale "tr_TR".
+     * Creates a new I18nBuilder with the specified default locale.
+     * 
+     * @param defaultLocale the default locale
+     * @return the builder
+     */
+    public static I18nBuilder create(Locale defaultLocale) {
+        return new I18nBuilder(defaultLocale);
+    }
+    
+    /**
+     * Creates a new I18nBuilder with default locale "en-US".
      * 
      * @return the builder
      */
     public static I18nBuilder create() {
-        return new I18nBuilder("tr_TR");
+        return new I18nBuilder("en-US");
+    }
+    
+    // ==================== Locale Provider Registration ====================
+    
+    /**
+     * Registers a custom locale provider.
+     * Providers are checked in order of registration.
+     * 
+     * @param provider the locale provider
+     * @return this builder
+     */
+    public I18nBuilder registerLocaleProvider(LocaleProvider<?> provider) {
+        localeProviders.add(provider);
+        return this;
+    }
+    
+    /**
+     * Registers the built-in PlayerLocaleProvider for Bukkit/Paper/Velocity/BungeeCord.
+     * This provider automatically detects player locale from the Minecraft client.
+     * 
+     * @return this builder
+     */
+    public I18nBuilder registerPlayerLocaleProvider() {
+        localeProviders.add(new PlayerLocaleProvider(i18n.getDefaultLocale()));
+        return this;
+    }
+    
+    /**
+     * Registers the built-in PlayerLocaleProvider with a custom fallback locale.
+     * 
+     * @param fallbackLocale the locale to use when player locale is unavailable
+     * @return this builder
+     */
+    public I18nBuilder registerPlayerLocaleProvider(Locale fallbackLocale) {
+        localeProviders.add(new PlayerLocaleProvider(fallbackLocale));
+        return this;
     }
     
     /**
@@ -140,6 +196,11 @@ public class I18nBuilder {
      * @return the configured I18n instance
      */
     public I18n build() {
+        // Register locale providers
+        for (LocaleProvider<?> provider : localeProviders) {
+            i18n.registerLocaleProvider(provider);
+        }
+        
         // Load all message configs
         for (ConfigRegistrationBuilder<?> registration : registrations) {
             registration.apply(i18n);
@@ -164,10 +225,11 @@ public class I18nBuilder {
     
     /**
      * Builds and returns an I18nProvider wrapping the configured I18n instance.
-     * Use this for dependency injection.
      * 
      * @return the I18nProvider
+     * @deprecated Use {@link #build()} instead and inject I18n directly.
      */
+    @Deprecated
     public I18nProvider buildProvider() {
         return new I18nProvider(build());
     }

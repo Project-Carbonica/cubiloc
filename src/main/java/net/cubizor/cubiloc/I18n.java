@@ -5,6 +5,9 @@ import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubicolor.exporter.ThemeLoader;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.locale.DefaultLocaleProvider;
+import net.cubizor.cubiloc.locale.LocaleProvider;
+import net.cubizor.cubiloc.locale.ReflectionLocaleProvider;
 import net.cubizor.cubiloc.message.ListMessageResult;
 import net.cubizor.cubiloc.message.MessageResult;
 import net.cubizor.cubiloc.message.SingleMessageResult;
@@ -15,6 +18,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -53,9 +57,10 @@ public class I18n {
     private final Map<String, Map<Class<? extends MessageConfig>, MessageConfig>> localeConfigs = new HashMap<>();
     private final Map<String, ColorScheme> colorSchemes = new HashMap<>();
     private final Map<Object, String> userSchemePreferences = new HashMap<>();
+    private final List<LocaleProvider<?>> localeProviders = new ArrayList<>();
     private final ThemeLoader themeLoader;
     
-    private String defaultLocale = "tr_TR";
+    private Locale defaultLocale = Locale.forLanguageTag("tr-TR");
     private String defaultScheme = "dark";
     
     /**
@@ -63,14 +68,91 @@ public class I18n {
      */
     public I18n() {
         this.themeLoader = new ThemeLoader();
+        // Register default providers
+        this.localeProviders.add(new DefaultLocaleProvider(defaultLocale));
+        this.localeProviders.add(new ReflectionLocaleProvider(defaultLocale));
     }
     
     /**
      * Creates a new I18n instance with specified default locale
      */
     public I18n(String defaultLocale) {
+        this.defaultLocale = parseLocale(defaultLocale);
+        this.themeLoader = new ThemeLoader();
+        // Register default providers
+        this.localeProviders.add(new DefaultLocaleProvider(this.defaultLocale));
+        this.localeProviders.add(new ReflectionLocaleProvider(this.defaultLocale));
+    }
+    
+    /**
+     * Creates a new I18n instance with specified default locale
+     */
+    public I18n(Locale defaultLocale) {
         this.defaultLocale = defaultLocale;
         this.themeLoader = new ThemeLoader();
+        // Register default providers
+        this.localeProviders.add(new DefaultLocaleProvider(this.defaultLocale));
+        this.localeProviders.add(new ReflectionLocaleProvider(this.defaultLocale));
+    }
+    
+    // ==================== Locale Provider Management ====================
+    
+    /**
+     * Registers a locale provider. Providers are checked in order of registration.
+     * 
+     * @param provider the locale provider to register
+     * @return this I18n instance for method chaining
+     */
+    public I18n registerLocaleProvider(LocaleProvider<?> provider) {
+        // Add at the beginning to have priority over default providers
+        this.localeProviders.add(0, provider);
+        return this;
+    }
+    
+    /**
+     * Clears all locale providers and optionally re-adds default providers.
+     * 
+     * @param keepDefaults whether to keep default providers
+     * @return this I18n instance for method chaining
+     */
+    public I18n clearLocaleProviders(boolean keepDefaults) {
+        this.localeProviders.clear();
+        if (keepDefaults) {
+            this.localeProviders.add(new DefaultLocaleProvider(defaultLocale));
+            this.localeProviders.add(new ReflectionLocaleProvider(defaultLocale));
+        }
+        return this;
+    }
+    
+    /**
+     * Gets the default locale.
+     * 
+     * @return the default locale
+     */
+    public Locale getDefaultLocale() {
+        return defaultLocale;
+    }
+    
+    /**
+     * Sets the default locale.
+     * 
+     * @param locale the default locale
+     * @return this I18n instance for method chaining
+     */
+    public I18n setDefaultLocale(Locale locale) {
+        this.defaultLocale = locale;
+        return this;
+    }
+    
+    /**
+     * Sets the default locale from a string.
+     * 
+     * @param locale the locale string (e.g., "en_US" or "en-US")
+     * @return this I18n instance for method chaining
+     */
+    public I18n setDefaultLocale(String locale) {
+        this.defaultLocale = parseLocale(locale);
+        return this;
     }
     
     // ==================== ColorScheme Management ====================
@@ -341,7 +423,7 @@ public class I18n {
         Map<Class<? extends MessageConfig>, MessageConfig> localeMap = localeConfigs.get(locale);
         
         if (localeMap == null || !localeMap.containsKey(configClass)) {
-            localeMap = localeConfigs.get(defaultLocale);
+            localeMap = localeConfigs.get(formatLocale(defaultLocale));
         }
         
         if (localeMap != null && localeMap.containsKey(configClass)) {
@@ -352,7 +434,19 @@ public class I18n {
     }
     
     /**
+     * Gets the MessageConfig instance for a specific locale.
+     * 
+     * @param locale the locale
+     * @param configClass the MessageConfig class
+     * @return the MessageConfig instance for the locale
+     */
+    public <T extends MessageConfig> T config(Locale locale, Class<T> configClass) {
+        return config(formatLocale(locale), configClass);
+    }
+    
+    /**
      * Gets the MessageConfig instance for a user's locale.
+     * This is the primary method for getting localized messages for players.
      * 
      * @param localeProvider an object that provides locale (e.g., player)
      * @param configClass the MessageConfig class
@@ -370,7 +464,7 @@ public class I18n {
      * @return the MessageConfig instance for the default locale
      */
     public <T extends MessageConfig> T config(Class<T> configClass) {
-        return config(defaultLocale, configClass);
+        return config(formatLocale(defaultLocale), configClass);
     }
     
     /**
@@ -430,7 +524,7 @@ public class I18n {
         
         // Fall back to default locale if not found
         if (localeMap == null || localeMap.isEmpty()) {
-            localeMap = localeConfigs.get(defaultLocale);
+            localeMap = localeConfigs.get(formatLocale(defaultLocale));
         }
         
         // If still nothing, return empty result
@@ -475,36 +569,74 @@ public class I18n {
     
     /**
      * Resolves the locale from a locale provider object.
-     * Override this method for custom locale resolution logic.
+     * Uses registered LocaleProviders to resolve the locale.
      * 
      * @param localeProvider the object providing locale information
-     * @return the resolved locale string
+     * @return the resolved locale string (e.g., "en_US")
      */
+    @SuppressWarnings("unchecked")
     protected String resolveLocale(Object localeProvider) {
+        if (localeProvider == null) {
+            return formatLocale(defaultLocale);
+        }
+        
+        // Find a matching provider
+        for (LocaleProvider<?> provider : localeProviders) {
+            if (provider.supports(localeProvider.getClass())) {
+                Locale locale = ((LocaleProvider<Object>) provider).getLocale(localeProvider);
+                if (locale != null) {
+                    return formatLocale(locale);
+                }
+            }
+        }
+        
+        return formatLocale(defaultLocale);
+    }
+    
+    /**
+     * Resolves the locale as a Locale object from a locale provider.
+     * 
+     * @param localeProvider the object providing locale information
+     * @return the resolved Locale
+     */
+    @SuppressWarnings("unchecked")
+    public Locale resolveLocaleObject(Object localeProvider) {
         if (localeProvider == null) {
             return defaultLocale;
         }
         
-        if (localeProvider instanceof String) {
-            return (String) localeProvider;
-        }
-        
-        if (localeProvider instanceof Locale) {
-            Locale locale = (Locale) localeProvider;
-            return locale.getLanguage() + "_" + locale.getCountry();
-        }
-        
-        // Try to find a getLocale() method
-        try {
-            java.lang.reflect.Method method = localeProvider.getClass().getMethod("getLocale");
-            Object result = method.invoke(localeProvider);
-            if (result != null) {
-                return result.toString();
+        // Find a matching provider
+        for (LocaleProvider<?> provider : localeProviders) {
+            if (provider.supports(localeProvider.getClass())) {
+                Locale locale = ((LocaleProvider<Object>) provider).getLocale(localeProvider);
+                if (locale != null) {
+                    return locale;
+                }
             }
-        } catch (Exception ignored) {
         }
         
         return defaultLocale;
+    }
+    
+    /**
+     * Formats a Locale to the string format used internally (e.g., "en_US").
+     */
+    private String formatLocale(Locale locale) {
+        if (locale.getCountry().isEmpty()) {
+            return locale.getLanguage();
+        }
+        return locale.getLanguage() + "_" + locale.getCountry();
+    }
+    
+    /**
+     * Parses a locale string to a Locale object.
+     * Supports both "en_US" and "en-US" formats.
+     */
+    private Locale parseLocale(String localeStr) {
+        if (localeStr == null || localeStr.isEmpty()) {
+            return defaultLocale;
+        }
+        return Locale.forLanguageTag(localeStr.replace("_", "-"));
     }
     
     // ==================== Config Registration Builder ====================
@@ -517,7 +649,7 @@ public class I18n {
         private final Class<T> configClass;
         private String path = "messages";
         private String suffix = ".yml";
-        private String defaultLocale = "tr_TR";
+        private String defaultLocaleStr = "tr_TR";
         private boolean unpack = false;
         private File dataFolder;
         private ClassLoader resourceLoader;
@@ -525,7 +657,7 @@ public class I18n {
         private ConfigRegistration(I18n i18n, Class<T> configClass) {
             this.i18n = i18n;
             this.configClass = configClass;
-            this.defaultLocale = i18n.defaultLocale;
+            this.defaultLocaleStr = i18n.formatLocale(i18n.defaultLocale);
             this.resourceLoader = configClass.getClassLoader();
         }
         
@@ -549,8 +681,17 @@ public class I18n {
          * Sets the default locale
          */
         public ConfigRegistration<T> defaultLocale(String defaultLocale) {
-            this.defaultLocale = defaultLocale;
-            this.i18n.defaultLocale = defaultLocale;
+            this.defaultLocaleStr = defaultLocale;
+            this.i18n.setDefaultLocale(defaultLocale);
+            return this;
+        }
+        
+        /**
+         * Sets the default locale
+         */
+        public ConfigRegistration<T> defaultLocale(Locale defaultLocale) {
+            this.defaultLocaleStr = i18n.formatLocale(defaultLocale);
+            this.i18n.setDefaultLocale(defaultLocale);
             return this;
         }
         
@@ -603,7 +744,7 @@ public class I18n {
             }
             
             // Ensure default locale is loaded
-            File defaultFile = new File(targetDir, defaultLocale + suffix);
+            File defaultFile = new File(targetDir, defaultLocaleStr + suffix);
             if (!defaultFile.exists()) {
                 try {
                     T config = ConfigManager.create(configClass);
@@ -644,10 +785,10 @@ public class I18n {
                 }
             } catch (Exception e) {
                 // Fallback: try default locale only
-                String resourceFile = resourcePath + "/" + defaultLocale + suffix;
+                String resourceFile = resourcePath + "/" + defaultLocaleStr + suffix;
                 try (InputStream in = resourceLoader.getResourceAsStream(resourceFile)) {
                     if (in != null) {
-                        Path targetFile = new File(targetDir, defaultLocale + suffix).toPath();
+                        Path targetFile = new File(targetDir, defaultLocaleStr + suffix).toPath();
                         if (!Files.exists(targetFile)) {
                             Files.copy(in, targetFile);
                         }
