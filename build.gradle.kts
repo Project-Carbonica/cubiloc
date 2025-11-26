@@ -41,6 +41,9 @@ dependencies {
     implementation("net.cubizor.cubicolor:cubicolor-core:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.0")
     
+    // Dependency Injection - Optional (compileOnly)
+    compileOnly("com.google.inject:guice:7.0.0")
+    compileOnly("com.google.dagger:dagger:2.57.2")
 }
 
 

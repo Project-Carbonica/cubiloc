@@ -265,6 +265,160 @@ admin:
 - [Cubicolor](https://github.com/Project-Carbonica/Cubicolor) - Semantic color system
 - [Adventure](https://docs.advntr.dev/) - Text components & MiniMessage
 
+## Dependency Injection Support
+
+Cubiloc provides built-in support for popular DI frameworks. Both Guice and Dagger 2 are supported.
+
+### I18nBuilder - Common Setup
+
+Use `I18nBuilder` to create an `I18nProvider` for DI:
+
+```java
+I18nProvider provider = I18nBuilder.create("tr_TR")
+    .register(MyMessages.class)
+        .path("messages")
+        .suffix(".yml")
+        .unpack(true)
+        .dataFolder(dataFolder)
+        .done()
+    .loadColorScheme("dark", "themes/dark.json")
+    .loadColorScheme("light", "themes/light.json")
+    .defaultScheme("dark")
+    .buildProvider();
+```
+
+### Google Guice Integration
+
+Add Guice dependency:
+
+```kotlin
+dependencies {
+    implementation("com.google.inject:guice:7.0.0")
+}
+```
+
+Create and use the module:
+
+```java
+// Create Guice injector with CubilocModule
+Injector injector = Guice.createInjector(
+    new CubilocModule(provider),
+    new YourOtherModules()
+);
+
+// Inject in your classes
+public class MessageService {
+    private final I18nProvider i18nProvider;
+    
+    @Inject
+    public MessageService(I18nProvider i18nProvider) {
+        this.i18nProvider = i18nProvider;
+    }
+    
+    public void sendWelcome(Player player) {
+        MyMessages msg = i18nProvider.config(player, MyMessages.class);
+        Component message = i18nProvider.i18n().get(player, msg.welcome())
+            .with("player", player.getName())
+            .component();
+        player.sendMessage(message);
+    }
+}
+```
+
+#### Advanced: Direct MessageConfig Binding
+
+Use `CubilocConfigModule` for direct MessageConfig injection:
+
+```java
+CubilocConfigModule module = CubilocConfigModule.builder(provider)
+    .bindConfig(MyMessages.class)           // Default locale
+    .bindConfig("tr_TR", MyMessages.class)  // @Named("tr_TR")
+    .bindConfig("en_US", MyMessages.class)  // @Named("en_US")
+    .build();
+
+// Now inject configs directly
+public class MyService {
+    @Inject
+    public MyService(MyMessages messages) {
+        // messages is the default locale config
+    }
+}
+
+// Or with @Named for specific locale
+public class LocalizedService {
+    @Inject
+    public LocalizedService(@Named("tr_TR") MyMessages turkishMessages) {
+        // turkishMessages is the Turkish locale config
+    }
+}
+```
+
+### Dagger 2 Integration
+
+Add Dagger dependency:
+
+```kotlin
+dependencies {
+    implementation("com.google.dagger:dagger:2.51.1")
+    annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
+}
+```
+
+Define your component:
+
+```java
+@Singleton
+@Component(modules = {CubilocDaggerModule.class})
+public interface AppComponent {
+    I18n i18n();
+    I18nProvider i18nProvider();
+    
+    void inject(MyPlugin plugin);
+    
+    @Component.Builder
+    interface Builder {
+        Builder cubilocDaggerModule(CubilocDaggerModule module);
+        AppComponent build();
+    }
+}
+```
+
+Build and use:
+
+```java
+// Build component
+AppComponent component = DaggerAppComponent.builder()
+    .cubilocDaggerModule(new CubilocDaggerModule(provider))
+    .build();
+
+// Inject into your plugin
+component.inject(this);
+
+// Or get services directly
+MessageService service = component.messageService();
+```
+
+Inject in your classes:
+
+```java
+@Singleton
+public class MessageService {
+    private final I18nProvider i18nProvider;
+    
+    @Inject
+    public MessageService(I18nProvider i18nProvider) {
+        this.i18nProvider = i18nProvider;
+    }
+    
+    public Component getWelcomeMessage(Player player) {
+        MyMessages msg = i18nProvider.config(player, MyMessages.class);
+        return i18nProvider.i18n().get(player, msg.welcome())
+            .with("player", player.getName())
+            .component();
+    }
+}
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
