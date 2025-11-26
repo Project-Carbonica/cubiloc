@@ -271,4 +271,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgements
 
-Special thanks to [Redfoxa](https://github.com/RedFoxRR) for their contributions and support.
+Special thanks to [RedFoxRR](https://github.com/RedFoxRR) for their contributions and support.
