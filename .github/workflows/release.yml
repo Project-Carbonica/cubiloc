@@ -51,11 +51,20 @@ jobs:
       - name: Nyx Infer
         id: nyx
         run: |
-          nyx infer --configuration-file=.nyx.yaml
+          nyx infer --configuration-file=.nyx.yaml --state-file=.nyx-state.json
           
           # State dosyasından version ve newRelease oku
-          VERSION=$(cat .nyx-state.json | jq -r '.version // "0.0.1"')
-          NEW_RELEASE=$(cat .nyx-state.json | jq -r '.newRelease // false')
+          if [ -f ".nyx-state.json" ]; then
+            VERSION=$(jq -r '.version // "0.0.1"' .nyx-state.json)
+            NEW_RELEASE=$(jq -r '.newRelease // false' .nyx-state.json)
+          else
+            echo "⚠️ State file not found, using defaults"
+            VERSION="0.0.1"
+            NEW_RELEASE="false"
+          fi
+          
+          echo "📦 Version: ${VERSION}"
+          echo "🆕 New Release: ${NEW_RELEASE}"
           
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "newRelease=${NEW_RELEASE}" >> $GITHUB_OUTPUT

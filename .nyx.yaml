@@ -6,6 +6,9 @@
 # Preset: simple for mainline releases
 preset: "simple"
 
+# State file for CI/CD
+stateFile: ".nyx-state.json"
+
 # Changelog configuration
 changelog:
   path: "CHANGELOG.md"
