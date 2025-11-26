@@ -1,0 +1,1157 @@
+{
+  "branch": "main",
+  "bump": "minor",
+  "changelog": {
+    "releases": [
+      {
+        "date": "2025-11-26",
+        "name": "0.2.0",
+        "sections": [
+          {
+            "name": "refactor",
+            "commits": [
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764190105000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764190105000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764190105000,
+                "message": {
+                  "fullMessage": "refactor: update release workflow by merging build and test steps, and adjusting job dependencies\n",
+                  "shortMessage": "refactor: update release workflow by merging build and test steps, and adjusting job dependencies"
+                },
+                "parents": [
+                  "c021e8b51b6151718d1905d004a4d2083891011f"
+                ],
+                "sha": "d191c880331639eab0e7a1f1d1d7645b5279c5d6"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764189703000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764189703000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764189703000,
+                "message": {
+                  "fullMessage": "refactor: streamline Nyx setup by simplifying version retrieval and download process\n",
+                  "shortMessage": "refactor: streamline Nyx setup by simplifying version retrieval and download process"
+                },
+                "parents": [
+                  "2ed62d14139a56cf2cd623c35b430449186a058f"
+                ],
+                "sha": "72fa57a2e6613af339164542f209c7d99bb7d9d5"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764188371000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764188371000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764188371000,
+                "message": {
+                  "fullMessage": "refactor: update CI and release workflows for improved clarity and functionality\n",
+                  "shortMessage": "refactor: update CI and release workflows for improved clarity and functionality"
+                },
+                "parents": [
+                  "3d71c3c03d681d95984750c5718df9a9212145fc"
+                ],
+                "sha": "296fcf748ecbb0a51e97ebb0a4c21e9d16476412"
+              }
+            ]
+          },
+          {
+            "name": "feat",
+            "commits": [
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764189808000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764189808000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764189808000,
+                "message": {
+                  "fullMessage": "feat: enhance Nyx infer step with state file handling and default values\n",
+                  "shortMessage": "feat: enhance Nyx infer step with state file handling and default values"
+                },
+                "parents": [
+                  "72fa57a2e6613af339164542f209c7d99bb7d9d5"
+                ],
+                "sha": "c021e8b51b6151718d1905d004a4d2083891011f"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764189544000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764189544000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764189544000,
+                "message": {
+                  "fullMessage": "feat: enhance Nyx setup and infer steps in release workflow\n",
+                  "shortMessage": "feat: enhance Nyx setup and infer steps in release workflow"
+                },
+                "parents": [
+                  "296fcf748ecbb0a51e97ebb0a4c21e9d16476412"
+                ],
+                "sha": "2ed62d14139a56cf2cd623c35b430449186a058f"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764187811000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764187811000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764187811000,
+                "message": {
+                  "fullMessage": "feat: Remove old message configuration files and add new CI and release workflows\n\n- Deleted outdated message configuration files for English and Turkish.\n- Introduced a new CI workflow for building and testing on push and pull request events.\n- Added a release workflow utilizing Nyx for semantic versioning and publishing to Maven repositories.\n- Created a new Nyx configuration file for managing releases.\n- Implemented publishing configuration for Nexus and GitHub Packages.\n- Added example classes demonstrating the usage of the new I18n system and message configurations.\n",
+                  "shortMessage": "feat: Remove old message configuration files and add new CI and release workflows"
+                },
+                "parents": [
+                  "8be191b1bfe7bd782930c1c537002e942ebd1166"
+                ],
+                "sha": "4b1e2b34aafd89dc5216e13b676e33b46902848c"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764167440000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764167440000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764167440000,
+                "message": {
+                  "fullMessage": "feat: initialize project structure with Gradle setup and theme configurations\n",
+                  "shortMessage": "feat: initialize project structure with Gradle setup and theme configurations"
+                },
+                "sha": "0ad1c2bd71403674d60023aff585083fc692d7a9"
+              }
+            ]
+          },
+          {
+            "name": "fix",
+            "commits": [
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764188227000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764188227000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764188227000,
+                "message": {
+                  "fullMessage": "fix: add Nexus credentials to CI and release workflows\n",
+                  "shortMessage": "fix: add Nexus credentials to CI and release workflows"
+                },
+                "parents": [
+                  "4b1e2b34aafd89dc5216e13b676e33b46902848c"
+                ],
+                "sha": "3d71c3c03d681d95984750c5718df9a9212145fc"
+              }
+            ]
+          },
+          {
+            "name": "ci",
+            "commits": [
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764187801000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764187801000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764187801000,
+                "message": {
+                  "fullMessage": "ci: add CI/CD workflow configuration files\n",
+                  "shortMessage": "ci: add CI/CD workflow configuration files"
+                },
+                "parents": [
+                  "9b63c4855b2d32907077c0ebeb58865c1d99da23"
+                ],
+                "sha": "8be191b1bfe7bd782930c1c537002e942ebd1166"
+              }
+            ]
+          },
+          {
+            "name": "docs",
+            "commits": [
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764168060000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764168060000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764168060000,
+                "message": {
+                  "fullMessage": "docs: fix link formatting for acknowledgements section\n",
+                  "shortMessage": "docs: fix link formatting for acknowledgements section"
+                },
+                "parents": [
+                  "b38f30b83a11737fbf1aebbbc5ebda8f822c5d91"
+                ],
+                "sha": "9b63c4855b2d32907077c0ebeb58865c1d99da23"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764168027000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764168027000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764168027000,
+                "message": {
+                  "fullMessage": "docs: update README for improved clarity and organization\n",
+                  "shortMessage": "docs: update README for improved clarity and organization"
+                },
+                "parents": [
+                  "d247be9c5329cba7dc76fb1e93647bfbe19ee0f9"
+                ],
+                "sha": "b38f30b83a11737fbf1aebbbc5ebda8f822c5d91"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764167915000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764167915000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764167915000,
+                "message": {
+                  "fullMessage": "docs: add comprehensive README with usage examples\n",
+                  "shortMessage": "docs: add comprehensive README with usage examples"
+                },
+                "parents": [
+                  "422a85722c9326f8902f3b3b42b083afdbf2f882"
+                ],
+                "sha": "d247be9c5329cba7dc76fb1e93647bfbe19ee0f9"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "configuration": {
+    "changelog": {
+      "path": "CHANGELOG.md",
+      "sections": {},
+      "substitutions": {}
+    },
+    "commitMessageConventions": {
+      "enabled": [
+        "conventionalCommits"
+      ],
+      "items": {
+        "conventionalCommits": {
+          "expression": "(?m)^(?\u003ctype\u003e[a-zA-Z0-9_]+)(\\((?\u003cscope\u003e[a-zA-Z0-9 \\-_]+)\\))?(!)?:( (?\u003ctitle\u003e.+))$(?s).*",
+          "bumpExpressions": {
+            "major": "(?s)(?m)^[a-zA-Z0-9_]+(\\([a-zA-Z0-9 \\-_]+\\))?(!: .*|.*^(BREAKING( |-)CHANGE: )).*",
+            "minor": "(?s)(?m)^feat(!{0})(\\([a-zA-Z0-9 \\-_]+\\))?: (?!.*^(BREAKING( |-)CHANGE: )).*",
+            "patch": "(?s)(?m)^fix(!{0})(\\([a-zA-Z0-9 \\-_]+\\))?: (?!.*^(BREAKING( |-)CHANGE: )).*"
+          }
+        }
+      }
+    },
+    "configurationFile": ".nyx.yaml",
+    "directory": "/home/runner/_work/cubiloc/cubiloc",
+    "dryRun": false,
+    "git": {
+      "remotes": {}
+    },
+    "initialVersion": "0.1.0",
+    "preset": "simple",
+    "releaseAssets": {},
+    "releaseLenient": true,
+    "releaseTypes": {
+      "enabled": [
+        "mainline",
+        "internal"
+      ],
+      "publicationServices": [
+        "github"
+      ],
+      "remoteRepositories": [],
+      "items": {
+        "internal": {
+          "collapseVersions": true,
+          "collapsedVersionQualifier": "internal",
+          "gitCommit": "false",
+          "gitPush": "false",
+          "gitTag": "false",
+          "gitTagNames": [],
+          "identifiers": [
+            {
+              "qualifier": "timestamp",
+              "value": "{{#timestampYYYYMMDDHHMMSS}}{{timestamp}}{{/timestampYYYYMMDDHHMMSS}}",
+              "position": "BUILD"
+            }
+          ],
+          "publish": "false",
+          "publishDraft": "false",
+          "publishPreRelease": "false",
+          "versionRangeFromBranchName": false
+        },
+        "mainline": {
+          "description": "{{#fileContent}}CHANGELOG.md{{/fileContent}}",
+          "gitCommit": "true",
+          "gitCommitMessage": "chore(release): {{version}}",
+          "gitPush": "true",
+          "gitTag": "true",
+          "gitTagMessage": "Release {{version}}",
+          "publish": "true"
+        }
+      }
+    },
+    "resume": false,
+    "scheme": "SEMVER",
+    "services": {
+      "github": {
+        "options": {
+          "AUTHENTICATION_TOKEN": "{{#environmentVariable}}GH_TOKEN{{/environmentVariable}}",
+          "REPOSITORY_NAME": "cubiloc",
+          "REPOSITORY_OWNER": "Project-Carbonica"
+        },
+        "type": "GITHUB"
+      }
+    },
+    "stateFile": ".nyx-state.json",
+    "substitutions": {
+      "enabled": [],
+      "items": {}
+    },
+    "summary": false,
+    "verbosity": "WARNING"
+  },
+  "coreVersion": true,
+  "directory": "/home/runner/_work/cubiloc/cubiloc",
+  "internals": {
+    "infer.input.configured.bump": "null",
+    "infer.input.configured.initialVersion": "0.1.0",
+    "infer.input.configured.releaseLenient": "true",
+    "infer.input.configured.releasePrefix": "null",
+    "infer.input.configured.scheme": "SEMVER",
+    "infer.input.configured.version": "null",
+    "infer.input.repository.current.branch": "main",
+    "infer.input.repository.last.commit": "d191c880331639eab0e7a1f1d1d7645b5279c5d6",
+    "infer.output.state.version": "0.2.0",
+    "make.input.changelog.file": "/home/runner/_work/cubiloc/cubiloc/CHANGELOG.md",
+    "make.input.repository.current.branch": "main",
+    "make.input.repository.last.commit": "d191c880331639eab0e7a1f1d1d7645b5279c5d6",
+    "make.input.state.initialCommit": "0ad1c2bd71403674d60023aff585083fc692d7a9",
+    "make.input.state.newVersion": "true",
+    "make.input.version": "0.2.0"
+  },
+  "latestVersion": true,
+  "newVersion": true,
+  "newRelease": true,
+  "releaseAssets": [],
+  "releaseScope": {
+    "commits": [
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764190105000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764190105000,
+            "offset": 180
+          }
+        },
+        "date": 1764190105000,
+        "message": {
+          "fullMessage": "refactor: update release workflow by merging build and test steps, and adjusting job dependencies\n",
+          "shortMessage": "refactor: update release workflow by merging build and test steps, and adjusting job dependencies"
+        },
+        "parents": [
+          "c021e8b51b6151718d1905d004a4d2083891011f"
+        ],
+        "sha": "d191c880331639eab0e7a1f1d1d7645b5279c5d6"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189808000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189808000,
+            "offset": 180
+          }
+        },
+        "date": 1764189808000,
+        "message": {
+          "fullMessage": "feat: enhance Nyx infer step with state file handling and default values\n",
+          "shortMessage": "feat: enhance Nyx infer step with state file handling and default values"
+        },
+        "parents": [
+          "72fa57a2e6613af339164542f209c7d99bb7d9d5"
+        ],
+        "sha": "c021e8b51b6151718d1905d004a4d2083891011f"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189703000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189703000,
+            "offset": 180
+          }
+        },
+        "date": 1764189703000,
+        "message": {
+          "fullMessage": "refactor: streamline Nyx setup by simplifying version retrieval and download process\n",
+          "shortMessage": "refactor: streamline Nyx setup by simplifying version retrieval and download process"
+        },
+        "parents": [
+          "2ed62d14139a56cf2cd623c35b430449186a058f"
+        ],
+        "sha": "72fa57a2e6613af339164542f209c7d99bb7d9d5"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189544000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189544000,
+            "offset": 180
+          }
+        },
+        "date": 1764189544000,
+        "message": {
+          "fullMessage": "feat: enhance Nyx setup and infer steps in release workflow\n",
+          "shortMessage": "feat: enhance Nyx setup and infer steps in release workflow"
+        },
+        "parents": [
+          "296fcf748ecbb0a51e97ebb0a4c21e9d16476412"
+        ],
+        "sha": "2ed62d14139a56cf2cd623c35b430449186a058f"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764188371000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764188371000,
+            "offset": 180
+          }
+        },
+        "date": 1764188371000,
+        "message": {
+          "fullMessage": "refactor: update CI and release workflows for improved clarity and functionality\n",
+          "shortMessage": "refactor: update CI and release workflows for improved clarity and functionality"
+        },
+        "parents": [
+          "3d71c3c03d681d95984750c5718df9a9212145fc"
+        ],
+        "sha": "296fcf748ecbb0a51e97ebb0a4c21e9d16476412"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764188227000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764188227000,
+            "offset": 180
+          }
+        },
+        "date": 1764188227000,
+        "message": {
+          "fullMessage": "fix: add Nexus credentials to CI and release workflows\n",
+          "shortMessage": "fix: add Nexus credentials to CI and release workflows"
+        },
+        "parents": [
+          "4b1e2b34aafd89dc5216e13b676e33b46902848c"
+        ],
+        "sha": "3d71c3c03d681d95984750c5718df9a9212145fc"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764187811000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764187811000,
+            "offset": 180
+          }
+        },
+        "date": 1764187811000,
+        "message": {
+          "fullMessage": "feat: Remove old message configuration files and add new CI and release workflows\n\n- Deleted outdated message configuration files for English and Turkish.\n- Introduced a new CI workflow for building and testing on push and pull request events.\n- Added a release workflow utilizing Nyx for semantic versioning and publishing to Maven repositories.\n- Created a new Nyx configuration file for managing releases.\n- Implemented publishing configuration for Nexus and GitHub Packages.\n- Added example classes demonstrating the usage of the new I18n system and message configurations.\n",
+          "shortMessage": "feat: Remove old message configuration files and add new CI and release workflows"
+        },
+        "parents": [
+          "8be191b1bfe7bd782930c1c537002e942ebd1166"
+        ],
+        "sha": "4b1e2b34aafd89dc5216e13b676e33b46902848c"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764187801000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764187801000,
+            "offset": 180
+          }
+        },
+        "date": 1764187801000,
+        "message": {
+          "fullMessage": "ci: add CI/CD workflow configuration files\n",
+          "shortMessage": "ci: add CI/CD workflow configuration files"
+        },
+        "parents": [
+          "9b63c4855b2d32907077c0ebeb58865c1d99da23"
+        ],
+        "sha": "8be191b1bfe7bd782930c1c537002e942ebd1166"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764168060000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764168060000,
+            "offset": 180
+          }
+        },
+        "date": 1764168060000,
+        "message": {
+          "fullMessage": "docs: fix link formatting for acknowledgements section\n",
+          "shortMessage": "docs: fix link formatting for acknowledgements section"
+        },
+        "parents": [
+          "b38f30b83a11737fbf1aebbbc5ebda8f822c5d91"
+        ],
+        "sha": "9b63c4855b2d32907077c0ebeb58865c1d99da23"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764168027000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764168027000,
+            "offset": 180
+          }
+        },
+        "date": 1764168027000,
+        "message": {
+          "fullMessage": "docs: update README for improved clarity and organization\n",
+          "shortMessage": "docs: update README for improved clarity and organization"
+        },
+        "parents": [
+          "d247be9c5329cba7dc76fb1e93647bfbe19ee0f9"
+        ],
+        "sha": "b38f30b83a11737fbf1aebbbc5ebda8f822c5d91"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167915000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167915000,
+            "offset": 180
+          }
+        },
+        "date": 1764167915000,
+        "message": {
+          "fullMessage": "docs: add comprehensive README with usage examples\n",
+          "shortMessage": "docs: add comprehensive README with usage examples"
+        },
+        "parents": [
+          "422a85722c9326f8902f3b3b42b083afdbf2f882"
+        ],
+        "sha": "d247be9c5329cba7dc76fb1e93647bfbe19ee0f9"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167631000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167631000,
+            "offset": 180
+          }
+        },
+        "date": 1764167631000,
+        "message": {
+          "fullMessage": "Merge remote LICENSE file\n",
+          "shortMessage": "Merge remote LICENSE file"
+        },
+        "parents": [
+          "0ad1c2bd71403674d60023aff585083fc692d7a9",
+          "c595995ee0f5a7bf2f8937dbf3da0609858e5b19"
+        ],
+        "sha": "422a85722c9326f8902f3b3b42b083afdbf2f882"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167440000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167440000,
+            "offset": 180
+          }
+        },
+        "date": 1764167440000,
+        "message": {
+          "fullMessage": "feat: initialize project structure with Gradle setup and theme configurations\n",
+          "shortMessage": "feat: initialize project structure with Gradle setup and theme configurations"
+        },
+        "sha": "0ad1c2bd71403674d60023aff585083fc692d7a9"
+      }
+    ],
+    "finalCommit": {
+      "authorAction": {
+        "identity": {
+          "email": "deichors@gmail.com",
+          "name": "deichor"
+        },
+        "timeStamp": {
+          "timeStamp": 1764190105000,
+          "offset": 180
+        }
+      },
+      "commitAction": {
+        "identity": {
+          "email": "deichors@gmail.com",
+          "name": "deichor"
+        },
+        "timeStamp": {
+          "timeStamp": 1764190105000,
+          "offset": 180
+        }
+      },
+      "date": 1764190105000,
+      "message": {
+        "fullMessage": "refactor: update release workflow by merging build and test steps, and adjusting job dependencies\n",
+        "shortMessage": "refactor: update release workflow by merging build and test steps, and adjusting job dependencies"
+      },
+      "parents": [
+        "c021e8b51b6151718d1905d004a4d2083891011f"
+      ],
+      "sha": "d191c880331639eab0e7a1f1d1d7645b5279c5d6"
+    },
+    "initialCommit": {
+      "authorAction": {
+        "identity": {
+          "email": "deichors@gmail.com",
+          "name": "deichor"
+        },
+        "timeStamp": {
+          "timeStamp": 1764167440000,
+          "offset": 180
+        }
+      },
+      "commitAction": {
+        "identity": {
+          "email": "deichors@gmail.com",
+          "name": "deichor"
+        },
+        "timeStamp": {
+          "timeStamp": 1764167440000,
+          "offset": 180
+        }
+      },
+      "date": 1764167440000,
+      "message": {
+        "fullMessage": "feat: initialize project structure with Gradle setup and theme configurations\n",
+        "shortMessage": "feat: initialize project structure with Gradle setup and theme configurations"
+      },
+      "sha": "0ad1c2bd71403674d60023aff585083fc692d7a9"
+    },
+    "previousVersion": "0.1.0",
+    "primeVersion": "0.1.0",
+    "significantCommits": [
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189808000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189808000,
+            "offset": 180
+          }
+        },
+        "date": 1764189808000,
+        "message": {
+          "fullMessage": "feat: enhance Nyx infer step with state file handling and default values\n",
+          "shortMessage": "feat: enhance Nyx infer step with state file handling and default values"
+        },
+        "parents": [
+          "72fa57a2e6613af339164542f209c7d99bb7d9d5"
+        ],
+        "sha": "c021e8b51b6151718d1905d004a4d2083891011f"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189544000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764189544000,
+            "offset": 180
+          }
+        },
+        "date": 1764189544000,
+        "message": {
+          "fullMessage": "feat: enhance Nyx setup and infer steps in release workflow\n",
+          "shortMessage": "feat: enhance Nyx setup and infer steps in release workflow"
+        },
+        "parents": [
+          "296fcf748ecbb0a51e97ebb0a4c21e9d16476412"
+        ],
+        "sha": "2ed62d14139a56cf2cd623c35b430449186a058f"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764188227000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764188227000,
+            "offset": 180
+          }
+        },
+        "date": 1764188227000,
+        "message": {
+          "fullMessage": "fix: add Nexus credentials to CI and release workflows\n",
+          "shortMessage": "fix: add Nexus credentials to CI and release workflows"
+        },
+        "parents": [
+          "4b1e2b34aafd89dc5216e13b676e33b46902848c"
+        ],
+        "sha": "3d71c3c03d681d95984750c5718df9a9212145fc"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764187811000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764187811000,
+            "offset": 180
+          }
+        },
+        "date": 1764187811000,
+        "message": {
+          "fullMessage": "feat: Remove old message configuration files and add new CI and release workflows\n\n- Deleted outdated message configuration files for English and Turkish.\n- Introduced a new CI workflow for building and testing on push and pull request events.\n- Added a release workflow utilizing Nyx for semantic versioning and publishing to Maven repositories.\n- Created a new Nyx configuration file for managing releases.\n- Implemented publishing configuration for Nexus and GitHub Packages.\n- Added example classes demonstrating the usage of the new I18n system and message configurations.\n",
+          "shortMessage": "feat: Remove old message configuration files and add new CI and release workflows"
+        },
+        "parents": [
+          "8be191b1bfe7bd782930c1c537002e942ebd1166"
+        ],
+        "sha": "4b1e2b34aafd89dc5216e13b676e33b46902848c"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167440000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764167440000,
+            "offset": 180
+          }
+        },
+        "date": 1764167440000,
+        "message": {
+          "fullMessage": "feat: initialize project structure with Gradle setup and theme configurations\n",
+          "shortMessage": "feat: initialize project structure with Gradle setup and theme configurations"
+        },
+        "sha": "0ad1c2bd71403674d60023aff585083fc692d7a9"
+      }
+    ]
+  },
+  "releaseType": {
+    "description": "{{#fileContent}}CHANGELOG.md{{/fileContent}}",
+    "gitCommit": "true",
+    "gitCommitMessage": "chore(release): {{version}}",
+    "gitPush": "true",
+    "gitTag": "true",
+    "gitTagMessage": "Release {{version}}",
+    "publish": "true"
+  },
+  "scheme": "SEMVER",
+  "timestamp": 1764190231448,
+  "version": "0.2.0",
+  "versionMajorNumber": "0",
+  "versionMinorNumber": "2",
+  "versionPatchNumber": "0"
+}
