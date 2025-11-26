@@ -1,4 +1,6 @@
-package net.cubizor.cubiloc.example;
+// NOTE: This file is a standalone example, not part of the main source.
+// Move to src/main/java/your/package/example/ and update package if you want to compile it.
+package example;
 
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubiloc.I18n;

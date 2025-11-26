@@ -1,0 +1,61 @@
+// =============================================================================
+// Publishing Configuration
+// Nexus ve GitHub Packages için Maven publish ayarları
+// =============================================================================
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            
+            pom {
+                name = 'Cubiloc'
+                description = 'i18n API extension based on okaeri-configs with Cubicolor integration'
+                url = 'https://github.com/Project-Carbonica/cubiloc'
+                
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id = 'cubizor'
+                        name = 'Cubizor Team'
+                        email = 'dev@cubizor.net'
+                    }
+                }
+                
+                scm {
+                    connection = 'scm:git:git://github.com/Project-Carbonica/cubiloc.git'
+                    developerConnection = 'scm:git:ssh://github.com/Project-Carbonica/cubiloc.git'
+                    url = 'https://github.com/Project-Carbonica/cubiloc'
+                }
+            }
+        }
+    }
+    
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = 'https://maven.pkg.github.com/Project-Carbonica/cubiloc'
+            credentials {
+                username = findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
+                password = findProperty('gpr.key') ?: System.getenv('GITHUB_TOKEN')
+            }
+        }
+        
+        maven {
+            name = 'Nexus'
+            url = version.endsWith('-SNAPSHOT') 
+                ? 'https://nexus.cubizor.net/repository/maven-snapshots/'
+                : 'https://nexus.cubizor.net/repository/maven-releases/'
+            credentials {
+                username = findProperty('nexus.user') ?: System.getenv('NEXUS_USERNAME')
+                password = findProperty('nexus.password') ?: System.getenv('NEXUS_PASSWORD')
+            }
+        }
+    }
+}

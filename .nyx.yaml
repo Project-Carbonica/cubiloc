@@ -1,0 +1,34 @@
+# =============================================================================
+# Nyx Semantic Release Configuration
+# https://mooltiverse.github.io/nyx/docs/user/configuration-reference/
+# =============================================================================
+
+# Preset: simple for mainline releases
+preset: "simple"
+
+# Changelog configuration
+changelog:
+  path: "CHANGELOG.md"
+
+# Release types configuration
+releaseTypes:
+  publicationServices:
+    - "github"
+  items:
+    mainline:
+      gitCommit: "true"
+      gitCommitMessage: "chore(release): {{version}}"
+      gitTag: "true"
+      gitTagMessage: "Release {{version}}"
+      gitPush: "true"
+      publish: "true"
+      description: "{{#fileContent}}CHANGELOG.md{{/fileContent}}"
+
+# GitHub service configuration
+services:
+  github:
+    type: "GITHUB"
+    options:
+      AUTHENTICATION_TOKEN: "{{#environmentVariable}}GH_TOKEN{{/environmentVariable}}"
+      REPOSITORY_NAME: "cubiloc"
+      REPOSITORY_OWNER: "Project-Carbonica"

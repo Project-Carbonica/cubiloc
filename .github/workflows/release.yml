@@ -1,0 +1,99 @@
+# =============================================================================
+# Release Workflow - Nyx ile semantic versioning ve release
+# Akış: nyx infer → build → test → nyx publish → maven publish
+# =============================================================================
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: arc-runner-set
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 1. Nyx Infer
+      - name: Nyx Infer
+        id: nyx
+        uses: mooltiverse/nyx@main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: 'infer'
+          configurationFile: '.nyx.yaml'
+
+      - name: Version Info
+        run: |
+          echo "📦 Version: ${{ steps.nyx.outputs.version }}"
+          echo "🆕 New Release: ${{ steps.nyx.outputs.newRelease }}"
+
+      # 2. Build
+      - name: Build
+        if: steps.nyx.outputs.newRelease == 'true'
+        run: ./gradlew build -x test --no-daemon
+        env:
+          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+
+      # 3. Test
+      - name: Test
+        if: steps.nyx.outputs.newRelease == 'true'
+        run: |
+          if [ -d "src/test" ] && [ "$(find src/test -name '*.java' -o -name '*.kt' 2>/dev/null | head -1)" ]; then
+            ./gradlew test --no-daemon
+          else
+            echo "⏭️ No tests found"
+          fi
+        env:
+          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+
+      # 4. Nyx Publish (GitHub Release)
+      - name: Nyx Publish
+        if: steps.nyx.outputs.newRelease == 'true'
+        uses: mooltiverse/nyx@main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: 'publish'
+          configurationFile: '.nyx.yaml'
+
+      # 5. Publish to Nexus & GitHub Packages
+      - name: Publish to Maven Repositories
+        if: steps.nyx.outputs.newRelease == 'true'
+        run: |
+          echo "🚀 Publishing version: ${{ steps.nyx.outputs.version }}"
+          ./gradlew publish --no-daemon
+          echo "✅ Published to Nexus & GitHub Packages"
+        env:
+          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

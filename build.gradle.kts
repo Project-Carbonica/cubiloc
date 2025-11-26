@@ -1,13 +1,18 @@
 plugins {
     id("java")
-    application
+    `java-library`
+    `maven-publish`
 }
 
 group = "net.cubizor.cubiloc"
-version = "1.0-SNAPSHOT"
+version = System.getenv("NYX_VERSION") ?: project.findProperty("version")?.toString() ?: "0.0.1-SNAPSHOT"
 
-application {
-    mainClass.set("net.cubizor.cubiloc.example.ExampleUsage")
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    
+    withJavadocJar()
+    withSourcesJar()
 }
 
 repositories {
@@ -15,15 +20,18 @@ repositories {
     maven("https://repo.okaeri.cloud/releases")
     maven("https://nexus.cubizor.net/repository/maven-releases/") {
         credentials {
-            username = project.findProperty("nexus.user") as String? ?: "admin"
-            password = project.findProperty("nexus.password") as String? ?: "deneme"
+            username = project.findProperty("nexus.user") as String? ?: System.getenv("NEXUS_USERNAME") ?: ""
+            password = project.findProperty("nexus.password") as String? ?: System.getenv("NEXUS_PASSWORD") ?: ""
         }
     }
 }
 
 dependencies {
+    // Okaeri
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.13")
     implementation("eu.okaeri:okaeri-placeholders-core:5.1.2")
+    
+    // Kyori Adventure
     implementation("net.kyori:adventure-api:4.25.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
     implementation("net.kyori:adventure-text-minimessage:4.25.0")
@@ -32,4 +40,26 @@ dependencies {
     implementation("net.cubizor.cubicolor:cubicolor-api:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-core:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.0")
+    
+    // Testing
+    testImplementation(platform("org.junit:junit-bom:5.11.3"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+// Publishing configuration
+apply(from = "publishing.gradle")
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType<Javadoc> {
+    options.encoding = "UTF-8"
+    // Javadoc uyarılarını hata olarak işleme
+    (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }
