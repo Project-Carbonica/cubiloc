@@ -2,17 +2,17 @@
 
 A powerful i18n (internationalization) API extension built on top of [okaeri-configs](https://github.com/OkaeriPoland/okaeri-configs) with [okaeri-placeholders](https://github.com/OkaeriPoland/okaeri-placeholders) and [Cubicolor](https://github.com/Project-Carbonica/Cubicolor) semantic color support.
 
-## ✨ Features
+## Features
 
-- 🌍 **Multi-locale support** - YAML-based message files per locale
-- 🎨 **Semantic colors** - Use `<primary>`, `<error>`, `<success>` etc. instead of hex codes
-- 🔗 **Placeholder system** - Powered by okaeri-placeholders
-- 🧩 **Adventure components** - Native MiniMessage and Component support
-- 📦 **Nested configs** - Organize messages with subconfigs
-- 🔄 **@lc placeholders** - Reference other messages within messages
-- 🌗 **Theme switching** - Per-user dark/light mode support
+- **Multi-locale support** - YAML-based message files per locale
+- **Semantic colors** - Use `<primary>`, `<error>`, `<success>` etc. instead of hex codes
+- **Placeholder system** - Powered by okaeri-placeholders
+- **Adventure components** - Native MiniMessage and Component support
+- **Nested configs** - Organize messages with subconfigs
+- **@lc placeholders** - Reference other messages within messages
+- **Theme switching** - Per-user dark/light mode support
 
-## 📦 Installation
+## Installation
 
 ### Gradle (Kotlin DSL)
 
@@ -27,7 +27,7 @@ dependencies {
 }
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Create a Message Config
 
@@ -90,7 +90,7 @@ List<Component> lines = i18n.get(player, msg.helpMenu())
     .components();
 ```
 
-## 🎨 Semantic Color Tags
+## Semantic Color Tags
 
 Use semantic tags instead of hardcoded colors. Colors are resolved from the active ColorScheme:
 
@@ -113,7 +113,7 @@ error: "<error>Something went wrong!</error>"
 balance: "<accent>Balance:</accent> <text>{amount}</text>"
 ```
 
-## 🎭 Theme System
+## Theme System
 
 Define themes as JSON files using Cubicolor's format:
 
@@ -140,7 +140,7 @@ Component msg = i18n.get(player, messages.welcome())
     .component(); // Uses player's theme
 ```
 
-## 🔗 @lc Placeholders
+## @lc Placeholders
 
 Reference other messages within messages:
 
@@ -164,7 +164,7 @@ String status = i18n.get(msg.playerStatus())
     .asString();
 ```
 
-## 📁 File Structure
+## File Structure
 
 ```
 plugins/YourPlugin/
@@ -177,7 +177,7 @@ plugins/YourPlugin/
     └── light.json
 ```
 
-## 💡 Tips & Tricks
+## Tips & Tricks
 
 ### Nested Message Groups
 
@@ -230,7 +230,7 @@ Component msg = i18n.get(message)
 - `SingleMessageResult` for `String` → use `.component()`
 - `ListMessageResult` for `List<String>` → use `.components()` for list, `.component()` for joined
 
-## 📝 YAML Message Example
+## YAML Message Example
 
 ```yaml
 # messages/en_US.yml
@@ -258,13 +258,17 @@ admin:
   reload: "<success>Configuration reloaded!</success>"
 ```
 
-## 🔧 Dependencies
+## Dependencies
 
 - [okaeri-configs](https://github.com/OkaeriPoland/okaeri-configs) - Configuration management
 - [okaeri-placeholders](https://github.com/OkaeriPoland/okaeri-placeholders) - Placeholder processing
 - [Cubicolor](https://github.com/Project-Carbonica/Cubicolor) - Semantic color system
 - [Adventure](https://docs.advntr.dev/) - Text components & MiniMessage
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+Special thanks to [Redfoxa](https://github.com/RedFoxRR) for their contributions and support.
