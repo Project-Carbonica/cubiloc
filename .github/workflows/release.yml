@@ -76,9 +76,9 @@ jobs:
           echo "📦 Version: ${{ steps.nyx.outputs.version }}"
           echo "🆕 New Release: ${{ steps.nyx.outputs.newRelease }}"
 
-  # 2. Build
+  # 2. Build & Test
   build:
-    name: 🔨 Build
+    name: 🔨 Build & Test
     runs-on: arc-runner-set
     needs: version
     if: needs.version.outputs.newRelease == 'true'
@@ -105,35 +105,6 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: build/libs/*.jar
-          retention-days: 7
-
-  # 3. Test
-  test:
-    name: 🧪 Test
-    runs-on: arc-runner-set
-    needs: [version, build]
-    if: needs.version.outputs.newRelease == 'true'
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Test
         run: |
           if [ -d "src/test" ] && [ "$(find src/test -name '*.java' -o -name '*.kt' 2>/dev/null | head -1)" ]; then
@@ -153,11 +124,18 @@ jobs:
           files: '**/build/test-results/**/*.xml'
           check_name: 'Test Results'
 
-  # 4. GitHub Release
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/libs/*.jar
+          retention-days: 7
+
+  # 3. GitHub Release
   release:
     name: 🚀 Release
     runs-on: arc-runner-set
-    needs: [version, test]
+    needs: [version, build]
     if: needs.version.outputs.newRelease == 'true'
     
     steps:
@@ -171,6 +149,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Token ile authenticated remote URL ayarla
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
 
       - name: Setup Nyx
         run: |
@@ -195,7 +175,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # 5. Maven Publish
+  # 4. Maven Publish
   publish:
     name: 📦 Publish
     runs-on: arc-runner-set
