@@ -99,14 +99,35 @@ public class I18nBuilder {
     
     /**
      * Registers a custom locale provider.
-     * Providers are checked in order of registration.
+     * Multiple providers can be registered - they are checked in order of registration.
+     * 
+     * <p>Example with multiple providers:</p>
+     * <pre>
+     * I18nBuilder.create(Locale.ENGLISH)
+     *     .localeProvider(new ConsoleLocaleProvider())
+     *     .localeProvider(new PlayerLocaleProvider())
+     *     .localeProvider(new CustomEntityLocaleProvider())
+     *     ...
+     * </pre>
      * 
      * @param provider the locale provider
      * @return this builder
      */
-    public I18nBuilder registerLocaleProvider(LocaleProvider<?> provider) {
+    public I18nBuilder localeProvider(LocaleProvider<?> provider) {
         localeProviders.add(provider);
         return this;
+    }
+    
+    /**
+     * Registers a custom locale provider.
+     * Multiple providers can be registered - they are checked in order of registration.
+     * 
+     * @param provider the locale provider
+     * @return this builder
+     * @see #localeProvider(LocaleProvider)
+     */
+    public I18nBuilder registerLocaleProvider(LocaleProvider<?> provider) {
+        return localeProvider(provider);
     }
     
     /**
