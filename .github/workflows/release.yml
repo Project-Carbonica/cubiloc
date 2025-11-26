@@ -32,22 +32,21 @@ jobs:
 
       - name: Setup Nyx
         run: |
-          # Get latest Nyx version
-          NYX_VERSION=$(curl -s https://api.github.com/repos/mooltiverse/nyx/releases/latest | jq -r '.tag_name')
-          echo "📦 Nyx version: ${NYX_VERSION}"
-          
           ARCH=$(uname -m)
-          if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
-            ARCH="aarch64"
-          else
-            ARCH="x86_64"
-          fi
-          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+          case "$ARCH" in
+            aarch64|arm64) ARCH="arm64" ;;
+            x86_64|amd64)  ARCH="amd64" ;;
+            *)             ARCH="amd64" ;;
+          esac
+          OS="linux"
           
-          echo "📥 Downloading Nyx ${NYX_VERSION} for ${OS}-${ARCH}..."
-          curl -sL "https://github.com/mooltiverse/nyx/releases/download/${NYX_VERSION}/nyx-${NYX_VERSION}-${OS}-${ARCH}.tar.gz" | tar xz
+          ASSET_NAME="nyx-${OS}-${ARCH}"
+          echo "📥 Downloading Nyx (${ASSET_NAME})..."
+          
+          curl -sL "https://github.com/mooltiverse/nyx/releases/latest/download/${ASSET_NAME}" -o nyx
           chmod +x nyx
           sudo mv nyx /usr/local/bin/
+          nyx --version
 
       - name: Nyx Infer
         id: nyx
@@ -166,21 +165,21 @@ jobs:
 
       - name: Setup Nyx
         run: |
-          # Get latest Nyx version
-          NYX_VERSION=$(curl -s https://api.github.com/repos/mooltiverse/nyx/releases/latest | jq -r '.tag_name')
-          echo "📦 Nyx version: ${NYX_VERSION}"
-          
           ARCH=$(uname -m)
-          if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
-            ARCH="aarch64"
-          else
-            ARCH="x86_64"
-          fi
-          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+          case "$ARCH" in
+            aarch64|arm64) ARCH="arm64" ;;
+            x86_64|amd64)  ARCH="amd64" ;;
+            *)             ARCH="amd64" ;;
+          esac
+          OS="linux"
           
-          curl -sL "https://github.com/mooltiverse/nyx/releases/download/${NYX_VERSION}/nyx-${NYX_VERSION}-${OS}-${ARCH}.tar.gz" | tar xz
+          ASSET_NAME="nyx-${OS}-${ARCH}"
+          echo "📥 Downloading Nyx (${ASSET_NAME})..."
+          
+          curl -sL "https://github.com/mooltiverse/nyx/releases/latest/download/${ASSET_NAME}" -o nyx
           chmod +x nyx
           sudo mv nyx /usr/local/bin/
+          nyx --version
 
       - name: Nyx Publish
         run: nyx publish --configuration-file=.nyx.yaml
