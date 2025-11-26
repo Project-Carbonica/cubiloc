@@ -26,17 +26,22 @@ dependencies {
 ## Quick Start
 
 ```java
-// Build I18n
-I18n i18n = I18nBuilder.create(Locale.forLanguageTag("en-US"))
-    .registerPlayerLocaleProvider()  // Auto-detect player locale
-    .register(MyMessages.class)
-        .path("messages")
-        .dataFolder(dataFolder)
-        .unpack(true)
-        .done()
-    .loadColorScheme("dark", "themes/dark.json")
-    .defaultScheme("dark")
-    .build();
+// Create I18n
+I18n i18n = new I18n(Locale.forLanguageTag("en-US"));
+
+// Register locale provider for players
+i18n.registerLocaleProvider(new PlayerLocaleProvider());
+
+// Register message config
+i18n.register(MyMessages.class)
+    .path("messages")
+    .dataFolder(dataFolder)
+    .unpack(true)
+    .load();
+
+// Load color schemes
+i18n.loadColorSchemeFromClasspath("dark", "themes/dark.json");
+i18n.defaultScheme("dark");
 
 // Get localized messages for player
 MyMessages msg = i18n.config(player, MyMessages.class);
@@ -55,29 +60,30 @@ Component message = i18n.get(player, msg.welcome())
 | `<error>`, `<success>`, `<warning>`, `<info>` | Status colors |
 | `<text>`, `<text_secondary>` | Text colors |
 
-## DI Support
+## Spring Integration
 
-### Dagger 2
+I18n is a simple class that works with any DI framework:
 
 ```java
-I18n i18n = I18nBuilder.create(Locale.forLanguageTag("en-US"))
-    .registerPlayerLocaleProvider()
-    .register(MyMessages.class).path("messages").dataFolder(dataFolder).done()
-    .build();
-
-// In your module
-@Module
-public class MyModule {
-    @Provides @Singleton
-    I18n provideI18n() { return i18n; }
+@Configuration
+public class I18nConfig {
+    
+    @Bean
+    public I18n i18n() {
+        I18n i18n = new I18n(Locale.forLanguageTag("en-US"));
+        i18n.registerLocaleProvider(new PlayerLocaleProvider());
+        i18n.register(MyMessages.class)
+            .path("messages")
+            .dataFolder(new File("./data"))
+            .load();
+        return i18n;
+    }
 }
 
-// In your service - use I18n directly
-@Singleton
+@Service
 public class MessageService {
     private final I18n i18n;
     
-    @Inject
     public MessageService(I18n i18n) {
         this.i18n = i18n;
     }
@@ -91,17 +97,12 @@ public class MessageService {
 }
 ```
 
-### Guice
-
-```java
-Injector injector = Guice.createInjector(new CubilocModule(i18n));
-```
-
 ## Examples
 
 See [`samples/example/`](samples/example/) for complete examples:
 - `ExampleMessages.java` - Message config with nested subconfigs
 - `ExampleUsage.java` - Full usage demonstration
+- `SpringExample.java` - Spring DI integration
 
 ## Dependencies
 

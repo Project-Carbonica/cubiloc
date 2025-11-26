@@ -41,9 +41,15 @@ dependencies {
     implementation("net.cubizor.cubicolor:cubicolor-core:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.0")
     
-    // Dependency Injection - Optional (compileOnly)
-    compileOnly("com.google.inject:guice:7.0.0")
-    compileOnly("com.google.dagger:dagger:2.57.2")
+    // Testing
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
+    testImplementation("org.assertj:assertj-core:3.25.3")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 

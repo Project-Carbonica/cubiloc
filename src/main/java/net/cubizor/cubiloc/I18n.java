@@ -862,6 +862,7 @@ public class I18n {
                 T config = ConfigManager.create(configClass);
                 config.withConfigurer(new YamlSnakeYamlConfigurer());
                 config.withBindFile(file);
+                config.load();  // Load the config from file
                 
                 i18n.localeConfigs
                     .computeIfAbsent(locale, k -> new HashMap<>())

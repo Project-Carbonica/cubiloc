@@ -1,0 +1,35 @@
+# Test Messages - English
+welcome: "<success>Welcome {player}!</success>"
+goodbye: "<text_secondary>Goodbye {player}, see you soon!</text_secondary>"
+serverName: "<primary><bold>TestServer</bold></primary>"
+balance: "<accent>Balance:</accent> <text>{amount} {currency}</text>"
+
+helpMenu:
+  - "<accent>========= Help =========</accent>"
+  - "<text>• /help - Show this menu</text>"
+  - "<text>• /spawn - Return to spawn</text>"
+  - "<accent>========================</accent>"
+
+# Status messages for @lc
+statusActive: "<success>Active</success>"
+statusInactive: "<error>Inactive</error>"
+statusOnline: "<success>Online</success>"
+statusOffline: "<text_secondary>Offline</text_secondary>"
+
+# @lc placeholder examples
+serverStatus: "<text>Server is {@lc:statusActive}</text>"
+playerStatus: "<text>Player: {player} - Status: {statusOnline,statusOffline@lc#online}</text>"
+dynamicStatus: "<text>{name}: {statusActive,statusInactive@lc#enabled}</text>"
+
+errors:
+  notFound: "<error>Error: Item '{item}' not found!</error>"
+  noPermission: "<error>You don't have permission!</error>"
+
+admin:
+  playerKicked: "<success>Player {player} has been kicked.</success>"
+  maintenance:
+    enabled: "<warning>Maintenance mode enabled!</warning>"
+    kickMessage:
+      - "<error><bold>Server Maintenance</bold></error>"
+      - "<text>Please try again later.</text>"
+      - "<text_secondary>Estimated time: {time}</text_secondary>"

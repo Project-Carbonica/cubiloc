@@ -4,7 +4,7 @@ package example;
 
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubiloc.I18n;
-import net.cubizor.cubiloc.inject.I18nBuilder;
+import net.cubizor.cubiloc.locale.LocaleProvider;
 import net.kyori.adventure.text.Component;
 
 import java.io.File;
@@ -13,7 +13,7 @@ import java.util.Locale;
 
 /**
  * Example usage demonstrating the Cubiloc I18n system.
- * Shows the new LocaleProvider-based API: i18n.config(player, Class).
+ * Shows the LocaleProvider-based API: i18n.config(player, Class).
  */
 public class ExampleUsage {
     
@@ -21,23 +21,25 @@ public class ExampleUsage {
         File dataFolder = new File("./test-data");
         
         // ========================================
-        // NEW API: Use I18nBuilder with LocaleProvider
+        // Create I18n with LocaleProvider
         // ========================================
-        I18n i18n = I18nBuilder.create(Locale.forLanguageTag("tr-TR"))
-            // Register custom locale provider for MockPlayer
-            .localeProvider(new MockLocaleProvider())
-            // Register message config
-            .register(ExampleMessages.class)
-                .path("messages")
-                .suffix(".yml")
-                .unpack(true)
-                .dataFolder(dataFolder)
-                .done()
-            // Load color schemes
-            .loadColorScheme("dark", "themes/dark.json")
-            .loadColorScheme("light", "themes/light.json")
-            .defaultScheme("dark")
-            .build();
+        I18n i18n = new I18n(Locale.forLanguageTag("tr-TR"));
+        
+        // Register locale provider for MockPlayer
+        i18n.registerLocaleProvider(new MockLocaleProvider());
+        
+        // Register message config
+        i18n.register(ExampleMessages.class)
+            .path("messages")
+            .suffix(".yml")
+            .unpack(true)
+            .dataFolder(dataFolder)
+            .load();
+        
+        // Load color schemes
+        i18n.loadColorSchemeFromClasspath("dark", "themes/dark.json");
+        i18n.loadColorSchemeFromClasspath("light", "themes/light.json");
+        i18n.defaultScheme("dark");
         
         System.out.println("=== Theme Info ===");
         System.out.println("Dark scheme loaded: " + (i18n.getColorScheme("dark") != null));
@@ -150,7 +152,7 @@ public class ExampleUsage {
      * Mock LocaleProvider for demonstration.
      * In real usage, use PlayerLocaleProvider for Paper/Bukkit.
      */
-    static class MockLocaleProvider implements net.cubizor.cubiloc.locale.LocaleProvider<MockPlayer> {
+    static class MockLocaleProvider implements LocaleProvider<MockPlayer> {
         @Override
         public boolean supports(Class<?> entityClass) {
             return MockPlayer.class.isAssignableFrom(entityClass);

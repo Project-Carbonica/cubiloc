@@ -1,0 +1,35 @@
+# Test Messages - Turkish
+welcome: "<success>Hoş geldin {player}!</success>"
+goodbye: "<text_secondary>Görüşürüz {player}!</text_secondary>"
+serverName: "<primary><bold>TestSunucu</bold></primary>"
+balance: "<accent>Bakiye:</accent> <text>{amount} {currency}</text>"
+
+helpMenu:
+  - "<accent>========= Yardım =========</accent>"
+  - "<text>• /yardım - Bu menüyü göster</text>"
+  - "<text>• /spawn - Spawn'a ışınlan</text>"
+  - "<accent>==========================</accent>"
+
+# Status messages for @lc
+statusActive: "<success>Aktif</success>"
+statusInactive: "<error>Pasif</error>"
+statusOnline: "<success>Çevrimiçi</success>"
+statusOffline: "<text_secondary>Çevrimdışı</text_secondary>"
+
+# @lc placeholder examples
+serverStatus: "<text>Sunucu {@lc:statusActive}</text>"
+playerStatus: "<text>Oyuncu: {player} - Durum: {statusOnline,statusOffline@lc#online}</text>"
+dynamicStatus: "<text>{name}: {statusActive,statusInactive@lc#enabled}</text>"
+
+errors:
+  notFound: "<error>Hata: '{item}' bulunamadı!</error>"
+  noPermission: "<error>Bu işlem için yetkiniz yok!</error>"
+
+admin:
+  playerKicked: "<success>{player} oyundan atıldı.</success>"
+  maintenance:
+    enabled: "<warning>Bakım modu aktif!</warning>"
+    kickMessage:
+      - "<error><bold>Sunucu Bakımda</bold></error>"
+      - "<text>Lütfen daha sonra tekrar deneyin.</text>"
+      - "<text_secondary>Tahmini süre: {time}</text_secondary>"
