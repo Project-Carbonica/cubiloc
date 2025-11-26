@@ -1,12 +1,9 @@
 # =============================================================================
-# CI Workflow - Her push ve PR'da çalışır
-# Build ve test yapar
+# CI Workflow - Sadece PR'larda çalışır
 # =============================================================================
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 

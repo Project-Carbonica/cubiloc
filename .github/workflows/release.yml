@@ -1,6 +1,6 @@
 # =============================================================================
-# Release Workflow - Nyx ile semantic versioning ve release
-# Akış: nyx infer → build → test → nyx publish → maven publish
+# Release Workflow - Main branch push'larında çalışır
+# Ağaç yapısı: version → build → test → release → publish
 # =============================================================================
 name: Release
 
@@ -13,34 +13,23 @@ on:
 permissions:
   contents: write
   packages: write
+  checks: write
 
 jobs:
-  release:
-    name: Release
+  # 1. Version belirleme
+  version:
+    name: 🔖 Version
     runs-on: arc-runner-set
+    outputs:
+      version: ${{ steps.nyx.outputs.version }}
+      newRelease: ${{ steps.nyx.outputs.newRelease }}
     
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      # 1. Nyx Infer
       - name: Nyx Infer
         id: nyx
         uses: mooltiverse/nyx@main
@@ -55,18 +44,65 @@ jobs:
           echo "📦 Version: ${{ steps.nyx.outputs.version }}"
           echo "🆕 New Release: ${{ steps.nyx.outputs.newRelease }}"
 
-      # 2. Build
+  # 2. Build
+  build:
+    name: 🔨 Build
+    runs-on: arc-runner-set
+    needs: version
+    if: needs.version.outputs.newRelease == 'true'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Build
-        if: steps.nyx.outputs.newRelease == 'true'
         run: ./gradlew build -x test --no-daemon
         env:
-          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NYX_VERSION: ${{ needs.version.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
-      # 3. Test
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/libs/*.jar
+          retention-days: 7
+
+  # 3. Test
+  test:
+    name: 🧪 Test
+    runs-on: arc-runner-set
+    needs: [version, build]
+    if: needs.version.outputs.newRelease == 'true'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Test
-        if: steps.nyx.outputs.newRelease == 'true'
         run: |
           if [ -d "src/test" ] && [ "$(find src/test -name '*.java' -o -name '*.kt' 2>/dev/null | head -1)" ]; then
             ./gradlew test --no-daemon
@@ -74,13 +110,37 @@ jobs:
             echo "⏭️ No tests found"
           fi
         env:
-          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NYX_VERSION: ${{ needs.version.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
-      # 4. Nyx Publish (GitHub Release)
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: ${{ !cancelled() }}
+        with:
+          files: '**/build/test-results/**/*.xml'
+          check_name: 'Test Results'
+
+  # 4. GitHub Release
+  release:
+    name: 🚀 Release
+    runs-on: arc-runner-set
+    needs: [version, test]
+    if: needs.version.outputs.newRelease == 'true'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Nyx Publish
-        if: steps.nyx.outputs.newRelease == 'true'
         uses: mooltiverse/nyx@main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -88,15 +148,35 @@ jobs:
           command: 'publish'
           configurationFile: '.nyx.yaml'
 
-      # 5. Publish to Nexus & GitHub Packages
-      - name: Publish to Maven Repositories
-        if: steps.nyx.outputs.newRelease == 'true'
+  # 5. Maven Publish
+  publish:
+    name: 📦 Publish
+    runs-on: arc-runner-set
+    needs: [version, release]
+    if: needs.version.outputs.newRelease == 'true'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Publish to Repositories
         run: |
-          echo "🚀 Publishing version: ${{ steps.nyx.outputs.version }}"
+          echo "🚀 Publishing version: ${{ needs.version.outputs.version }}"
           ./gradlew publish --no-daemon
           echo "✅ Published to Nexus & GitHub Packages"
         env:
-          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NYX_VERSION: ${{ needs.version.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           GITHUB_ACTOR: ${{ github.actor }}
