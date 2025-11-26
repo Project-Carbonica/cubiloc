@@ -30,14 +30,38 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Nyx
+        run: |
+          # Get latest Nyx version
+          NYX_VERSION=$(curl -s https://api.github.com/repos/mooltiverse/nyx/releases/latest | jq -r '.tag_name')
+          echo "📦 Nyx version: ${NYX_VERSION}"
+          
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+            ARCH="aarch64"
+          else
+            ARCH="x86_64"
+          fi
+          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+          
+          echo "📥 Downloading Nyx ${NYX_VERSION} for ${OS}-${ARCH}..."
+          curl -sL "https://github.com/mooltiverse/nyx/releases/download/${NYX_VERSION}/nyx-${NYX_VERSION}-${OS}-${ARCH}.tar.gz" | tar xz
+          chmod +x nyx
+          sudo mv nyx /usr/local/bin/
+
       - name: Nyx Infer
         id: nyx
-        uses: mooltiverse/nyx@main
+        run: |
+          nyx infer --configuration-file=.nyx.yaml
+          
+          # State dosyasından version ve newRelease oku
+          VERSION=$(cat .nyx-state.json | jq -r '.version // "0.0.1"')
+          NEW_RELEASE=$(cat .nyx-state.json | jq -r '.newRelease // false')
+          
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "newRelease=${NEW_RELEASE}" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          command: 'infer'
-          configurationFile: '.nyx.yaml'
 
       - name: Version Info
         run: |
@@ -140,13 +164,28 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Setup Nyx
+        run: |
+          # Get latest Nyx version
+          NYX_VERSION=$(curl -s https://api.github.com/repos/mooltiverse/nyx/releases/latest | jq -r '.tag_name')
+          echo "📦 Nyx version: ${NYX_VERSION}"
+          
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+            ARCH="aarch64"
+          else
+            ARCH="x86_64"
+          fi
+          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+          
+          curl -sL "https://github.com/mooltiverse/nyx/releases/download/${NYX_VERSION}/nyx-${NYX_VERSION}-${OS}-${ARCH}.tar.gz" | tar xz
+          chmod +x nyx
+          sudo mv nyx /usr/local/bin/
+
       - name: Nyx Publish
-        uses: mooltiverse/nyx@main
+        run: nyx publish --configuration-file=.nyx.yaml
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          command: 'publish'
-          configurationFile: '.nyx.yaml'
 
   # 5. Maven Publish
   publish:
