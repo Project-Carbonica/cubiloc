@@ -1,0 +1,19 @@
+{
+  "name": "Dark Theme",
+  "colors": {
+    "PRIMARY": "#6200EE",
+    "SECONDARY": "#03DAC6",
+    "TERTIARY": "#BB86FC",
+    "ACCENT": "#FF0266",
+    "ERROR": "#CF6679",
+    "SUCCESS": "#4CAF50",
+    "WARNING": "#FFC107",
+    "INFO": "#2196F3",
+    "TEXT": "#FFFFFF",
+    "TEXT_SECONDARY": "#B0B0B0",
+    "BACKGROUND": "#121212",
+    "SURFACE": "#1E1E1E",
+    "BORDER": "#373737",
+    "OVERLAY": "#00000080"
+  }
+}
