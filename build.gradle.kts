@@ -41,15 +41,8 @@ dependencies {
     implementation("net.cubizor.cubicolor:cubicolor-core:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.0")
     
-    // Testing
-    testImplementation(platform("org.junit:junit-bom:5.11.3"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 
 // Publishing configuration
 apply(from = "publishing.gradle")
@@ -60,6 +53,5 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
-    // Javadoc uyarılarını hata olarak işleme
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }

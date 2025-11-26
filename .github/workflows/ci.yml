@@ -37,6 +37,9 @@ jobs:
 
       - name: Build
         run: ./gradlew build -x test --no-daemon
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
       - name: Test
         run: |
@@ -46,6 +49,9 @@ jobs:
           else
             echo "⏭️ No test sources found, skipping tests"
           fi
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
       - name: Verify Tests Were Run
         run: |
