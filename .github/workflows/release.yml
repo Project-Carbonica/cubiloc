@@ -68,4 +68,100 @@ jobs:
           rm -f .nyx-state.json
 
           echo "🔍 Running Nyx infer..."
-          nyx infer --configuration-file=.nyx.yaml --state-file=.
+          nyx infer --configuration-file=.nyx.yaml --state-file=.nyx-state.json
+
+          if [ -f ".nyx-state.json" ]; then
+            VERSION=$(jq -r '.version // "0.0.1"' .nyx-state.json)
+            NEW_RELEASE=$(jq -r '.newRelease // false' .nyx-state.json)
+          else
+            VERSION="0.0.1"
+            NEW_RELEASE="false"
+          fi
+
+          echo "📦 Version: ${VERSION}"
+          echo "🆕 New Release: ${NEW_RELEASE}"
+
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "newRelease=${NEW_RELEASE}" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Nyx Make - Create changelog
+      - name: Nyx Make
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "📝 Running Nyx make (changelog)..."
+          nyx make --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Build
+      - name: Build
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: ./gradlew build -x test --no-daemon
+        env:
+          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
+      # 4. Test
+      - name: Test
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          if [ -d "src/test" ] && [ "$(find src/test -name '*.java' -o -name '*.kt' 2>/dev/null | head -1)" ]; then
+            ./gradlew test --no-daemon
+          else
+            echo "⏭️ No tests found"
+          fi
+        env:
+          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: steps.nyx_infer.outputs.newRelease == 'true' && !cancelled()
+        with:
+          files: '**/build/test-results/**/*.xml'
+          check_name: 'Test Results'
+
+      # 5. Nyx Mark - Create Git tags locally AND Push
+      # Nyx push yapmaya çalıştığı için manuel push adımını kaldırdık.
+      - name: Nyx Mark
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "🏷️  Running Nyx mark (create tags & push)..."
+          nyx mark --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 6. Nyx Publish - Create GitHub Release
+      - name: Nyx Publish
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "📢 Publishing GitHub Release..."
+          nyx publish --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 7. Maven Publish
+      - name: Maven Publish
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "🚀 Publishing version: ${{ steps.nyx_infer.outputs.version }}"
+          ./gradlew publish --no-daemon
+          echo "✅ Published to Nexus & GitHub Packages"
+        env:
+          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifacts
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/libs/*.jar
+          retention-days: 7
