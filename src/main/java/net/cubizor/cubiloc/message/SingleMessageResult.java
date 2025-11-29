@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,6 +103,7 @@ public class SingleMessageResult {
         
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), resolver))
+            .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
         
         return miniMessage.deserialize(processedValue);

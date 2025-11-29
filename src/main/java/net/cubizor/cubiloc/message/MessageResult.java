@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,6 +137,7 @@ public class MessageResult {
         
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), resolver))
+            .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
         
         if (processedValue instanceof String) {
@@ -173,6 +175,7 @@ public class MessageResult {
         
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), resolver))
+            .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
         
         List<Component> result = new ArrayList<>();
