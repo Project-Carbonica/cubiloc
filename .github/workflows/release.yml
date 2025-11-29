@@ -55,12 +55,13 @@ jobs:
           chmod +x nyx
           sudo mv nyx /usr/local/bin/
 
-      # 1. Version
+      # 1. Nyx Infer - Calculate version and check if release needed
       - name: Nyx Infer
-        id: nyx
+        id: nyx_infer
         run: |
+          echo "🔍 Running Nyx infer..."
           nyx infer --configuration-file=.nyx.yaml --state-file=.nyx-state.json
-          
+
           if [ -f ".nyx-state.json" ]; then
             VERSION=$(jq -r '.version // "0.0.1"' .nyx-state.json)
             NEW_RELEASE=$(jq -r '.newRelease // false' .nyx-state.json)
@@ -68,27 +69,36 @@ jobs:
             VERSION="0.0.1"
             NEW_RELEASE="false"
           fi
-          
+
           echo "📦 Version: ${VERSION}"
           echo "🆕 New Release: ${NEW_RELEASE}"
-          
+
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "newRelease=${NEW_RELEASE}" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. Build
+      # 2. Nyx Make - Create changelog, tags, and commits (like GitHub Action does)
+      - name: Nyx Make
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "🏗️ Running Nyx make..."
+          nyx make --configuration-file=.nyx.yaml --state-file=.nyx-state.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Build
       - name: Build
-        if: steps.nyx.outputs.newRelease == 'true'
+        if: steps.nyx_infer.outputs.newRelease == 'true'
         run: ./gradlew build -x test --no-daemon
         env:
-          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
-      # 3. Test
+      # 4. Test
       - name: Test
-        if: steps.nyx.outputs.newRelease == 'true'
+        if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |
           if [ -d "src/test" ] && [ "$(find src/test -name '*.java' -o -name '*.kt' 2>/dev/null | head -1)" ]; then
             ./gradlew test --no-daemon
@@ -96,40 +106,42 @@ jobs:
             echo "⏭️ No tests found"
           fi
         env:
-          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: steps.nyx.outputs.newRelease == 'true' && !cancelled()
+        if: steps.nyx_infer.outputs.newRelease == 'true' && !cancelled()
         with:
           files: '**/build/test-results/**/*.xml'
           check_name: 'Test Results'
 
-      # 4. GitHub Release
+      # 5. Nyx Publish - Create GitHub Release (like GitHub Action does)
       - name: Nyx Publish
-        if: steps.nyx.outputs.newRelease == 'true'
-        run: nyx publish --configuration-file=.nyx.yaml
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "📢 Publishing GitHub Release..."
+          nyx publish --configuration-file=.nyx.yaml --state-file=.nyx-state.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 5. Maven Publish
+      # 6. Maven Publish
       - name: Maven Publish
-        if: steps.nyx.outputs.newRelease == 'true'
+        if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |
-          echo "🚀 Publishing version: ${{ steps.nyx.outputs.version }}"
+          echo "🚀 Publishing version: ${{ steps.nyx_infer.outputs.version }}"
           ./gradlew publish --no-daemon
           echo "✅ Published to Nexus & GitHub Packages"
         env:
-          NYX_VERSION: ${{ steps.nyx.outputs.version }}
+          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifacts
-        if: steps.nyx.outputs.newRelease == 'true'
+        if: steps.nyx_infer.outputs.newRelease == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts

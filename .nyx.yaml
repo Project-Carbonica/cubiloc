@@ -9,7 +9,7 @@ preset: "simple"
 # State file for CI/CD
 stateFile: ".nyx-state.json"
 
-# Commit message conventions
+# Commit message conventions (explicit for clarity)
 commitMessageConventions:
   enabled:
     - conventionalCommits
@@ -30,6 +30,7 @@ releaseTypes:
       gitTagMessage: "Release {{version}}"
       gitPush: "true"
       publish: "true"
+      matchBranches: "^(main|master)$"
       description: "{{#fileContent}}CHANGELOG.md{{/fileContent}}"
 
 # GitHub service configuration
