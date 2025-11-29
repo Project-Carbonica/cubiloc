@@ -1,11 +1,11 @@
 {
   "branch": "main",
-  "bump": "minor",
+  "bump": "patch",
   "changelog": {
     "releases": [
       {
         "date": "2025-11-29",
-        "name": "0.4.0",
+        "name": "0.4.1",
         "sections": [
           {
             "name": "fix",
@@ -17,7 +17,7 @@
                     "name": "deichor"
                   },
                   "timeStamp": {
-                    "timeStamp": 1764423418000,
+                    "timeStamp": 1764423604000,
                     "offset": 180
                   }
                 },
@@ -27,607 +27,19 @@
                     "name": "deichor"
                   },
                   "timeStamp": {
-                    "timeStamp": 1764423418000,
+                    "timeStamp": 1764423615000,
                     "offset": 180
                   }
                 },
-                "date": 1764423418000,
+                "date": 1764423615000,
                 "message": {
-                  "fullMessage": "fix: restore Git remote URL token configuration for JGit authentication\n",
-                  "shortMessage": "fix: restore Git remote URL token configuration for JGit authentication"
+                  "fullMessage": "fix: publish only to Nexus repository instead of all repositories\n",
+                  "shortMessage": "fix: publish only to Nexus repository instead of all repositories"
                 },
                 "parents": [
-                  "b378eff994943d7eae418ebdfe937fc193f6841e"
+                  "e966e9bafbd838d59c81a29a62e3148b74239da0"
                 ],
-                "sha": "9dd200cd1f63275195ed91c8f9ca7c159ab3e479"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764423155000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764423155000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764423155000,
-                "message": {
-                  "fullMessage": "fix: update Nyx configuration for improved release workflow and Git integration\n",
-                  "shortMessage": "fix: update Nyx configuration for improved release workflow and Git integration"
-                },
-                "parents": [
-                  "5220055c9c48663a1dce5f06ee7272138870bac7"
-                ],
-                "sha": "b378eff994943d7eae418ebdfe937fc193f6841e"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764422827000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764422827000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764422827000,
-                "message": {
-                  "fullMessage": "fix: remove Nyx state file from .gitignore\n",
-                  "shortMessage": "fix: remove Nyx state file from .gitignore"
-                },
-                "parents": [
-                  "adbcd96f1c2870e98f7d2a3ba4f30a82f23d9e0b"
-                ],
-                "sha": "5220055c9c48663a1dce5f06ee7272138870bac7"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764422564000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764422564000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764422564000,
-                "message": {
-                  "fullMessage": "fix: remove branch matching restriction in Nyx configuration\n",
-                  "shortMessage": "fix: remove branch matching restriction in Nyx configuration"
-                },
-                "parents": [
-                  "6b89634ba5df2778b3646f38b8e9233b268f8602"
-                ],
-                "sha": "adbcd96f1c2870e98f7d2a3ba4f30a82f23d9e0b"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764422138000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764422138000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764422138000,
-                "message": {
-                  "fullMessage": "fix: enhance release workflow by updating Nyx infer and adding version handling\n",
-                  "shortMessage": "fix: enhance release workflow by updating Nyx infer and adding version handling"
-                },
-                "parents": [
-                  "599bd61b83aaedbc287e1d98d2d737f68541bccb"
-                ],
-                "sha": "6b89634ba5df2778b3646f38b8e9233b268f8602"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764421930000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764421930000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764421930000,
-                "message": {
-                  "fullMessage": "fix: enable gitCommit and gitPush in Nyx configuration for proper release workflow\n",
-                  "shortMessage": "fix: enable gitCommit and gitPush in Nyx configuration for proper release workflow"
-                },
-                "parents": [
-                  "a3478a059d4487f1870a8dffe54f70ad56fe8e8d"
-                ],
-                "sha": "599bd61b83aaedbc287e1d98d2d737f68541bccb"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764421166000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764421166000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764421166000,
-                "message": {
-                  "footers": {
-                    "- Set gitPush": "false in Nyx (avoid go-git 'object not found' issue)"
-                  },
-                  "fullMessage": "fix: disable Nyx gitPush and use workflow Git CLI for pushing tags\n\n- Set gitPush: false in Nyx (avoid go-git 'object not found' issue)\n- Add manual 'Push Tags' step in workflow using Git CLI\n- Remove git.remotes config (no longer needed)\n- Remove gitPushForce option\n\nThis bypasses Nyx's go-git library issues by using GitHub Actions'\nnative Git CLI with workflow credentials. Nyx creates tags locally,\nworkflow pushes them using the configured GITHUB_TOKEN.\n",
-                  "shortMessage": "fix: disable Nyx gitPush and use workflow Git CLI for pushing tags"
-                },
-                "parents": [
-                  "a0de64638405d96a79890aa73bc170b6bb6b1adf"
-                ],
-                "sha": "a3478a059d4487f1870a8dffe54f70ad56fe8e8d"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764420951000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764420951000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764420951000,
-                "message": {
-                  "footers": {
-                    "- Add gitPushForce": "false for safety",
-                    "- Set gitCommit": "false to avoid orphan commits (only tags needed)"
-                  },
-                  "fullMessage": "fix: disable gitCommit and add Git remote credentials for Nyx push\n\n- Set gitCommit: false to avoid orphan commits (only tags needed)\n- Add git.remotes.origin credentials using GH_TOKEN for go-git library\n- Add gitPushForce: false for safety\n\nFixes 'object not found' error during git push. Nyx's go-git library\nneeds explicit credentials configuration, separate from git CLI config.\n",
-                  "shortMessage": "fix: disable gitCommit and add Git remote credentials for Nyx push"
-                },
-                "parents": [
-                  "3d011f7582599fc7891db3a6705ea67136921806"
-                ],
-                "sha": "a0de64638405d96a79890aa73bc170b6bb6b1adf"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764420745000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764420745000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764420745000,
-                "message": {
-                  "footers": {
-                    "- Add gitTagForce": "true to allow tag updates",
-                    "- Remove global resume": "true from .nyx.yaml (use only in make/mark/publish)"
-                  },
-                  "fullMessage": "fix: clean state file on infer and enable gitTagForce\n\n- Remove global resume: true from .nyx.yaml (use only in make/mark/publish)\n- Add state file cleanup before infer for fresh version calculation\n- Add gitTagForce: true to allow tag updates\n- Fixes issue where Nyx was calculating 0.4.0 instead of 0.4.1\n\nThis ensures version bumps work correctly after existing tags.\n",
-                  "shortMessage": "fix: clean state file on infer and enable gitTagForce"
-                },
-                "parents": [
-                  "5b3982c778937903109e575199a6a27ede2fe04b"
-                ],
-                "sha": "3d011f7582599fc7891db3a6705ea67136921806"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764420497000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764420497000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764420497000,
-                "message": {
-                  "footers": {
-                    "- Add resume": "true to .nyx.yaml global config",
-                    "- Fix command sequence": "infer → make → mark → publish (was missing mark)"
-                  },
-                  "fullMessage": "fix: add missing Nyx mark command and resume flags for proper release workflow\n\n- Add Nyx mark step to create Git tags and commits before publish\n- Add --resume flag to make, mark, and publish steps for state continuity\n- Add resume: true to .nyx.yaml global config\n- Fix command sequence: infer → make → mark → publish (was missing mark)\n- Remove duplicate commitMessageConventions (already in simple preset)\n\nThis fixes the publish failures caused by missing Git tags. The publish\ncommand requires tags to exist before creating GitHub releases.\n\nBased on Mooltiverse Nyx documentation analysis via Context7.\n",
-                  "shortMessage": "fix: add missing Nyx mark command and resume flags for proper release workflow"
-                },
-                "parents": [
-                  "1aed7b5982228d31723799631f86685bedf80dc4"
-                ],
-                "sha": "5b3982c778937903109e575199a6a27ede2fe04b"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764418977000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764418977000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764418977000,
-                "message": {
-                  "fullMessage": "fix: clarify commit message conventions and update Nyx infer step identifiers\n",
-                  "shortMessage": "fix: clarify commit message conventions and update Nyx infer step identifiers"
-                },
-                "parents": [
-                  "ef7608eaa2cf225138ab8c6b3c4146d9c8ba9a0c"
-                ],
-                "sha": "7443e167afcedbdf57acf4a7e918b19f886261f5"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764418284000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764418284000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764418284000,
-                "message": {
-                  "fullMessage": "fix: explicitly enable conventionalCommits convention\n",
-                  "shortMessage": "fix: explicitly enable conventionalCommits convention"
-                },
-                "parents": [
-                  "d29d71dad8a0c55118c8b0a0ec984d4a9de683f9"
-                ],
-                "sha": "ef7608eaa2cf225138ab8c6b3c4146d9c8ba9a0c"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764417205000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764417631000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764417631000,
-                "message": {
-                  "fullMessage": "fix: switch to conventionalCommits preset for proper semantic versioning\n",
-                  "shortMessage": "fix: switch to conventionalCommits preset for proper semantic versioning"
-                },
-                "parents": [
-                  "33202b291cf400fc2c459f9c8fce362d1efc491a"
-                ],
-                "sha": "d29d71dad8a0c55118c8b0a0ec984d4a9de683f9"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764416835000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764417311000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764417311000,
-                "message": {
-                  "fullMessage": "fix: trigger version bump to 0.4.1\n",
-                  "shortMessage": "fix: trigger version bump to 0.4.1"
-                },
-                "parents": [
-                  "7fa4f52a7ffcc2fe530c9a70e8bd62f51e341c6f"
-                ],
-                "sha": "33202b291cf400fc2c459f9c8fce362d1efc491a"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764416102000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764417305000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764417305000,
-                "message": {
-                  "fullMessage": "fix: Add post-processor to MiniMessage for default italic decoration\n",
-                  "shortMessage": "fix: Add post-processor to MiniMessage for default italic decoration"
-                },
-                "parents": [
-                  "019021ebf6c2286c9157599c5202263757244f54"
-                ],
-                "sha": "e6ae95b2e0c228ab5eb2748cbc501b584b617884"
-              }
-            ]
-          },
-          {
-            "name": "chore",
-            "commits": [
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764416603000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764417311000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764417311000,
-                "message": {
-                  "fullMessage": "chore: Reset Nyx state for version recalculation\n",
-                  "shortMessage": "chore: Reset Nyx state for version recalculation"
-                },
-                "parents": [
-                  "8eca5686747f4df08ca9756a52cbdeaa61d108e7"
-                ],
-                "sha": "7fa4f52a7ffcc2fe530c9a70e8bd62f51e341c6f"
-              }
-            ]
-          },
-          {
-            "name": "refactor",
-            "commits": [
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764199025000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764199037000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764199037000,
-                "message": {
-                  "fullMessage": "refactor: remove DI modules, add Spring example and fix config loading\n\n- Remove inject package (I18nBuilder, I18nProvider, Guice/Dagger modules)\n- Remove Guice and Dagger dependencies\n- Add Spring integration example\n- Add unit tests for I18n\n- Fix config.load() missing call in loadLocaleFile()\n- Update README with simplified API and Spring example\n",
-                  "shortMessage": "refactor: remove DI modules, add Spring example and fix config loading"
-                },
-                "parents": [
-                  "ad83b033c4bba2bde402c06422a33b24cdf155dc"
-                ],
-                "sha": "019021ebf6c2286c9157599c5202263757244f54"
-              }
-            ]
-          },
-          {
-            "name": "feat",
-            "commits": [
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764196586000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764199037000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764199037000,
-                "message": {
-                  "fullMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency\n",
-                  "shortMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency"
-                },
-                "parents": [
-                  "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
-                ],
-                "sha": "ad83b033c4bba2bde402c06422a33b24cdf155dc"
-              },
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764196327000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764199037000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764199037000,
-                "message": {
-                  "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
-                  "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
-                },
-                "parents": [
-                  "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
-                ],
-                "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
+                "sha": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea"
               }
             ]
           }
@@ -739,14 +151,14 @@
     "infer.input.configured.scheme": "SEMVER",
     "infer.input.configured.version": "null",
     "infer.input.repository.current.branch": "main",
-    "infer.input.repository.last.commit": "9dd200cd1f63275195ed91c8f9ca7c159ab3e479",
-    "infer.output.state.version": "0.4.0",
+    "infer.input.repository.last.commit": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea",
+    "infer.output.state.version": "0.4.1",
     "make.input.changelog.file": "/home/runner/_work/cubiloc/cubiloc/CHANGELOG.md",
     "make.input.repository.current.branch": "main",
-    "make.input.repository.last.commit": "9dd200cd1f63275195ed91c8f9ca7c159ab3e479",
-    "make.input.state.initialCommit": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c",
+    "make.input.repository.last.commit": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea",
+    "make.input.state.initialCommit": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea",
     "make.input.state.newVersion": "true",
-    "make.input.version": "0.4.0"
+    "make.input.version": "0.4.1"
   },
   "latestVersion": true,
   "newVersion": true,
@@ -761,7 +173,7 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764423418000,
+            "timeStamp": 1764423604000,
             "offset": 180
           }
         },
@@ -771,656 +183,19 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764423418000,
+            "timeStamp": 1764423615000,
             "offset": 180
           }
         },
-        "date": 1764423418000,
+        "date": 1764423615000,
         "message": {
-          "fullMessage": "fix: restore Git remote URL token configuration for JGit authentication\n",
-          "shortMessage": "fix: restore Git remote URL token configuration for JGit authentication"
+          "fullMessage": "fix: publish only to Nexus repository instead of all repositories\n",
+          "shortMessage": "fix: publish only to Nexus repository instead of all repositories"
         },
         "parents": [
-          "b378eff994943d7eae418ebdfe937fc193f6841e"
+          "e966e9bafbd838d59c81a29a62e3148b74239da0"
         ],
-        "sha": "9dd200cd1f63275195ed91c8f9ca7c159ab3e479"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764423155000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764423155000,
-            "offset": 180
-          }
-        },
-        "date": 1764423155000,
-        "message": {
-          "fullMessage": "fix: update Nyx configuration for improved release workflow and Git integration\n",
-          "shortMessage": "fix: update Nyx configuration for improved release workflow and Git integration"
-        },
-        "parents": [
-          "5220055c9c48663a1dce5f06ee7272138870bac7"
-        ],
-        "sha": "b378eff994943d7eae418ebdfe937fc193f6841e"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422827000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422827000,
-            "offset": 180
-          }
-        },
-        "date": 1764422827000,
-        "message": {
-          "fullMessage": "fix: remove Nyx state file from .gitignore\n",
-          "shortMessage": "fix: remove Nyx state file from .gitignore"
-        },
-        "parents": [
-          "adbcd96f1c2870e98f7d2a3ba4f30a82f23d9e0b"
-        ],
-        "sha": "5220055c9c48663a1dce5f06ee7272138870bac7"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422564000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422564000,
-            "offset": 180
-          }
-        },
-        "date": 1764422564000,
-        "message": {
-          "fullMessage": "fix: remove branch matching restriction in Nyx configuration\n",
-          "shortMessage": "fix: remove branch matching restriction in Nyx configuration"
-        },
-        "parents": [
-          "6b89634ba5df2778b3646f38b8e9233b268f8602"
-        ],
-        "sha": "adbcd96f1c2870e98f7d2a3ba4f30a82f23d9e0b"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422138000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422138000,
-            "offset": 180
-          }
-        },
-        "date": 1764422138000,
-        "message": {
-          "fullMessage": "fix: enhance release workflow by updating Nyx infer and adding version handling\n",
-          "shortMessage": "fix: enhance release workflow by updating Nyx infer and adding version handling"
-        },
-        "parents": [
-          "599bd61b83aaedbc287e1d98d2d737f68541bccb"
-        ],
-        "sha": "6b89634ba5df2778b3646f38b8e9233b268f8602"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421930000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421930000,
-            "offset": 180
-          }
-        },
-        "date": 1764421930000,
-        "message": {
-          "fullMessage": "fix: enable gitCommit and gitPush in Nyx configuration for proper release workflow\n",
-          "shortMessage": "fix: enable gitCommit and gitPush in Nyx configuration for proper release workflow"
-        },
-        "parents": [
-          "a3478a059d4487f1870a8dffe54f70ad56fe8e8d"
-        ],
-        "sha": "599bd61b83aaedbc287e1d98d2d737f68541bccb"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421166000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421166000,
-            "offset": 180
-          }
-        },
-        "date": 1764421166000,
-        "message": {
-          "footers": {
-            "- Set gitPush": "false in Nyx (avoid go-git 'object not found' issue)"
-          },
-          "fullMessage": "fix: disable Nyx gitPush and use workflow Git CLI for pushing tags\n\n- Set gitPush: false in Nyx (avoid go-git 'object not found' issue)\n- Add manual 'Push Tags' step in workflow using Git CLI\n- Remove git.remotes config (no longer needed)\n- Remove gitPushForce option\n\nThis bypasses Nyx's go-git library issues by using GitHub Actions'\nnative Git CLI with workflow credentials. Nyx creates tags locally,\nworkflow pushes them using the configured GITHUB_TOKEN.\n",
-          "shortMessage": "fix: disable Nyx gitPush and use workflow Git CLI for pushing tags"
-        },
-        "parents": [
-          "a0de64638405d96a79890aa73bc170b6bb6b1adf"
-        ],
-        "sha": "a3478a059d4487f1870a8dffe54f70ad56fe8e8d"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420951000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420951000,
-            "offset": 180
-          }
-        },
-        "date": 1764420951000,
-        "message": {
-          "footers": {
-            "- Add gitPushForce": "false for safety",
-            "- Set gitCommit": "false to avoid orphan commits (only tags needed)"
-          },
-          "fullMessage": "fix: disable gitCommit and add Git remote credentials for Nyx push\n\n- Set gitCommit: false to avoid orphan commits (only tags needed)\n- Add git.remotes.origin credentials using GH_TOKEN for go-git library\n- Add gitPushForce: false for safety\n\nFixes 'object not found' error during git push. Nyx's go-git library\nneeds explicit credentials configuration, separate from git CLI config.\n",
-          "shortMessage": "fix: disable gitCommit and add Git remote credentials for Nyx push"
-        },
-        "parents": [
-          "3d011f7582599fc7891db3a6705ea67136921806"
-        ],
-        "sha": "a0de64638405d96a79890aa73bc170b6bb6b1adf"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420745000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420745000,
-            "offset": 180
-          }
-        },
-        "date": 1764420745000,
-        "message": {
-          "footers": {
-            "- Add gitTagForce": "true to allow tag updates",
-            "- Remove global resume": "true from .nyx.yaml (use only in make/mark/publish)"
-          },
-          "fullMessage": "fix: clean state file on infer and enable gitTagForce\n\n- Remove global resume: true from .nyx.yaml (use only in make/mark/publish)\n- Add state file cleanup before infer for fresh version calculation\n- Add gitTagForce: true to allow tag updates\n- Fixes issue where Nyx was calculating 0.4.0 instead of 0.4.1\n\nThis ensures version bumps work correctly after existing tags.\n",
-          "shortMessage": "fix: clean state file on infer and enable gitTagForce"
-        },
-        "parents": [
-          "5b3982c778937903109e575199a6a27ede2fe04b"
-        ],
-        "sha": "3d011f7582599fc7891db3a6705ea67136921806"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420497000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420497000,
-            "offset": 180
-          }
-        },
-        "date": 1764420497000,
-        "message": {
-          "footers": {
-            "- Add resume": "true to .nyx.yaml global config",
-            "- Fix command sequence": "infer → make → mark → publish (was missing mark)"
-          },
-          "fullMessage": "fix: add missing Nyx mark command and resume flags for proper release workflow\n\n- Add Nyx mark step to create Git tags and commits before publish\n- Add --resume flag to make, mark, and publish steps for state continuity\n- Add resume: true to .nyx.yaml global config\n- Fix command sequence: infer → make → mark → publish (was missing mark)\n- Remove duplicate commitMessageConventions (already in simple preset)\n\nThis fixes the publish failures caused by missing Git tags. The publish\ncommand requires tags to exist before creating GitHub releases.\n\nBased on Mooltiverse Nyx documentation analysis via Context7.\n",
-          "shortMessage": "fix: add missing Nyx mark command and resume flags for proper release workflow"
-        },
-        "parents": [
-          "1aed7b5982228d31723799631f86685bedf80dc4"
-        ],
-        "sha": "5b3982c778937903109e575199a6a27ede2fe04b"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418984000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418984000,
-            "offset": 180
-          }
-        },
-        "date": 1764418984000,
-        "message": {
-          "fullMessage": "Merge remote-tracking branch 'origin/main'\n",
-          "shortMessage": "Merge remote-tracking branch 'origin/main'"
-        },
-        "parents": [
-          "7443e167afcedbdf57acf4a7e918b19f886261f5",
-          "3df60f5e6b425d1d0b5772d37aacef10356acca8"
-        ],
-        "sha": "1aed7b5982228d31723799631f86685bedf80dc4"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418977000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418977000,
-            "offset": 180
-          }
-        },
-        "date": 1764418977000,
-        "message": {
-          "fullMessage": "fix: clarify commit message conventions and update Nyx infer step identifiers\n",
-          "shortMessage": "fix: clarify commit message conventions and update Nyx infer step identifiers"
-        },
-        "parents": [
-          "ef7608eaa2cf225138ab8c6b3c4146d9c8ba9a0c"
-        ],
-        "sha": "7443e167afcedbdf57acf4a7e918b19f886261f5"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418284000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418284000,
-            "offset": 180
-          }
-        },
-        "date": 1764418284000,
-        "message": {
-          "fullMessage": "fix: explicitly enable conventionalCommits convention\n",
-          "shortMessage": "fix: explicitly enable conventionalCommits convention"
-        },
-        "parents": [
-          "d29d71dad8a0c55118c8b0a0ec984d4a9de683f9"
-        ],
-        "sha": "ef7608eaa2cf225138ab8c6b3c4146d9c8ba9a0c"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417205000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417631000,
-            "offset": 180
-          }
-        },
-        "date": 1764417631000,
-        "message": {
-          "fullMessage": "fix: switch to conventionalCommits preset for proper semantic versioning\n",
-          "shortMessage": "fix: switch to conventionalCommits preset for proper semantic versioning"
-        },
-        "parents": [
-          "33202b291cf400fc2c459f9c8fce362d1efc491a"
-        ],
-        "sha": "d29d71dad8a0c55118c8b0a0ec984d4a9de683f9"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764416835000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417311000,
-            "offset": 180
-          }
-        },
-        "date": 1764417311000,
-        "message": {
-          "fullMessage": "fix: trigger version bump to 0.4.1\n",
-          "shortMessage": "fix: trigger version bump to 0.4.1"
-        },
-        "parents": [
-          "7fa4f52a7ffcc2fe530c9a70e8bd62f51e341c6f"
-        ],
-        "sha": "33202b291cf400fc2c459f9c8fce362d1efc491a"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764416603000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417311000,
-            "offset": 180
-          }
-        },
-        "date": 1764417311000,
-        "message": {
-          "fullMessage": "chore: Reset Nyx state for version recalculation\n",
-          "shortMessage": "chore: Reset Nyx state for version recalculation"
-        },
-        "parents": [
-          "8eca5686747f4df08ca9756a52cbdeaa61d108e7"
-        ],
-        "sha": "7fa4f52a7ffcc2fe530c9a70e8bd62f51e341c6f"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764416112000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417311000,
-            "offset": 180
-          }
-        },
-        "date": 1764417311000,
-        "message": {
-          "fullMessage": "Merge remote-tracking branch 'origin/main'\n",
-          "shortMessage": "Merge remote-tracking branch 'origin/main'"
-        },
-        "parents": [
-          "e6ae95b2e0c228ab5eb2748cbc501b584b617884",
-          "2f08bbddfc60818b807c3f8721283e7ab269b737"
-        ],
-        "sha": "8eca5686747f4df08ca9756a52cbdeaa61d108e7"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764416102000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417305000,
-            "offset": 180
-          }
-        },
-        "date": 1764417305000,
-        "message": {
-          "fullMessage": "fix: Add post-processor to MiniMessage for default italic decoration\n",
-          "shortMessage": "fix: Add post-processor to MiniMessage for default italic decoration"
-        },
-        "parents": [
-          "019021ebf6c2286c9157599c5202263757244f54"
-        ],
-        "sha": "e6ae95b2e0c228ab5eb2748cbc501b584b617884"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764199025000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764199037000,
-            "offset": 180
-          }
-        },
-        "date": 1764199037000,
-        "message": {
-          "fullMessage": "refactor: remove DI modules, add Spring example and fix config loading\n\n- Remove inject package (I18nBuilder, I18nProvider, Guice/Dagger modules)\n- Remove Guice and Dagger dependencies\n- Add Spring integration example\n- Add unit tests for I18n\n- Fix config.load() missing call in loadLocaleFile()\n- Update README with simplified API and Spring example\n",
-          "shortMessage": "refactor: remove DI modules, add Spring example and fix config loading"
-        },
-        "parents": [
-          "ad83b033c4bba2bde402c06422a33b24cdf155dc"
-        ],
-        "sha": "019021ebf6c2286c9157599c5202263757244f54"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764196586000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764199037000,
-            "offset": 180
-          }
-        },
-        "date": 1764199037000,
-        "message": {
-          "fullMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency\n",
-          "shortMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency"
-        },
-        "parents": [
-          "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
-        ],
-        "sha": "ad83b033c4bba2bde402c06422a33b24cdf155dc"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764196327000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764199037000,
-            "offset": 180
-          }
-        },
-        "date": 1764199037000,
-        "message": {
-          "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
-          "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
-        },
-        "parents": [
-          "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
-        ],
-        "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
+        "sha": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea"
       }
     ],
     "finalCommit": {
@@ -1430,7 +205,7 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764423418000,
+          "timeStamp": 1764423604000,
           "offset": 180
         }
       },
@@ -1440,19 +215,19 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764423418000,
+          "timeStamp": 1764423615000,
           "offset": 180
         }
       },
-      "date": 1764423418000,
+      "date": 1764423615000,
       "message": {
-        "fullMessage": "fix: restore Git remote URL token configuration for JGit authentication\n",
-        "shortMessage": "fix: restore Git remote URL token configuration for JGit authentication"
+        "fullMessage": "fix: publish only to Nexus repository instead of all repositories\n",
+        "shortMessage": "fix: publish only to Nexus repository instead of all repositories"
       },
       "parents": [
-        "b378eff994943d7eae418ebdfe937fc193f6841e"
+        "e966e9bafbd838d59c81a29a62e3148b74239da0"
       ],
-      "sha": "9dd200cd1f63275195ed91c8f9ca7c159ab3e479"
+      "sha": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea"
     },
     "initialCommit": {
       "authorAction": {
@@ -1461,7 +236,7 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764196327000,
+          "timeStamp": 1764423604000,
           "offset": 180
         }
       },
@@ -1471,21 +246,21 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764199037000,
+          "timeStamp": 1764423615000,
           "offset": 180
         }
       },
-      "date": 1764199037000,
+      "date": 1764423615000,
       "message": {
-        "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
-        "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
+        "fullMessage": "fix: publish only to Nexus repository instead of all repositories\n",
+        "shortMessage": "fix: publish only to Nexus repository instead of all repositories"
       },
       "parents": [
-        "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+        "e966e9bafbd838d59c81a29a62e3148b74239da0"
       ],
-      "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
+      "sha": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea"
     },
-    "previousVersion": "0.3.0",
+    "previousVersion": "0.4.0",
     "previousVersionCommit": {
       "authorAction": {
         "identity": {
@@ -1493,7 +268,7 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764192929000,
+          "timeStamp": 1764423489000,
           "offset": 0
         }
       },
@@ -1503,28 +278,28 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764192929000,
+          "timeStamp": 1764423489000,
           "offset": 0
         }
       },
-      "date": 1764192929000,
+      "date": 1764423489000,
       "message": {
-        "fullMessage": "chore(release): 0.3.0",
-        "shortMessage": "chore(release): 0.3.0"
+        "fullMessage": "chore(release): 0.4.0 [skip ci]",
+        "shortMessage": "chore(release): 0.4.0 [skip ci]"
       },
       "parents": [
-        "055770cfd5f178f689e56b72bcc3e2423296fc8e"
+        "9dd200cd1f63275195ed91c8f9ca7c159ab3e479"
       ],
       "tags": [
         {
           "annotated": true,
-          "name": "0.3.0",
-          "target": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+          "name": "0.4.0",
+          "target": "e966e9bafbd838d59c81a29a62e3148b74239da0"
         }
       ],
-      "sha": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+      "sha": "e966e9bafbd838d59c81a29a62e3148b74239da0"
     },
-    "primeVersion": "0.3.0",
+    "primeVersion": "0.4.0",
     "primeVersionCommit": {
       "authorAction": {
         "identity": {
@@ -1532,7 +307,7 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764192929000,
+          "timeStamp": 1764423489000,
           "offset": 0
         }
       },
@@ -1542,26 +317,26 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764192929000,
+          "timeStamp": 1764423489000,
           "offset": 0
         }
       },
-      "date": 1764192929000,
+      "date": 1764423489000,
       "message": {
-        "fullMessage": "chore(release): 0.3.0",
-        "shortMessage": "chore(release): 0.3.0"
+        "fullMessage": "chore(release): 0.4.0 [skip ci]",
+        "shortMessage": "chore(release): 0.4.0 [skip ci]"
       },
       "parents": [
-        "055770cfd5f178f689e56b72bcc3e2423296fc8e"
+        "9dd200cd1f63275195ed91c8f9ca7c159ab3e479"
       ],
       "tags": [
         {
           "annotated": true,
-          "name": "0.3.0",
-          "target": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+          "name": "0.4.0",
+          "target": "e966e9bafbd838d59c81a29a62e3148b74239da0"
         }
       ],
-      "sha": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+      "sha": "e966e9bafbd838d59c81a29a62e3148b74239da0"
     },
     "significantCommits": [
       {
@@ -1571,7 +346,7 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764423418000,
+            "timeStamp": 1764423604000,
             "offset": 180
           }
         },
@@ -1581,530 +356,19 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764423418000,
+            "timeStamp": 1764423615000,
             "offset": 180
           }
         },
-        "date": 1764423418000,
+        "date": 1764423615000,
         "message": {
-          "fullMessage": "fix: restore Git remote URL token configuration for JGit authentication\n",
-          "shortMessage": "fix: restore Git remote URL token configuration for JGit authentication"
+          "fullMessage": "fix: publish only to Nexus repository instead of all repositories\n",
+          "shortMessage": "fix: publish only to Nexus repository instead of all repositories"
         },
         "parents": [
-          "b378eff994943d7eae418ebdfe937fc193f6841e"
+          "e966e9bafbd838d59c81a29a62e3148b74239da0"
         ],
-        "sha": "9dd200cd1f63275195ed91c8f9ca7c159ab3e479"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764423155000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764423155000,
-            "offset": 180
-          }
-        },
-        "date": 1764423155000,
-        "message": {
-          "fullMessage": "fix: update Nyx configuration for improved release workflow and Git integration\n",
-          "shortMessage": "fix: update Nyx configuration for improved release workflow and Git integration"
-        },
-        "parents": [
-          "5220055c9c48663a1dce5f06ee7272138870bac7"
-        ],
-        "sha": "b378eff994943d7eae418ebdfe937fc193f6841e"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422827000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422827000,
-            "offset": 180
-          }
-        },
-        "date": 1764422827000,
-        "message": {
-          "fullMessage": "fix: remove Nyx state file from .gitignore\n",
-          "shortMessage": "fix: remove Nyx state file from .gitignore"
-        },
-        "parents": [
-          "adbcd96f1c2870e98f7d2a3ba4f30a82f23d9e0b"
-        ],
-        "sha": "5220055c9c48663a1dce5f06ee7272138870bac7"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422564000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422564000,
-            "offset": 180
-          }
-        },
-        "date": 1764422564000,
-        "message": {
-          "fullMessage": "fix: remove branch matching restriction in Nyx configuration\n",
-          "shortMessage": "fix: remove branch matching restriction in Nyx configuration"
-        },
-        "parents": [
-          "6b89634ba5df2778b3646f38b8e9233b268f8602"
-        ],
-        "sha": "adbcd96f1c2870e98f7d2a3ba4f30a82f23d9e0b"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422138000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764422138000,
-            "offset": 180
-          }
-        },
-        "date": 1764422138000,
-        "message": {
-          "fullMessage": "fix: enhance release workflow by updating Nyx infer and adding version handling\n",
-          "shortMessage": "fix: enhance release workflow by updating Nyx infer and adding version handling"
-        },
-        "parents": [
-          "599bd61b83aaedbc287e1d98d2d737f68541bccb"
-        ],
-        "sha": "6b89634ba5df2778b3646f38b8e9233b268f8602"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421930000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421930000,
-            "offset": 180
-          }
-        },
-        "date": 1764421930000,
-        "message": {
-          "fullMessage": "fix: enable gitCommit and gitPush in Nyx configuration for proper release workflow\n",
-          "shortMessage": "fix: enable gitCommit and gitPush in Nyx configuration for proper release workflow"
-        },
-        "parents": [
-          "a3478a059d4487f1870a8dffe54f70ad56fe8e8d"
-        ],
-        "sha": "599bd61b83aaedbc287e1d98d2d737f68541bccb"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421166000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764421166000,
-            "offset": 180
-          }
-        },
-        "date": 1764421166000,
-        "message": {
-          "footers": {
-            "- Set gitPush": "false in Nyx (avoid go-git 'object not found' issue)"
-          },
-          "fullMessage": "fix: disable Nyx gitPush and use workflow Git CLI for pushing tags\n\n- Set gitPush: false in Nyx (avoid go-git 'object not found' issue)\n- Add manual 'Push Tags' step in workflow using Git CLI\n- Remove git.remotes config (no longer needed)\n- Remove gitPushForce option\n\nThis bypasses Nyx's go-git library issues by using GitHub Actions'\nnative Git CLI with workflow credentials. Nyx creates tags locally,\nworkflow pushes them using the configured GITHUB_TOKEN.\n",
-          "shortMessage": "fix: disable Nyx gitPush and use workflow Git CLI for pushing tags"
-        },
-        "parents": [
-          "a0de64638405d96a79890aa73bc170b6bb6b1adf"
-        ],
-        "sha": "a3478a059d4487f1870a8dffe54f70ad56fe8e8d"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420951000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420951000,
-            "offset": 180
-          }
-        },
-        "date": 1764420951000,
-        "message": {
-          "footers": {
-            "- Add gitPushForce": "false for safety",
-            "- Set gitCommit": "false to avoid orphan commits (only tags needed)"
-          },
-          "fullMessage": "fix: disable gitCommit and add Git remote credentials for Nyx push\n\n- Set gitCommit: false to avoid orphan commits (only tags needed)\n- Add git.remotes.origin credentials using GH_TOKEN for go-git library\n- Add gitPushForce: false for safety\n\nFixes 'object not found' error during git push. Nyx's go-git library\nneeds explicit credentials configuration, separate from git CLI config.\n",
-          "shortMessage": "fix: disable gitCommit and add Git remote credentials for Nyx push"
-        },
-        "parents": [
-          "3d011f7582599fc7891db3a6705ea67136921806"
-        ],
-        "sha": "a0de64638405d96a79890aa73bc170b6bb6b1adf"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420745000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420745000,
-            "offset": 180
-          }
-        },
-        "date": 1764420745000,
-        "message": {
-          "footers": {
-            "- Add gitTagForce": "true to allow tag updates",
-            "- Remove global resume": "true from .nyx.yaml (use only in make/mark/publish)"
-          },
-          "fullMessage": "fix: clean state file on infer and enable gitTagForce\n\n- Remove global resume: true from .nyx.yaml (use only in make/mark/publish)\n- Add state file cleanup before infer for fresh version calculation\n- Add gitTagForce: true to allow tag updates\n- Fixes issue where Nyx was calculating 0.4.0 instead of 0.4.1\n\nThis ensures version bumps work correctly after existing tags.\n",
-          "shortMessage": "fix: clean state file on infer and enable gitTagForce"
-        },
-        "parents": [
-          "5b3982c778937903109e575199a6a27ede2fe04b"
-        ],
-        "sha": "3d011f7582599fc7891db3a6705ea67136921806"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420497000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764420497000,
-            "offset": 180
-          }
-        },
-        "date": 1764420497000,
-        "message": {
-          "footers": {
-            "- Add resume": "true to .nyx.yaml global config",
-            "- Fix command sequence": "infer → make → mark → publish (was missing mark)"
-          },
-          "fullMessage": "fix: add missing Nyx mark command and resume flags for proper release workflow\n\n- Add Nyx mark step to create Git tags and commits before publish\n- Add --resume flag to make, mark, and publish steps for state continuity\n- Add resume: true to .nyx.yaml global config\n- Fix command sequence: infer → make → mark → publish (was missing mark)\n- Remove duplicate commitMessageConventions (already in simple preset)\n\nThis fixes the publish failures caused by missing Git tags. The publish\ncommand requires tags to exist before creating GitHub releases.\n\nBased on Mooltiverse Nyx documentation analysis via Context7.\n",
-          "shortMessage": "fix: add missing Nyx mark command and resume flags for proper release workflow"
-        },
-        "parents": [
-          "1aed7b5982228d31723799631f86685bedf80dc4"
-        ],
-        "sha": "5b3982c778937903109e575199a6a27ede2fe04b"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418977000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418977000,
-            "offset": 180
-          }
-        },
-        "date": 1764418977000,
-        "message": {
-          "fullMessage": "fix: clarify commit message conventions and update Nyx infer step identifiers\n",
-          "shortMessage": "fix: clarify commit message conventions and update Nyx infer step identifiers"
-        },
-        "parents": [
-          "ef7608eaa2cf225138ab8c6b3c4146d9c8ba9a0c"
-        ],
-        "sha": "7443e167afcedbdf57acf4a7e918b19f886261f5"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418284000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764418284000,
-            "offset": 180
-          }
-        },
-        "date": 1764418284000,
-        "message": {
-          "fullMessage": "fix: explicitly enable conventionalCommits convention\n",
-          "shortMessage": "fix: explicitly enable conventionalCommits convention"
-        },
-        "parents": [
-          "d29d71dad8a0c55118c8b0a0ec984d4a9de683f9"
-        ],
-        "sha": "ef7608eaa2cf225138ab8c6b3c4146d9c8ba9a0c"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417205000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417631000,
-            "offset": 180
-          }
-        },
-        "date": 1764417631000,
-        "message": {
-          "fullMessage": "fix: switch to conventionalCommits preset for proper semantic versioning\n",
-          "shortMessage": "fix: switch to conventionalCommits preset for proper semantic versioning"
-        },
-        "parents": [
-          "33202b291cf400fc2c459f9c8fce362d1efc491a"
-        ],
-        "sha": "d29d71dad8a0c55118c8b0a0ec984d4a9de683f9"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764416835000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417311000,
-            "offset": 180
-          }
-        },
-        "date": 1764417311000,
-        "message": {
-          "fullMessage": "fix: trigger version bump to 0.4.1\n",
-          "shortMessage": "fix: trigger version bump to 0.4.1"
-        },
-        "parents": [
-          "7fa4f52a7ffcc2fe530c9a70e8bd62f51e341c6f"
-        ],
-        "sha": "33202b291cf400fc2c459f9c8fce362d1efc491a"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764416102000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764417305000,
-            "offset": 180
-          }
-        },
-        "date": 1764417305000,
-        "message": {
-          "fullMessage": "fix: Add post-processor to MiniMessage for default italic decoration\n",
-          "shortMessage": "fix: Add post-processor to MiniMessage for default italic decoration"
-        },
-        "parents": [
-          "019021ebf6c2286c9157599c5202263757244f54"
-        ],
-        "sha": "e6ae95b2e0c228ab5eb2748cbc501b584b617884"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764196586000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764199037000,
-            "offset": 180
-          }
-        },
-        "date": 1764199037000,
-        "message": {
-          "fullMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency\n",
-          "shortMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency"
-        },
-        "parents": [
-          "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
-        ],
-        "sha": "ad83b033c4bba2bde402c06422a33b24cdf155dc"
-      },
-      {
-        "authorAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764196327000,
-            "offset": 180
-          }
-        },
-        "commitAction": {
-          "identity": {
-            "email": "deichors@gmail.com",
-            "name": "deichor"
-          },
-          "timeStamp": {
-            "timeStamp": 1764199037000,
-            "offset": 180
-          }
-        },
-        "date": 1764199037000,
-        "message": {
-          "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
-          "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
-        },
-        "parents": [
-          "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
-        ],
-        "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
+        "sha": "1c5d06e1f5b5fabcba030e7cad013dd67c83e6ea"
       }
     ]
   },
@@ -2121,9 +385,9 @@
     "publish": "true"
   },
   "scheme": "SEMVER",
-  "timestamp": 1764423466634,
-  "version": "0.4.0",
+  "timestamp": 1764423658087,
+  "version": "0.4.1",
   "versionMajorNumber": "0",
   "versionMinorNumber": "4",
-  "versionPatchNumber": "0"
+  "versionPatchNumber": "1"
 }
