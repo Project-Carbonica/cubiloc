@@ -25,15 +25,15 @@ jobs:
 
       - name: Configure Git for JGit
         # ISSUE #243 & #219 ÇÖZÜMÜ:
-        # 1. Remote URL'e dokunmuyoruz (Token gömmüyoruz).
-        # 2. Detached HEAD durumundan kurtulup yerel 'main'i 'origin/main'e bağlıyoruz.
+        # JGit'in push yapabilmesi için remote URL'e token eklenmeli
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+
           echo "🔄 Fetching origin..."
           git fetch origin --prune --unshallow || git fetch origin --prune
-          
+
           echo "🔗 Linking local main to origin/main..."
           git checkout -B main origin/main
 
