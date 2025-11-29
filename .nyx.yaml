@@ -27,7 +27,6 @@ releaseTypes:
       gitTagMessage: "Release {{version}}"
       gitPush: "true"
       publish: "true"
-      matchBranches: "^(main|master)$"
       description: "{{#fileContent}}CHANGELOG.md{{/fileContent}}"
 
 # GitHub service configuration
