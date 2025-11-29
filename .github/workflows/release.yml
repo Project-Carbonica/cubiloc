@@ -28,9 +28,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Git
+        # DÜZELTME BURADA YAPILDI:
+        # Checkout işlemi 'detached HEAD' modunda olduğu için Nyx push yapacak branch bulamıyordu.
+        # 'git checkout -B main' ile yerel HEAD'i main branch'ine zorluyoruz.
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B main
           git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
 
       - name: Setup Java
@@ -42,7 +46,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Setup Nyx
+      - name: Setup Nyx (ARM/AMD Support)
         run: |
           ARCH=$(uname -m)
           case "$ARCH" in
@@ -51,6 +55,7 @@ jobs:
             *)             ARCH="amd64" ;;
           esac
           
+          echo "📥 Downloading Nyx for architecture: ${ARCH}"
           curl -sL "https://github.com/mooltiverse/nyx/releases/latest/download/nyx-linux-${ARCH}" -o nyx
           chmod +x nyx
           sudo mv nyx /usr/local/bin/
@@ -63,107 +68,4 @@ jobs:
           rm -f .nyx-state.json
 
           echo "🔍 Running Nyx infer..."
-          nyx infer --configuration-file=.nyx.yaml --state-file=.nyx-state.json
-
-          if [ -f ".nyx-state.json" ]; then
-            VERSION=$(jq -r '.version // "0.0.1"' .nyx-state.json)
-            NEW_RELEASE=$(jq -r '.newRelease // false' .nyx-state.json)
-          else
-            VERSION="0.0.1"
-            NEW_RELEASE="false"
-          fi
-
-          echo "📦 Version: ${VERSION}"
-          echo "🆕 New Release: ${NEW_RELEASE}"
-
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "newRelease=${NEW_RELEASE}" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 2. Nyx Make - Create changelog
-      - name: Nyx Make
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: |
-          echo "📝 Running Nyx make (changelog)..."
-          nyx make --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 3. Build
-      - name: Build
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: ./gradlew build -x test --no-daemon
-        env:
-          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-
-      # 4. Test
-      - name: Test
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: |
-          if [ -d "src/test" ] && [ "$(find src/test -name '*.java' -o -name '*.kt' 2>/dev/null | head -1)" ]; then
-            ./gradlew test --no-daemon
-          else
-            echo "⏭️ No tests found"
-          fi
-        env:
-          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: steps.nyx_infer.outputs.newRelease == 'true' && !cancelled()
-        with:
-          files: '**/build/test-results/**/*.xml'
-          check_name: 'Test Results'
-
-      # 5. Nyx Mark - Create Git tags locally
-      - name: Nyx Mark
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: |
-          echo "🏷️  Running Nyx mark (create tags)..."
-          nyx mark --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 6. Push Tags to Remote
-      - name: Push Tags
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: |
-          echo "📤 Pushing tags to remote..."
-          git push --tags origin main
-          echo "✅ Tags pushed successfully"
-
-      # 7. Nyx Publish - Create GitHub Release
-      - name: Nyx Publish
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: |
-          echo "📢 Publishing GitHub Release..."
-          nyx publish --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 8. Maven Publish
-      - name: Maven Publish
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: |
-          echo "🚀 Publishing version: ${{ steps.nyx_infer.outputs.version }}"
-          ./gradlew publish --no-daemon
-          echo "✅ Published to Nexus & GitHub Packages"
-        env:
-          NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Artifacts
-        if: steps.nyx_infer.outputs.newRelease == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: build/libs/*.jar
-          retention-days: 7
+          nyx infer --configuration-file=.nyx.yaml --state-file=.

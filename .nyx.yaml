@@ -1,6 +1,5 @@
 # =============================================================================
 # Nyx Semantic Release Configuration
-# https://mooltiverse.github.io/nyx/docs/user/configuration-reference/
 # =============================================================================
 
 # Preset: simple - includes Conventional Commits support
@@ -12,6 +11,8 @@ stateFile: ".nyx-state.json"
 # Changelog configuration
 changelog:
   path: "CHANGELOG.md"
+  # Opsiyonel: Changelog'a eklenecek şablonları buraya ekleyebilirsiniz.
+  # sections: ...
 
 # Release types configuration
 releaseTypes:
@@ -19,12 +20,12 @@ releaseTypes:
     - "github"
   items:
     mainline:
-      gitCommit: "false"
-      gitCommitMessage: "chore(release): {{version}}"
+      gitCommit: "true"
+      gitCommitMessage: "chore(release): {{version}} [skip ci]"
       gitTag: "true"
       gitTagForce: "true"
       gitTagMessage: "Release {{version}}"
-      gitPush: "false"
+      gitPush: "true"
       publish: "true"
       matchBranches: "^(main|master)$"
       description: "{{#fileContent}}CHANGELOG.md{{/fileContent}}"
