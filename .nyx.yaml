@@ -2,19 +2,12 @@
 # Nyx Semantic Release Configuration
 # =============================================================================
 
-# Preset: simple - includes Conventional Commits support
 preset: "simple"
-
-# State file for CI/CD
 stateFile: ".nyx-state.json"
 
-# Changelog configuration
 changelog:
   path: "CHANGELOG.md"
-  # Opsiyonel: Changelog'a eklenecek şablonları buraya ekleyebilirsiniz.
-  # sections: ...
 
-# Release types configuration
 releaseTypes:
   publicationServices:
     - "github"
@@ -22,14 +15,18 @@ releaseTypes:
     mainline:
       gitCommit: "true"
       gitCommitMessage: "chore(release): {{version}} [skip ci]"
+
       gitTag: "true"
       gitTagForce: "true"
       gitTagMessage: "Release {{version}}"
+
       gitPush: "true"
+      gitPushForce: "true"
+
+      matchBranches: "^(main|master)$"
       publish: "true"
       description: "{{#fileContent}}CHANGELOG.md{{/fileContent}}"
 
-# GitHub service configuration
 services:
   github:
     type: "GITHUB"
