@@ -109,10 +109,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 6. Maven Publish
-      - name: Maven Publish
+      # 6. Maven Publish to Nexus
+      - name: Maven Publish to Nexus
         if: steps.nyx_infer.outputs.newRelease == 'true'
-        run: ./gradlew publish --no-daemon
+        run: ./gradlew publishMavenPublicationToNexusRepository --no-daemon
         env:
           NYX_VERSION: ${{ steps.nyx_infer.outputs.version }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
