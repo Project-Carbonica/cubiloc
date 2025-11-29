@@ -78,12 +78,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. Nyx Make - Create changelog, tags, and commits (like GitHub Action does)
+      # 2. Nyx Make - Create changelog
       - name: Nyx Make
         if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |
-          echo "🏗️ Running Nyx make..."
-          nyx make --configuration-file=.nyx.yaml --state-file=.nyx-state.json
+          echo "📝 Running Nyx make (changelog)..."
+          nyx make --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -117,16 +117,25 @@ jobs:
           files: '**/build/test-results/**/*.xml'
           check_name: 'Test Results'
 
-      # 5. Nyx Publish - Create GitHub Release (like GitHub Action does)
+      # 5. Nyx Mark - Create Git tags and commits, push to remote
+      - name: Nyx Mark
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "🏷️  Running Nyx mark (tag, commit, push)..."
+          nyx mark --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 6. Nyx Publish - Create GitHub Release
       - name: Nyx Publish
         if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |
           echo "📢 Publishing GitHub Release..."
-          nyx publish --configuration-file=.nyx.yaml --state-file=.nyx-state.json
+          nyx publish --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 6. Maven Publish
+      # 7. Maven Publish
       - name: Maven Publish
         if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |

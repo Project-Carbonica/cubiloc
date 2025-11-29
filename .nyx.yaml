@@ -8,11 +8,7 @@ preset: "simple"
 
 # State file for CI/CD
 stateFile: ".nyx-state.json"
-
-# Commit message conventions (explicit for clarity)
-commitMessageConventions:
-  enabled:
-    - conventionalCommits
+resume: true
 
 # Changelog configuration
 changelog:
