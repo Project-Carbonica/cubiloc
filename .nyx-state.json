@@ -5,44 +5,8 @@
     "releases": [
       {
         "date": "2025-11-26",
-        "name": "0.3.0",
+        "name": "0.4.0",
         "sections": [
-          {
-            "name": "feat",
-            "commits": [
-              {
-                "authorAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764192830000,
-                    "offset": 180
-                  }
-                },
-                "commitAction": {
-                  "identity": {
-                    "email": "deichors@gmail.com",
-                    "name": "deichor"
-                  },
-                  "timeStamp": {
-                    "timeStamp": 1764192830000,
-                    "offset": 180
-                  }
-                },
-                "date": 1764192830000,
-                "message": {
-                  "fullMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice\n\n- Updated build.gradle.kts to include Dagger and Guice as compile-only dependencies.\n- Introduced DaggerExample.java demonstrating Dagger 2 integration with Cubiloc I18n.\n- Introduced GuiceExample.java demonstrating Guice integration with Cubiloc I18n.\n- Implemented I18nBuilder.java for building I18n instances with DI support.\n- Created I18nProvider.java to provide access to I18n instances and MessageConfig classes.\n- Added CubilocDaggerModule.java for Dagger 2 module integration.\n- Added CubilocConfigModule.java for extended Guice module with MessageConfig binding.\n- Implemented CubilocModule.java for basic Guice module for I18n binding.\n- Updated package-info.java files for documentation on new DI integration packages.\n",
-                  "shortMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice"
-                },
-                "parents": [
-                  "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
-                ],
-                "sha": "055770cfd5f178f689e56b72bcc3e2423296fc8e"
-              }
-            ]
-          },
           {
             "name": "refactor",
             "commits": [
@@ -53,7 +17,7 @@
                     "name": "deichor"
                   },
                   "timeStamp": {
-                    "timeStamp": 1764190680000,
+                    "timeStamp": 1764199025000,
                     "offset": 180
                   }
                 },
@@ -63,19 +27,86 @@
                     "name": "deichor"
                   },
                   "timeStamp": {
-                    "timeStamp": 1764190767000,
+                    "timeStamp": 1764199037000,
                     "offset": 180
                   }
                 },
-                "date": 1764190767000,
+                "date": 1764199037000,
                 "message": {
-                  "fullMessage": "refactor: consolidate release workflow steps and improve version handling\n",
-                  "shortMessage": "refactor: consolidate release workflow steps and improve version handling"
+                  "fullMessage": "refactor: remove DI modules, add Spring example and fix config loading\n\n- Remove inject package (I18nBuilder, I18nProvider, Guice/Dagger modules)\n- Remove Guice and Dagger dependencies\n- Add Spring integration example\n- Add unit tests for I18n\n- Fix config.load() missing call in loadLocaleFile()\n- Update README with simplified API and Spring example\n",
+                  "shortMessage": "refactor: remove DI modules, add Spring example and fix config loading"
                 },
                 "parents": [
-                  "d8e59cc797236a527a478d5d6d741020880073a7"
+                  "ad83b033c4bba2bde402c06422a33b24cdf155dc"
                 ],
-                "sha": "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
+                "sha": "019021ebf6c2286c9157599c5202263757244f54"
+              }
+            ]
+          },
+          {
+            "name": "feat",
+            "commits": [
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764196586000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764199037000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764199037000,
+                "message": {
+                  "fullMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency\n",
+                  "shortMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency"
+                },
+                "parents": [
+                  "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
+                ],
+                "sha": "ad83b033c4bba2bde402c06422a33b24cdf155dc"
+              },
+              {
+                "authorAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764196327000,
+                    "offset": 180
+                  }
+                },
+                "commitAction": {
+                  "identity": {
+                    "email": "deichors@gmail.com",
+                    "name": "deichor"
+                  },
+                  "timeStamp": {
+                    "timeStamp": 1764199037000,
+                    "offset": 180
+                  }
+                },
+                "date": 1764199037000,
+                "message": {
+                  "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
+                  "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
+                },
+                "parents": [
+                  "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+                ],
+                "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
               }
             ]
           }
@@ -184,14 +215,14 @@
     "infer.input.configured.scheme": "SEMVER",
     "infer.input.configured.version": "null",
     "infer.input.repository.current.branch": "main",
-    "infer.input.repository.last.commit": "055770cfd5f178f689e56b72bcc3e2423296fc8e",
-    "infer.output.state.version": "0.3.0",
+    "infer.input.repository.last.commit": "019021ebf6c2286c9157599c5202263757244f54",
+    "infer.output.state.version": "0.4.0",
     "make.input.changelog.file": "/home/runner/_work/cubiloc/cubiloc/CHANGELOG.md",
     "make.input.repository.current.branch": "main",
-    "make.input.repository.last.commit": "055770cfd5f178f689e56b72bcc3e2423296fc8e",
-    "make.input.state.initialCommit": "c1952e9c2cb78e6ee9dc02498681a38d894a067e",
+    "make.input.repository.last.commit": "019021ebf6c2286c9157599c5202263757244f54",
+    "make.input.state.initialCommit": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c",
     "make.input.state.newVersion": "true",
-    "make.input.version": "0.3.0"
+    "make.input.version": "0.4.0"
   },
   "latestVersion": true,
   "newVersion": true,
@@ -206,7 +237,7 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764192830000,
+            "timeStamp": 1764199025000,
             "offset": 180
           }
         },
@@ -216,19 +247,19 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764192830000,
+            "timeStamp": 1764199037000,
             "offset": 180
           }
         },
-        "date": 1764192830000,
+        "date": 1764199037000,
         "message": {
-          "fullMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice\n\n- Updated build.gradle.kts to include Dagger and Guice as compile-only dependencies.\n- Introduced DaggerExample.java demonstrating Dagger 2 integration with Cubiloc I18n.\n- Introduced GuiceExample.java demonstrating Guice integration with Cubiloc I18n.\n- Implemented I18nBuilder.java for building I18n instances with DI support.\n- Created I18nProvider.java to provide access to I18n instances and MessageConfig classes.\n- Added CubilocDaggerModule.java for Dagger 2 module integration.\n- Added CubilocConfigModule.java for extended Guice module with MessageConfig binding.\n- Implemented CubilocModule.java for basic Guice module for I18n binding.\n- Updated package-info.java files for documentation on new DI integration packages.\n",
-          "shortMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice"
+          "fullMessage": "refactor: remove DI modules, add Spring example and fix config loading\n\n- Remove inject package (I18nBuilder, I18nProvider, Guice/Dagger modules)\n- Remove Guice and Dagger dependencies\n- Add Spring integration example\n- Add unit tests for I18n\n- Fix config.load() missing call in loadLocaleFile()\n- Update README with simplified API and Spring example\n",
+          "shortMessage": "refactor: remove DI modules, add Spring example and fix config loading"
         },
         "parents": [
-          "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
+          "ad83b033c4bba2bde402c06422a33b24cdf155dc"
         ],
-        "sha": "055770cfd5f178f689e56b72bcc3e2423296fc8e"
+        "sha": "019021ebf6c2286c9157599c5202263757244f54"
       },
       {
         "authorAction": {
@@ -237,7 +268,7 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764190680000,
+            "timeStamp": 1764196586000,
             "offset": 180
           }
         },
@@ -247,19 +278,50 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764190767000,
+            "timeStamp": 1764199037000,
             "offset": 180
           }
         },
-        "date": 1764190767000,
+        "date": 1764199037000,
         "message": {
-          "fullMessage": "refactor: consolidate release workflow steps and improve version handling\n",
-          "shortMessage": "refactor: consolidate release workflow steps and improve version handling"
+          "fullMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency\n",
+          "shortMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency"
         },
         "parents": [
-          "d8e59cc797236a527a478d5d6d741020880073a7"
+          "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
         ],
-        "sha": "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
+        "sha": "ad83b033c4bba2bde402c06422a33b24cdf155dc"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764196327000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764199037000,
+            "offset": 180
+          }
+        },
+        "date": 1764199037000,
+        "message": {
+          "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
+          "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
+        },
+        "parents": [
+          "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+        ],
+        "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
       }
     ],
     "finalCommit": {
@@ -269,7 +331,7 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764192830000,
+          "timeStamp": 1764199025000,
           "offset": 180
         }
       },
@@ -279,19 +341,19 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764192830000,
+          "timeStamp": 1764199037000,
           "offset": 180
         }
       },
-      "date": 1764192830000,
+      "date": 1764199037000,
       "message": {
-        "fullMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice\n\n- Updated build.gradle.kts to include Dagger and Guice as compile-only dependencies.\n- Introduced DaggerExample.java demonstrating Dagger 2 integration with Cubiloc I18n.\n- Introduced GuiceExample.java demonstrating Guice integration with Cubiloc I18n.\n- Implemented I18nBuilder.java for building I18n instances with DI support.\n- Created I18nProvider.java to provide access to I18n instances and MessageConfig classes.\n- Added CubilocDaggerModule.java for Dagger 2 module integration.\n- Added CubilocConfigModule.java for extended Guice module with MessageConfig binding.\n- Implemented CubilocModule.java for basic Guice module for I18n binding.\n- Updated package-info.java files for documentation on new DI integration packages.\n",
-        "shortMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice"
+        "fullMessage": "refactor: remove DI modules, add Spring example and fix config loading\n\n- Remove inject package (I18nBuilder, I18nProvider, Guice/Dagger modules)\n- Remove Guice and Dagger dependencies\n- Add Spring integration example\n- Add unit tests for I18n\n- Fix config.load() missing call in loadLocaleFile()\n- Update README with simplified API and Spring example\n",
+        "shortMessage": "refactor: remove DI modules, add Spring example and fix config loading"
       },
       "parents": [
-        "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
+        "ad83b033c4bba2bde402c06422a33b24cdf155dc"
       ],
-      "sha": "055770cfd5f178f689e56b72bcc3e2423296fc8e"
+      "sha": "019021ebf6c2286c9157599c5202263757244f54"
     },
     "initialCommit": {
       "authorAction": {
@@ -300,7 +362,7 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764190680000,
+          "timeStamp": 1764196327000,
           "offset": 180
         }
       },
@@ -310,21 +372,21 @@
           "name": "deichor"
         },
         "timeStamp": {
-          "timeStamp": 1764190767000,
+          "timeStamp": 1764199037000,
           "offset": 180
         }
       },
-      "date": 1764190767000,
+      "date": 1764199037000,
       "message": {
-        "fullMessage": "refactor: consolidate release workflow steps and improve version handling\n",
-        "shortMessage": "refactor: consolidate release workflow steps and improve version handling"
+        "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
+        "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
       },
       "parents": [
-        "d8e59cc797236a527a478d5d6d741020880073a7"
+        "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
       ],
-      "sha": "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
+      "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
     },
-    "previousVersion": "0.2.0",
+    "previousVersion": "0.3.0",
     "previousVersionCommit": {
       "authorAction": {
         "identity": {
@@ -332,7 +394,7 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764190231000,
+          "timeStamp": 1764192929000,
           "offset": 0
         }
       },
@@ -342,28 +404,28 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764190231000,
+          "timeStamp": 1764192929000,
           "offset": 0
         }
       },
-      "date": 1764190231000,
+      "date": 1764192929000,
       "message": {
-        "fullMessage": "chore(release): 0.2.0",
-        "shortMessage": "chore(release): 0.2.0"
+        "fullMessage": "chore(release): 0.3.0",
+        "shortMessage": "chore(release): 0.3.0"
       },
       "parents": [
-        "d191c880331639eab0e7a1f1d1d7645b5279c5d6"
+        "055770cfd5f178f689e56b72bcc3e2423296fc8e"
       ],
       "tags": [
         {
           "annotated": true,
-          "name": "0.2.0",
-          "target": "d8e59cc797236a527a478d5d6d741020880073a7"
+          "name": "0.3.0",
+          "target": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
         }
       ],
-      "sha": "d8e59cc797236a527a478d5d6d741020880073a7"
+      "sha": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
     },
-    "primeVersion": "0.2.0",
+    "primeVersion": "0.3.0",
     "primeVersionCommit": {
       "authorAction": {
         "identity": {
@@ -371,7 +433,7 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764190231000,
+          "timeStamp": 1764192929000,
           "offset": 0
         }
       },
@@ -381,26 +443,26 @@
           "name": "github-actions[bot]"
         },
         "timeStamp": {
-          "timeStamp": 1764190231000,
+          "timeStamp": 1764192929000,
           "offset": 0
         }
       },
-      "date": 1764190231000,
+      "date": 1764192929000,
       "message": {
-        "fullMessage": "chore(release): 0.2.0",
-        "shortMessage": "chore(release): 0.2.0"
+        "fullMessage": "chore(release): 0.3.0",
+        "shortMessage": "chore(release): 0.3.0"
       },
       "parents": [
-        "d191c880331639eab0e7a1f1d1d7645b5279c5d6"
+        "055770cfd5f178f689e56b72bcc3e2423296fc8e"
       ],
       "tags": [
         {
           "annotated": true,
-          "name": "0.2.0",
-          "target": "d8e59cc797236a527a478d5d6d741020880073a7"
+          "name": "0.3.0",
+          "target": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
         }
       ],
-      "sha": "d8e59cc797236a527a478d5d6d741020880073a7"
+      "sha": "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
     },
     "significantCommits": [
       {
@@ -410,7 +472,7 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764192830000,
+            "timeStamp": 1764196586000,
             "offset": 180
           }
         },
@@ -420,19 +482,50 @@
             "name": "deichor"
           },
           "timeStamp": {
-            "timeStamp": 1764192830000,
+            "timeStamp": 1764199037000,
             "offset": 180
           }
         },
-        "date": 1764192830000,
+        "date": 1764199037000,
         "message": {
-          "fullMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice\n\n- Updated build.gradle.kts to include Dagger and Guice as compile-only dependencies.\n- Introduced DaggerExample.java demonstrating Dagger 2 integration with Cubiloc I18n.\n- Introduced GuiceExample.java demonstrating Guice integration with Cubiloc I18n.\n- Implemented I18nBuilder.java for building I18n instances with DI support.\n- Created I18nProvider.java to provide access to I18n instances and MessageConfig classes.\n- Added CubilocDaggerModule.java for Dagger 2 module integration.\n- Added CubilocConfigModule.java for extended Guice module with MessageConfig binding.\n- Implemented CubilocModule.java for basic Guice module for I18n binding.\n- Updated package-info.java files for documentation on new DI integration packages.\n",
-          "shortMessage": "feat: Add Dependency Injection support for Cubiloc I18n using Dagger and Guice"
+          "fullMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency\n",
+          "shortMessage": "feat: Refactor I18n integration to use LocaleProvider, removing I18nProvider dependency"
         },
         "parents": [
-          "c1952e9c2cb78e6ee9dc02498681a38d894a067e"
+          "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
         ],
-        "sha": "055770cfd5f178f689e56b72bcc3e2423296fc8e"
+        "sha": "ad83b033c4bba2bde402c06422a33b24cdf155dc"
+      },
+      {
+        "authorAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764196327000,
+            "offset": 180
+          }
+        },
+        "commitAction": {
+          "identity": {
+            "email": "deichors@gmail.com",
+            "name": "deichor"
+          },
+          "timeStamp": {
+            "timeStamp": 1764199037000,
+            "offset": 180
+          }
+        },
+        "date": 1764199037000,
+        "message": {
+          "fullMessage": "feat: Enhance I18n with locale provider support and refactor DI integration\n",
+          "shortMessage": "feat: Enhance I18n with locale provider support and refactor DI integration"
+        },
+        "parents": [
+          "7df3ba9819ce7ed74e2cf19edaf353ac85e8b968"
+        ],
+        "sha": "f1801fa1894c8c126d5ab9ab4a61a1993f87362c"
       }
     ]
   },
@@ -446,9 +539,9 @@
     "publish": "true"
   },
   "scheme": "SEMVER",
-  "timestamp": 1764192929588,
-  "version": "0.3.0",
+  "timestamp": 1764199156616,
+  "version": "0.4.0",
   "versionMajorNumber": "0",
-  "versionMinorNumber": "3",
+  "versionMinorNumber": "4",
   "versionPatchNumber": "0"
 }
