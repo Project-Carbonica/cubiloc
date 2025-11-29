@@ -8,7 +8,6 @@ preset: "simple"
 
 # State file for CI/CD
 stateFile: ".nyx-state.json"
-resume: true
 
 # Changelog configuration
 changelog:
@@ -23,6 +22,7 @@ releaseTypes:
       gitCommit: "true"
       gitCommitMessage: "chore(release): {{version}}"
       gitTag: "true"
+      gitTagForce: "true"
       gitTagMessage: "Release {{version}}"
       gitPush: "true"
       publish: "true"
