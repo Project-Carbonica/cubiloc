@@ -34,3 +34,6 @@ bin/
 .DS_Store
 .github/copilot-instructions.md
 .serena
+
+### Nyx ###
+.nyx-state.json

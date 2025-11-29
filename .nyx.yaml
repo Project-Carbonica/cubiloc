@@ -3,7 +3,7 @@
 # https://mooltiverse.github.io/nyx/docs/user/configuration-reference/
 # =============================================================================
 
-# Preset: simple for mainline releases
+# Preset: simple - includes Conventional Commits support
 preset: "simple"
 
 # State file for CI/CD
