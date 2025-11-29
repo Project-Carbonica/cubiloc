@@ -120,16 +120,24 @@ jobs:
           files: '**/build/test-results/**/*.xml'
           check_name: 'Test Results'
 
-      # 5. Nyx Mark - Create Git tags and commits, push to remote
+      # 5. Nyx Mark - Create Git tags locally
       - name: Nyx Mark
         if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |
-          echo "🏷️  Running Nyx mark (tag, commit, push)..."
+          echo "🏷️  Running Nyx mark (create tags)..."
           nyx mark --configuration-file=.nyx.yaml --state-file=.nyx-state.json --resume
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 6. Nyx Publish - Create GitHub Release
+      # 6. Push Tags to Remote
+      - name: Push Tags
+        if: steps.nyx_infer.outputs.newRelease == 'true'
+        run: |
+          echo "📤 Pushing tags to remote..."
+          git push --tags origin main
+          echo "✅ Tags pushed successfully"
+
+      # 7. Nyx Publish - Create GitHub Release
       - name: Nyx Publish
         if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |
@@ -138,7 +146,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 7. Maven Publish
+      # 8. Maven Publish
       - name: Maven Publish
         if: steps.nyx_infer.outputs.newRelease == 'true'
         run: |

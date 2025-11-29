@@ -24,18 +24,10 @@ releaseTypes:
       gitTag: "true"
       gitTagForce: "true"
       gitTagMessage: "Release {{version}}"
-      gitPush: "true"
-      gitPushForce: "false"
+      gitPush: "false"
       publish: "true"
       matchBranches: "^(main|master)$"
       description: "{{#fileContent}}CHANGELOG.md{{/fileContent}}"
-
-# Git remote configuration for push operations
-git:
-  remotes:
-    origin:
-      user: "{{#environmentVariable}}GH_TOKEN{{/environmentVariable}}"
-      password: "{{#environmentVariable}}GH_TOKEN{{/environmentVariable}}"
 
 # GitHub service configuration
 services:
