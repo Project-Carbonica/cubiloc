@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.cubizor.cubiloc"
-version = System.getenv("NYX_VERSION") ?: project.findProperty("version")?.toString() ?: "0.0.1-SNAPSHOT"
+version = project.findProperty("version") as String ?: "0.0.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
