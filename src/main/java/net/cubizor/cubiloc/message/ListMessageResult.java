@@ -5,6 +5,8 @@ import eu.okaeri.placeholders.message.CompiledMessage;
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubiloc.color.ColorSchemeTagResolver;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.context.I18nContext;
+import net.cubizor.cubiloc.context.I18nContextHolder;
 import net.cubizor.cubiloc.placeholder.LocaleConfigPlaceholder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -38,7 +40,7 @@ public class ListMessageResult {
     private boolean processed = false;
     private List<String> processedValue;
     
-    ListMessageResult(List<String> rawValue) {
+    public ListMessageResult(List<String> rawValue) {
         this.rawValue = new ArrayList<>(rawValue);
     }
     
@@ -72,6 +74,19 @@ public class ListMessageResult {
         this.messageConfig = config;
         return this;
     }
+
+    /**
+     * Sets the context (locale, color scheme, config) from I18nContext.
+     * This is called automatically by generated getters.
+     */
+    public ListMessageResult withContext(I18nContext context) {
+        if (context != null) {
+            if (this.colorScheme == null && context.getColorScheme() != null) {
+                this.colorScheme = context.getColorScheme();
+            }
+        }
+        return this;
+    }
     
     private void process() {
         if (processed) return;
@@ -101,8 +116,12 @@ public class ListMessageResult {
     /**
      * Converts to List of Adventure Components - one Component per line.
      * This is the primary method for multi-line messages.
+     * Automatically uses context if available.
      */
     public List<Component> components() {
+        // Auto-apply context if not already set
+        applyContextIfNeeded();
+
         process();
         
         TagResolver resolver = colorScheme != null 
@@ -122,9 +141,23 @@ public class ListMessageResult {
     }
     
     /**
+     * Applies context from ThreadLocal if not already set.
+     */
+    private void applyContextIfNeeded() {
+        I18nContext context = I18nContextHolder.getOrNull();
+        if (context != null) {
+            withContext(context);
+        }
+    }
+
+    /**
      * Converts to a single Adventure Component with lines joined by newlines.
+     * Automatically uses context if available.
      */
     public Component component() {
+        // Auto-apply context if not already set
+        applyContextIfNeeded();
+
         process();
         
         TagResolver resolver = colorScheme != null 

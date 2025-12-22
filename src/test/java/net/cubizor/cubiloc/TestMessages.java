@@ -1,84 +1,62 @@
 package net.cubizor.cubiloc;
 
-import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.Comment;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.message.SingleMessageResult;
+import net.cubizor.cubiloc.message.ListMessageResult;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Test MessageConfig for unit tests.
+ * Hybrid approach: demonstrating both constructors and .of() methods.
  */
 public class TestMessages extends MessageConfig {
+
+    // Using constructors
+    public SingleMessageResult welcome = new SingleMessageResult("<success>Welcome {player}!</success>");
+    public SingleMessageResult goodbye = new SingleMessageResult("<text_secondary>Goodbye {player}, see you soon!</text_secondary>");
     
-    private String welcome = "<success>Welcome {player}!</success>";
-    private String goodbye = "<text_secondary>Goodbye {player}, see you soon!</text_secondary>";
-    private String serverName = "<primary><bold>TestServer</bold></primary>";
-    private String balance = "<accent>Balance:</accent> <text>{amount} {currency}</text>";
+    // Using .of() factory methods
+    public SingleMessageResult serverName = SingleMessageResult.of("<primary><bold>TestServer</bold></primary>");
+    public SingleMessageResult balance = SingleMessageResult.of("<accent>Balance:</accent> <text>{amount} {currency}</text>");
     
-    private List<String> helpMenu = Arrays.asList(
+    public ListMessageResult helpMenu = new ListMessageResult(Arrays.asList(
         "<accent>========= Help =========</accent>",
         "<text>• /help - Show this menu</text>",
         "<text>• /spawn - Return to spawn</text>",
         "<accent>========================</accent>"
-    );
-    
+    ));
+
     // Status messages for @lc
-    private String statusActive = "<success>Active</success>";
-    private String statusInactive = "<error>Inactive</error>";
-    private String statusOnline = "<success>Online</success>";
-    private String statusOffline = "<text_secondary>Offline</text_secondary>";
-    
+    public SingleMessageResult statusActive = new SingleMessageResult("<success>Active</success>");
+    public SingleMessageResult statusInactive = new SingleMessageResult("<error>Inactive</error>");
+    public SingleMessageResult statusOnline = SingleMessageResult.of("<success>Online</success>");
+    public SingleMessageResult statusOffline = SingleMessageResult.of("<text_secondary>Offline</text_secondary>");
+
     // @lc placeholder examples
-    private String serverStatus = "<text>Server is {@lc:statusActive}</text>";
-    private String playerStatus = "<text>Player: {player} - Status: {statusOnline,statusOffline@lc#online}</text>";
-    private String dynamicStatus = "<text>{name}: {statusActive,statusInactive@lc#enabled}</text>";
-    
-    private ErrorMessages errors = new ErrorMessages();
-    private AdminMessages admin = new AdminMessages();
-    
-    public static class ErrorMessages extends OkaeriConfig {
-        private String notFound = "<error>Error: Item '{item}' not found!</error>";
-        private String noPermission = "<error>You don't have permission!</error>";
-        
-        public String notFound() { return notFound; }
-        public String noPermission() { return noPermission; }
+    public SingleMessageResult serverStatus = new SingleMessageResult("<text>Server is {@lc:statusActive}</text>");
+    public SingleMessageResult playerStatus = new SingleMessageResult("<text>Player: {player} - Status: {statusOnline,statusOffline@lc#online}</text>");
+    public SingleMessageResult dynamicStatus = new SingleMessageResult("<text>{name}: {statusActive,statusInactive@lc#enabled}</text>");
+
+    public ErrorMessages errors = new ErrorMessages();
+    public AdminMessages admin = new AdminMessages();
+
+    public static class ErrorMessages extends MessageConfig {
+        public SingleMessageResult notFound = new SingleMessageResult("<error>Error: Item '{item}' not found!</error>");
+        public SingleMessageResult noPermission = SingleMessageResult.of("<error>You don't have permission!</error>");
     }
-    
-    public static class AdminMessages extends OkaeriConfig {
-        private String playerKicked = "<success>Player {player} has been kicked.</success>";
-        private MaintenanceMessages maintenance = new MaintenanceMessages();
-        
-        public static class MaintenanceMessages extends OkaeriConfig {
-            private String enabled = "<warning>Maintenance mode enabled!</warning>";
-            private List<String> kickMessage = Arrays.asList(
+
+    public static class AdminMessages extends MessageConfig {
+        public SingleMessageResult playerKicked = new SingleMessageResult("<success>Player {player} has been kicked.</success>");
+        public MaintenanceMessages maintenance = new MaintenanceMessages();
+
+        public static class MaintenanceMessages extends MessageConfig {
+            public SingleMessageResult enabled = new SingleMessageResult("<warning>Maintenance mode enabled!</warning>");
+            public ListMessageResult kickMessage = ListMessageResult.of(Arrays.asList(
                 "<error><bold>Server Maintenance</bold></error>",
                 "<text>Please try again later.</text>",
                 "<text_secondary>Estimated time: {time}</text_secondary>"
-            );
-            
-            public String enabled() { return enabled; }
-            public List<String> kickMessage() { return kickMessage; }
+            ));
         }
-        
-        public String playerKicked() { return playerKicked; }
-        public MaintenanceMessages maintenance() { return maintenance; }
     }
-    
-    // Getters
-    public String welcome() { return welcome; }
-    public String goodbye() { return goodbye; }
-    public String serverName() { return serverName; }
-    public String balance() { return balance; }
-    public List<String> helpMenu() { return helpMenu; }
-    public String statusActive() { return statusActive; }
-    public String statusInactive() { return statusInactive; }
-    public String statusOnline() { return statusOnline; }
-    public String statusOffline() { return statusOffline; }
-    public String serverStatus() { return serverStatus; }
-    public String playerStatus() { return playerStatus; }
-    public String dynamicStatus() { return dynamicStatus; }
-    public ErrorMessages errors() { return errors; }
-    public AdminMessages admin() { return admin; }
 }

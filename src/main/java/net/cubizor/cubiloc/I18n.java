@@ -2,14 +2,16 @@ package net.cubizor.cubiloc;
 
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
+import net.cubizor.cubiloc.config.transformer.MessageSerdesPack;
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubicolor.exporter.ThemeLoader;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.context.I18nContext;
+import net.cubizor.cubiloc.context.I18nContextHolder;
 import net.cubizor.cubiloc.locale.DefaultLocaleProvider;
 import net.cubizor.cubiloc.locale.LocaleProvider;
 import net.cubizor.cubiloc.locale.ReflectionLocaleProvider;
 import net.cubizor.cubiloc.message.ListMessageResult;
-import net.cubizor.cubiloc.message.MessageResult;
 import net.cubizor.cubiloc.message.SingleMessageResult;
 
 import java.io.File;
@@ -93,6 +95,8 @@ public class I18n {
         // Register default providers
         this.localeProviders.add(new DefaultLocaleProvider(this.defaultLocale));
         this.localeProviders.add(new ReflectionLocaleProvider(this.defaultLocale));
+        // Set default locale for context holder
+        I18nContextHolder.setDefaultLocale(this.defaultLocale);
     }
     
     // ==================== Locale Provider Management ====================
@@ -135,23 +139,25 @@ public class I18n {
     
     /**
      * Sets the default locale.
-     * 
+     *
      * @param locale the default locale
      * @return this I18n instance for method chaining
      */
     public I18n setDefaultLocale(Locale locale) {
         this.defaultLocale = locale;
+        I18nContextHolder.setDefaultLocale(locale);
         return this;
     }
     
     /**
      * Sets the default locale from a string.
-     * 
+     *
      * @param locale the locale string (e.g., "en_US" or "en-US")
      * @return this I18n instance for method chaining
      */
     public I18n setDefaultLocale(String locale) {
         this.defaultLocale = parseLocale(locale);
+        I18nContextHolder.setDefaultLocale(this.defaultLocale);
         return this;
     }
     
@@ -298,6 +304,58 @@ public class I18n {
         return themeLoader;
     }
     
+    // ==================== Context Management ====================
+
+    /**
+     * Creates a new I18nContext for the given receiver (e.g., player).
+     * This context should be used with try-with-resources for automatic cleanup.
+     *
+     * <p>The context enables zero-parameter message retrieval by storing
+     * the receiver's locale and color scheme in ThreadLocal storage.
+     *
+     * <pre>
+     * try (var ctx = i18n.context(player)) {
+     *     MyMessages msg = i18n.config(MyMessages.class);
+     *
+     *     // No need to pass player - context is used automatically!
+     *     Component c = msg.welcome().with("player", "Deichor").component();
+     * }
+     * </pre>
+     *
+     * <p><strong>IMPORTANT:</strong> Always use try-with-resources to prevent
+     * memory leaks in thread pools!
+     *
+     * @param receiver the receiver object (e.g., player) that provides locale info
+     * @return an AutoCloseable I18nContext
+     */
+    public I18nContext context(Object receiver) {
+        Locale locale = resolveLocaleObject(receiver);
+        ColorScheme colorScheme = getColorSchemeForUser(receiver);
+
+        return new I18nContext(receiver, locale, colorScheme);
+    }
+
+    /**
+     * Creates a context with specific locale and color scheme.
+     *
+     * @param locale the locale for this context
+     * @param colorScheme the color scheme for this context (may be null)
+     * @return an AutoCloseable I18nContext
+     */
+    public I18nContext context(Locale locale, ColorScheme colorScheme) {
+        return new I18nContext(null, locale, colorScheme);
+    }
+
+    /**
+     * Creates a context with specific locale using default color scheme.
+     *
+     * @param locale the locale for this context
+     * @return an AutoCloseable I18nContext
+     */
+    public I18nContext context(Locale locale) {
+        return new I18nContext(null, locale, getDefaultColorScheme());
+    }
+
     // ==================== Message Registration ====================
     
     /**
@@ -385,32 +443,6 @@ public class I18n {
     }
     
     /**
-     * @deprecated Use type-specific {@link #get(Object, String)} or {@link #get(Object, List)} instead
-     */
-    @Deprecated
-    public MessageResult get(Object localeProvider, Object messageValue) {
-        MessageResult result = MessageResult.of(messageValue != null ? messageValue : "");
-        ColorScheme colorScheme = getColorSchemeForUser(localeProvider);
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
-        }
-        return result;
-    }
-    
-    /**
-     * @deprecated Use type-specific {@link #get(String)} or {@link #get(List)} instead
-     */
-    @Deprecated
-    public MessageResult getAny(Object messageValue) {
-        MessageResult result = MessageResult.of(messageValue != null ? messageValue : "");
-        ColorScheme colorScheme = getDefaultColorScheme();
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
-        }
-        return result;
-    }
-    
-    /**
      * Gets the MessageConfig instance for a specific locale.
      * Use this when you need to access the config directly.
      * 
@@ -465,106 +497,6 @@ public class I18n {
      */
     public <T extends MessageConfig> T config(Class<T> configClass) {
         return config(formatLocale(defaultLocale), configClass);
-    }
-    
-    /**
-     * @deprecated Use {@link #get(Object, Object)} instead
-     */
-    @Deprecated
-    public <T extends MessageConfig> T messages(String locale, Class<T> configClass) {
-        return config(locale, configClass);
-    }
-    
-    /**
-     * @deprecated Use {@link #get(Object, Object)} instead
-     */
-    @Deprecated
-    public <T extends MessageConfig> T messages(Object localeProvider, Class<T> configClass) {
-        return config(localeProvider, configClass);
-    }
-    
-    /**
-     * @deprecated Use {@link #get(Object, Object)} instead
-     */
-    @Deprecated
-    public <T extends MessageConfig> T messages(Class<T> configClass) {
-        return config(configClass);
-    }
-    
-    /**
-     * @deprecated Use type-safe get methods instead
-     */
-    @Deprecated
-    public MessageResult msg(Object messageValue) {
-        return getAny(messageValue);
-    }
-    
-    /**
-     * @deprecated Use type-safe get methods instead
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public MessageResult msg(Object messageValue, Object user) {
-        if (messageValue instanceof String) {
-            return MessageResult.of(get(user, (String) messageValue).asString());
-        } else if (messageValue instanceof List) {
-            return MessageResult.of(get(user, (List<String>) messageValue).asList());
-        }
-        return getAny(messageValue);
-    }
-    
-    /**
-     * @deprecated Use {@link #get(Object, Object)} instead
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public <T extends MessageConfig> MessageResult get(String locale, Function<T, Object> messageGetter) {
-        // Try to find the config for this locale
-        Map<Class<? extends MessageConfig>, MessageConfig> localeMap = localeConfigs.get(locale);
-        
-        // Fall back to default locale if not found
-        if (localeMap == null || localeMap.isEmpty()) {
-            localeMap = localeConfigs.get(formatLocale(defaultLocale));
-        }
-        
-        // If still nothing, return empty result
-        if (localeMap == null || localeMap.isEmpty()) {
-            return MessageResult.of("");
-        }
-        
-        // Get the first config
-        MessageConfig config = localeMap.values().iterator().next();
-        Object value = messageGetter.apply((T) config);
-        
-        // Create result with automatic ColorScheme if available
-        MessageResult result = MessageResult.of(value != null ? value : "");
-        ColorScheme colorScheme = getDefaultColorScheme();
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
-        }
-        
-        return result;
-    }
-    
-    /**
-     * Gets a message value for a specific user with their theme preference.
-     * 
-     * @param user the user object (used for both locale and theme resolution)
-     * @param messageGetter a function to extract the message from the config
-     * @return MessageResult for further processing with user's ColorScheme applied
-     */
-    @SuppressWarnings("unchecked")
-    public <T extends MessageConfig> MessageResult getForUser(Object user, Function<T, Object> messageGetter) {
-        String locale = resolveLocale(user);
-        MessageResult result = get(locale, messageGetter);
-        
-        // Apply user's preferred color scheme
-        ColorScheme colorScheme = getColorSchemeForUser(user);
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
-        }
-        
-        return result;
     }
     
     /**
@@ -747,9 +679,10 @@ public class I18n {
             File defaultFile = new File(targetDir, defaultLocaleStr + suffix);
             if (!defaultFile.exists()) {
                 try {
-                    T config = ConfigManager.create(configClass);
-                    config.withConfigurer(new YamlSnakeYamlConfigurer());
-                    config.withBindFile(defaultFile);
+                    T config = ConfigManager.create(configClass, (it) -> {
+                        it.withConfigurer(new YamlSnakeYamlConfigurer(), new MessageSerdesPack());
+                        it.withBindFile(defaultFile);
+                    });
                     config.save();
                     loadLocaleFile(defaultFile);
                 } catch (Exception e) {
@@ -858,16 +791,17 @@ public class I18n {
         private void loadLocaleFile(File file) {
             try {
                 String locale = file.getName().replace(suffix, "");
-                
-                T config = ConfigManager.create(configClass);
-                config.withConfigurer(new YamlSnakeYamlConfigurer());
-                config.withBindFile(file);
+
+                T config = ConfigManager.create(configClass, (it) -> {
+                    it.withConfigurer(new YamlSnakeYamlConfigurer(), new MessageSerdesPack());
+                    it.withBindFile(file);
+                });
                 config.load();  // Load the config from file
-                
+
                 i18n.localeConfigs
                     .computeIfAbsent(locale, k -> new HashMap<>())
                     .put(configClass, config);
-                
+
             } catch (Exception e) {
                 throw new RuntimeException("Failed to load locale file: " + file, e);
             }

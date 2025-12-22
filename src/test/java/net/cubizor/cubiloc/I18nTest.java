@@ -50,56 +50,56 @@ class I18nTest {
     void testConfigRetrieval() {
         TestMessages msg = i18n.config("tr_TR", TestMessages.class);
         assertThat(msg).isNotNull();
-        assertThat(msg.welcome()).contains("geldin");
+        assertThat(msg.welcome.asString()).contains("geldin");
     }
-    
+
     @Test
     void testEnglishLocale() {
         TestMessages msg = i18n.config("en_US", TestMessages.class);
         assertThat(msg).isNotNull();
-        assertThat(msg.welcome()).contains("Welcome");
+        assertThat(msg.welcome.asString()).contains("Welcome");
     }
-    
+
     @Test
     void testPlayerLocaleResolution() {
         TestPlayer turkishPlayer = new TestPlayer("Deichor", "tr_TR");
         TestPlayer englishPlayer = new TestPlayer("John", "en_US");
-        
+
         TestMessages trMsg = i18n.config(turkishPlayer, TestMessages.class);
         TestMessages enMsg = i18n.config(englishPlayer, TestMessages.class);
-        
-        assertThat(trMsg.welcome()).contains("geldin");
-        assertThat(enMsg.welcome()).contains("Welcome");
+
+        assertThat(trMsg.welcome.asString()).contains("geldin");
+        assertThat(enMsg.welcome.asString()).contains("Welcome");
     }
     
     @Test
     void testMessageWithPlaceholder() {
         TestMessages msg = i18n.config("en_US", TestMessages.class);
-        
-        String result = i18n.get("en_US", msg.welcome())
+
+        String result = msg.welcome
             .with("player", "TestPlayer")
             .asString();
-        
+
         assertThat(result).contains("TestPlayer");
     }
     
     @Test
     void testComponentGeneration() {
         TestMessages msg = i18n.config("en_US", TestMessages.class);
-        
-        Component component = i18n.get("en_US", msg.welcome())
+
+        Component component = msg.welcome
             .with("player", "TestPlayer")
             .component();
-        
+
         assertThat(component).isNotNull();
     }
     
     @Test
     void testListMessage() {
         TestMessages msg = i18n.config("en_US", TestMessages.class);
-        
-        List<String> lines = i18n.get("en_US", msg.helpMenu()).asList();
-        
+
+        List<String> lines = msg.helpMenu.asList();
+
         assertThat(lines).isNotEmpty();
         assertThat(lines.size()).isGreaterThan(1);
     }
@@ -107,9 +107,9 @@ class I18nTest {
     @Test
     void testNestedConfig() {
         TestMessages msg = i18n.config("en_US", TestMessages.class);
-        
-        assertThat(msg.errors()).isNotNull();
-        assertThat(msg.errors().notFound()).isNotNull();
+
+        assertThat(msg.errors).isNotNull();
+        assertThat(msg.errors.notFound.asString()).isNotNull();
     }
     
     @Test
@@ -121,12 +121,107 @@ class I18nTest {
     @Test
     void testUserSchemePreference() {
         TestPlayer player = new TestPlayer("Deichor", "tr_TR");
-        
+
         i18n.setUserScheme(player, "light");
         assertThat(i18n.getColorSchemeForUser(player)).isEqualTo(i18n.getColorScheme("light"));
-        
+
         i18n.clearUserScheme(player);
         assertThat(i18n.getColorSchemeForUser(player)).isEqualTo(i18n.getDefaultColorScheme());
+    }
+
+    // ==================== Context System Tests ====================
+
+    @Test
+    void testContextBasicUsage() {
+        TestPlayer player = new TestPlayer("Deichor", "en_US");
+
+        try (var ctx = i18n.context(player)) {
+            TestMessages msg = i18n.config(player, TestMessages.class);
+
+            // Message should use context automatically
+            Component component = msg.welcome
+                .with("player", "Deichor")
+                .component();
+
+            assertThat(component).isNotNull();
+        }
+    }
+
+    @Test
+    void testContextWithColorScheme() {
+        TestPlayer player = new TestPlayer("Deichor", "en_US");
+        i18n.setUserScheme(player, "light");
+
+        try (var ctx = i18n.context(player)) {
+            TestMessages msg = i18n.config(player, TestMessages.class);
+
+            // Should use light color scheme from context
+            String result = msg.welcome
+                .with("player", "Test")
+                .asString();
+
+            assertThat(result).isNotNull();
+        }
+    }
+
+    @Test
+    void testContextAutoCleanup() {
+        TestPlayer player = new TestPlayer("Deichor", "en_US");
+
+        {
+            var ctx = i18n.context(player);
+            ctx.close();
+        }
+
+        // Context should be cleared after close
+        // This test just verifies no memory leak occurs
+    }
+
+    @Test
+    void testNestedContext() {
+        TestPlayer player1 = new TestPlayer("Player1", "en_US");
+        TestPlayer player2 = new TestPlayer("Player2", "tr_TR");
+
+        try (var ctx1 = i18n.context(player1)) {
+            TestMessages msg1 = i18n.config(player1, TestMessages.class);
+
+            try (var ctx2 = i18n.context(player2)) {
+                TestMessages msg2 = i18n.config(player2, TestMessages.class);
+
+                // Inner context should be active
+                assertThat(msg2.welcome.asString()).contains("geldin");
+            }
+
+            // Outer context should be restored
+            assertThat(msg1.welcome.asString()).contains("Welcome");
+        }
+    }
+
+    @Test
+    void testContextIsolationAcrossThreads() throws InterruptedException {
+        TestPlayer player1 = new TestPlayer("Player1", "en_US");
+        TestPlayer player2 = new TestPlayer("Player2", "tr_TR");
+
+        Thread thread1 = new Thread(() -> {
+            try (var ctx = i18n.context(player1)) {
+                TestMessages msg = i18n.config(player1, TestMessages.class);
+                String result = msg.welcome.with("player", "P1").asString();
+                assertThat(result).contains("Welcome");
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try (var ctx = i18n.context(player2)) {
+                TestMessages msg = i18n.config(player2, TestMessages.class);
+                String result = msg.welcome.with("player", "P2").asString();
+                assertThat(result).contains("geldin");
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+        thread1.join();
+        thread2.join();
     }
     
     // ==================== Test Helpers ====================

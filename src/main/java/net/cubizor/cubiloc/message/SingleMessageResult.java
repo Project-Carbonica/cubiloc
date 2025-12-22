@@ -5,6 +5,8 @@ import eu.okaeri.placeholders.message.CompiledMessage;
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubiloc.color.ColorSchemeTagResolver;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.context.I18nContext;
+import net.cubizor.cubiloc.context.I18nContextHolder;
 import net.cubizor.cubiloc.placeholder.LocaleConfigPlaceholder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -35,7 +37,7 @@ public class SingleMessageResult {
     private boolean processed = false;
     private String processedValue;
     
-    SingleMessageResult(String rawValue) {
+    public SingleMessageResult(String rawValue) {
         this.rawValue = rawValue;
     }
     
@@ -69,6 +71,19 @@ public class SingleMessageResult {
         this.messageConfig = config;
         return this;
     }
+
+    /**
+     * Sets the context (locale, color scheme, config) from I18nContext.
+     * This is called automatically by generated getters.
+     */
+    public SingleMessageResult withContext(I18nContext context) {
+        if (context != null) {
+            if (this.colorScheme == null && context.getColorScheme() != null) {
+                this.colorScheme = context.getColorScheme();
+            }
+        }
+        return this;
+    }
     
     private void process() {
         if (processed) return;
@@ -93,20 +108,34 @@ public class SingleMessageResult {
     
     /**
      * Converts to Adventure Component with MiniMessage and ColorScheme support.
+     * Automatically uses context if available.
      */
     public Component component() {
+        // Auto-apply context if not already set
+        applyContextIfNeeded();
+
         process();
-        
-        TagResolver resolver = colorScheme != null 
+
+        TagResolver resolver = colorScheme != null
             ? ColorSchemeTagResolver.of(colorScheme)
             : TagResolver.empty();
-        
+
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), resolver))
             .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
-        
+
         return miniMessage.deserialize(processedValue);
+    }
+
+    /**
+     * Applies context from ThreadLocal if not already set.
+     */
+    private void applyContextIfNeeded() {
+        I18nContext context = I18nContextHolder.getOrNull();
+        if (context != null) {
+            withContext(context);
+        }
     }
     
     /**

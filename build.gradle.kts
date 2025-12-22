@@ -30,17 +30,20 @@ dependencies {
     // Okaeri
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.13")
     implementation("eu.okaeri:okaeri-placeholders-core:5.1.2")
-    
+
     // Kyori Adventure
     implementation("net.kyori:adventure-api:4.25.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
     implementation("net.kyori:adventure-text-minimessage:4.25.0")
-    
+
     // Cubicolor - Color scheme support
     implementation("net.cubizor.cubicolor:cubicolor-api:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-core:1.4.0")
     implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.0")
-    
+
+    // ByteBuddy for runtime enhancement (Lombok-style)
+    implementation("net.bytebuddy:byte-buddy:1.14.11")
+
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
@@ -64,3 +67,5 @@ tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
 }
+
+// ByteBuddy no longer needed - using direct field approach with Okaeri transformers
