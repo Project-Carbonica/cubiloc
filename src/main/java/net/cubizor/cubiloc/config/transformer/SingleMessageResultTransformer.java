@@ -23,6 +23,6 @@ public class SingleMessageResultTransformer extends BidirectionalTransformer<Str
 
     @Override
     public String rightToLeft(@NotNull SingleMessageResult data, @NotNull SerdesContext serdesContext) {
-        return data.asString();
+        return data.raw();
     }
 }

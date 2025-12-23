@@ -41,6 +41,14 @@ public class SingleMessageResult {
         this.rawValue = rawValue;
     }
     
+    private SingleMessageResult(SingleMessageResult other) {
+        this.rawValue = other.rawValue;
+        this.placeholders.putAll(other.placeholders);
+        this.colorScheme = other.colorScheme;
+        this.messageConfig = other.messageConfig;
+        this.processed = false; // Reset processed state for the copy
+    }
+    
     /**
      * Creates a SingleMessageResult from a String value.
      */
@@ -50,22 +58,27 @@ public class SingleMessageResult {
     
     /**
      * Adds a placeholder value.
+     * Returns a new instance with the added placeholder.
      */
     public SingleMessageResult with(String key, Object value) {
-        placeholders.put(key, value);
-        return this;
+        SingleMessageResult copy = new SingleMessageResult(this);
+        copy.placeholders.put(key, value);
+        return copy;
     }
     
     /**
      * Sets the ColorScheme for semantic color tags.
+     * Returns a new instance with the new color scheme.
      */
     public SingleMessageResult withColorScheme(ColorScheme colorScheme) {
-        this.colorScheme = colorScheme;
-        return this;
+        SingleMessageResult copy = new SingleMessageResult(this);
+        copy.colorScheme = colorScheme;
+        return copy;
     }
     
     /**
      * Sets the MessageConfig for @lc placeholder resolution.
+     * Internal use: Modifies the current instance.
      */
     public SingleMessageResult withConfig(MessageConfig config) {
         this.messageConfig = config;
@@ -74,7 +87,7 @@ public class SingleMessageResult {
 
     /**
      * Sets the context (locale, color scheme, config) from I18nContext.
-     * This is called automatically by generated getters.
+     * Internal use: Modifies the current instance.
      */
     public SingleMessageResult withContext(I18nContext context) {
         if (context != null) {

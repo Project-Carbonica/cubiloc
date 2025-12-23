@@ -44,6 +44,14 @@ public class ListMessageResult {
         this.rawValue = new ArrayList<>(rawValue);
     }
     
+    private ListMessageResult(ListMessageResult other) {
+        this.rawValue = new ArrayList<>(other.rawValue);
+        this.placeholders.putAll(other.placeholders);
+        this.colorScheme = other.colorScheme;
+        this.messageConfig = other.messageConfig;
+        this.processed = false; // Reset processed state
+    }
+    
     /**
      * Creates a ListMessageResult from a List&lt;String&gt; value.
      */
@@ -53,22 +61,27 @@ public class ListMessageResult {
     
     /**
      * Adds a placeholder value.
+     * Returns a new instance with the added placeholder.
      */
     public ListMessageResult with(String key, Object value) {
-        placeholders.put(key, value);
-        return this;
+        ListMessageResult copy = new ListMessageResult(this);
+        copy.placeholders.put(key, value);
+        return copy;
     }
     
     /**
      * Sets the ColorScheme for semantic color tags.
+     * Returns a new instance with the new color scheme.
      */
     public ListMessageResult withColorScheme(ColorScheme colorScheme) {
-        this.colorScheme = colorScheme;
-        return this;
+        ListMessageResult copy = new ListMessageResult(this);
+        copy.colorScheme = colorScheme;
+        return copy;
     }
     
     /**
      * Sets the MessageConfig for @lc placeholder resolution.
+     * Internal use: Modifies the current instance.
      */
     public ListMessageResult withConfig(MessageConfig config) {
         this.messageConfig = config;
@@ -77,7 +90,7 @@ public class ListMessageResult {
 
     /**
      * Sets the context (locale, color scheme, config) from I18nContext.
-     * This is called automatically by generated getters.
+     * Internal use: Modifies the current instance.
      */
     public ListMessageResult withContext(I18nContext context) {
         if (context != null) {

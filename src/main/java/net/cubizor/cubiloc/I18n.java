@@ -798,13 +798,44 @@ public class I18n {
                 });
                 config.load();  // Load the config from file
 
+                i18n.injectConfigIntoFields(config, config);
+
                 i18n.localeConfigs
                     .computeIfAbsent(locale, k -> new HashMap<>())
                     .put(configClass, config);
-
             } catch (Exception e) {
                 throw new RuntimeException("Failed to load locale file: " + file, e);
             }
+        }
+    }
+
+    /**
+     * Injects the root config instance into all SingleMessageResult and ListMessageResult fields
+     * throughout the entire configuration hierarchy.
+     */
+    void injectConfigIntoFields(MessageConfig root, MessageConfig current) {
+        if (current == null || root == null) return;
+
+        Class<?> clazz = current.getClass();
+        while (clazz != null && clazz != Object.class) {
+            for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
+                try {
+                    field.setAccessible(true);
+                    Object value = field.get(current);
+
+                    if (value instanceof SingleMessageResult) {
+                        ((SingleMessageResult) value).withConfig(root);
+                    } else if (value instanceof ListMessageResult) {
+                        ((ListMessageResult) value).withConfig(root);
+                    } else if (value instanceof MessageConfig) {
+                        // Recursively inject root into sub-configs
+                        injectConfigIntoFields(root, (MessageConfig) value);
+                    }
+                } catch (Exception e) {
+                    // Ignore errors during injection
+                }
+            }
+            clazz = clazz.getSuperclass();
         }
     }
 }

@@ -27,6 +27,6 @@ public class ListMessageResultTransformer extends BidirectionalTransformer<Array
 
     @Override
     public ArrayList rightToLeft(@NotNull ListMessageResult data, @NotNull SerdesContext serdesContext) {
-        return new ArrayList<>(data.asList());
+        return new ArrayList<>(data.raw());
     }
 }
