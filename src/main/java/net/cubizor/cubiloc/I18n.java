@@ -800,11 +800,64 @@ public class I18n {
 
                 i18n.injectConfigIntoFields(config, config);
 
+                // If this is the default locale and the class is a singleton (e.g. Kotlin object),
+                // update the singleton instance to match the loaded config.
+                if (locale.equals(defaultLocaleStr)) {
+                    updateSingleton(config);
+                }
+
                 i18n.localeConfigs
                     .computeIfAbsent(locale, k -> new HashMap<>())
                     .put(configClass, config);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to load locale file: " + file, e);
+            }
+        }
+
+        // Package-private for testing
+        void updateSingleton(T loadedConfig) {
+            try {
+                // Check for INSTANCE field (standard for Kotlin objects)
+                java.lang.reflect.Field instanceField = configClass.getDeclaredField("INSTANCE");
+                instanceField.setAccessible(true);
+                Object singleton = instanceField.get(null);
+
+                if (singleton != null) {
+                    copyFields(loadedConfig, (T) singleton);
+                }
+            } catch (NoSuchFieldException e) {
+                // Not a singleton / Kotlin object
+            } catch (Exception e) {
+                // Ignore other errors
+            }
+        }
+
+        // Package-private for testing
+        void copyFields(T source, T target) {
+            Class<?> clazz = source.getClass();
+            // Traverse up to MessageConfig, but not MessageConfig itself or OkaeriConfig
+            while (clazz != null && clazz != MessageConfig.class && clazz != Object.class) {
+                for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
+                    try {
+                        // Skip static fields (like INSTANCE itself)
+                        if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+                            continue;
+                        }
+
+                        field.setAccessible(true);
+                        Object value = field.get(source);
+                        
+                        // Only copy known message types and sub-configs
+                        if (value instanceof SingleMessageResult || 
+                            value instanceof ListMessageResult || 
+                            value instanceof MessageConfig) {
+                            field.set(target, value);
+                        }
+                    } catch (Exception e) {
+                        // Ignore
+                    }
+                }
+                clazz = clazz.getSuperclass();
             }
         }
     }
@@ -817,15 +870,22 @@ public class I18n {
         if (current == null || root == null) return;
 
         Class<?> clazz = current.getClass();
-        while (clazz != null && clazz != Object.class) {
-            for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
-                try {
-                    field.setAccessible(true);
-                    Object value = field.get(current);
-
-                    if (value instanceof SingleMessageResult) {
-                        ((SingleMessageResult) value).withConfig(root);
-                    } else if (value instanceof ListMessageResult) {
+        // Traverse up to MessageConfig, but not MessageConfig itself or OkaeriConfig
+                while (clazz != null && clazz != MessageConfig.class && clazz != Object.class) {
+                    for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
+                        try {
+                            // Skip static fields ONLY if they are self-referencing (e.g. Singleton INSTANCE)
+                            // This allows Kotlin object properties (which are static) to be processed.
+                            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == clazz) {
+                                continue;
+                            }
+        
+                            field.setAccessible(true);
+                            Object value = field.get(current);
+        
+                            if (value instanceof SingleMessageResult) {
+                                ((SingleMessageResult) value).withConfig(root);
+                            } else if (value instanceof ListMessageResult) {
                         ((ListMessageResult) value).withConfig(root);
                     } else if (value instanceof MessageConfig) {
                         // Recursively inject root into sub-configs
