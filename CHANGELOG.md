@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.3...v1.0.4) (2025-12-23)
+
+
+### Bug Fixes
+
+* support updating Kotlin object singletons during config load and add tests for singleton handling ([1189002](https://github.com/Project-Carbonica/cubiloc/commit/11890024bf6499384a8ccfcfd27f363f56f55618))
+
 ## [1.0.3](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.2...v1.0.3) (2025-12-23)
 
 
