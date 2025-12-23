@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.2...v1.0.3) (2025-12-23)
+
+
+### Bug Fixes
+
+* support field resolution in superclasses for placeholder injection and add comprehensive inheritance tests ([5440641](https://github.com/Project-Carbonica/cubiloc/commit/54406415d162532895d0b29d856cac868ef8c327))
+
 ## [1.0.2](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.1...v1.0.2) (2025-12-23)
 
 
