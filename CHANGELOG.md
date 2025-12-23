@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.0...v1.0.1) (2025-12-23)
+
+
+### Bug Fixes
+
+* add support for SingleMessageResult and ListMessageResult in placeholder value resolution ([50b87de](https://github.com/Project-Carbonica/cubiloc/commit/50b87dec5e88ec88e5c4ff14fd3e3e88ce32b28c))
+
 # 1.0.0 (2025-12-22)
 
 
