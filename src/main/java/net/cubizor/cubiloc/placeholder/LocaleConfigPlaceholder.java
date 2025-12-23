@@ -3,6 +3,8 @@ package net.cubizor.cubiloc.placeholder;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import net.cubizor.cubiloc.config.MessageConfig;
+import net.cubizor.cubiloc.message.ListMessageResult;
+import net.cubizor.cubiloc.message.SingleMessageResult;
 
 import java.util.List;
 import java.util.Map;
@@ -160,6 +162,10 @@ public class LocaleConfigPlaceholder {
                 return (String) current;
             } else if (current instanceof List) {
                 return String.join("\n", (List<String>) current);
+            } else if (current instanceof SingleMessageResult) {
+                return ((SingleMessageResult) current).raw();
+            } else if (current instanceof ListMessageResult) {
+                return String.join("\n", ((ListMessageResult) current).raw());
             } else if (current != null) {
                 return current.toString();
             }
