@@ -204,11 +204,16 @@ public class LocaleConfigPlaceholder {
         }
         
         // Try direct field access
-        try {
-            java.lang.reflect.Field field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field.get(obj);
-        } catch (Exception ignored) {
+        Class<?> currentClass = clazz;
+        while (currentClass != null && currentClass != Object.class) {
+            try {
+                java.lang.reflect.Field field = currentClass.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                return field.get(obj);
+            } catch (Exception ignored) {
+                // Field not found in this class, try superclass
+            }
+            currentClass = currentClass.getSuperclass();
         }
         
         return null;
