@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.1...v1.0.2) (2025-12-23)
+
+
+### Bug Fixes
+
+* make SingleMessageResult and ListMessageResult immutable for placeholder and color scheme operations, add config injection for message results, and introduce comprehensive placeholder resolution tests ([75f3beb](https://github.com/Project-Carbonica/cubiloc/commit/75f3bebe98d7ade1c7e10211faa967e5f1d6ad81))
+
 ## [1.0.1](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.0...v1.0.1) (2025-12-23)
 
 
