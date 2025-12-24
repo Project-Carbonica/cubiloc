@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.8...v1.1.0) (2025-12-24)
+
+
+### Features
+
+* add support for global placeholders in message results and document usage in README ([3b60193](https://github.com/Project-Carbonica/cubiloc/commit/3b60193b0448400533325efaca23f436ef178138))
+
 ## [1.0.8](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.7...v1.0.8) (2025-12-24)
 
 
