@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.4...v1.0.5) (2025-12-24)
+
+
+### Bug Fixes
+
+* MessageTheme support for semantic message styling, introduce theme loading from JSON, and implement MessageThemeTagResolver ([42c2e01](https://github.com/Project-Carbonica/cubiloc/commit/42c2e01a08069a097d5f8b0640dcca9eedb0e8d0))
+
 ## [1.0.4](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.3...v1.0.4) (2025-12-23)
 
 
