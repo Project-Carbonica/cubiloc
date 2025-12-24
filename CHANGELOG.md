@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.6...v1.0.7) (2025-12-24)
+
+
+### Bug Fixes
+
+* support config injection and color resolution for OkaeriConfig subconfigs and add related test ([ece16a0](https://github.com/Project-Carbonica/cubiloc/commit/ece16a0aa4ef5a3103d5b5cc1cf2b50188917fca))
+
 ## [1.0.6](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.5...v1.0.6) (2025-12-24)
 
 
