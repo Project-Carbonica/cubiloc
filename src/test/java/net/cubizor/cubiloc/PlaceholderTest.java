@@ -121,6 +121,22 @@ class PlaceholderTest {
         assertThat(lines.get(1)).isEqualTo("User: Deichor"); // Resolved {player}
     }
 
+    @Test
+    void testGlobalPlaceholder() {
+        // Register a global placeholder
+        // Note: PlaceholderResolver accepts (object, args, context)
+        i18n.getPlaceholders().registerPlaceholder(String.class, "reverse", (s, args, ctx) -> new StringBuilder(s).reverse().toString());
+        
+        PlaceholderTestMessages msg = i18n.config("en_US", PlaceholderTestMessages.class);
+        
+        // Use the global placeholder
+        SingleMessageResult result = SingleMessageResult.of("Reversed: {val.reverse}")
+                                    .withPlaceholders(i18n.getPlaceholders())
+                                    .with("val", "abc");
+        
+        assertThat(result.asString()).isEqualTo("Reversed: cba");
+    }
+
     // ==================== Test Configuration Class ====================
 
     public static class PlaceholderTestMessages extends MessageConfig {
