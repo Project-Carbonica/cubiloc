@@ -3,7 +3,9 @@ package net.cubizor.cubiloc.message;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import net.cubizor.cubicolor.api.ColorScheme;
+import net.cubizor.cubicolor.text.MessageTheme;
 import net.cubizor.cubiloc.color.ColorSchemeTagResolver;
+import net.cubizor.cubiloc.color.MessageThemeTagResolver;
 import net.cubizor.cubiloc.config.MessageConfig;
 import net.cubizor.cubiloc.context.I18nContext;
 import net.cubizor.cubiloc.context.I18nContextHolder;
@@ -33,6 +35,7 @@ public class SingleMessageResult {
     private final String rawValue;
     private final Map<String, Object> placeholders = new HashMap<>();
     private ColorScheme colorScheme;
+    private MessageTheme messageTheme;
     private MessageConfig messageConfig;
     private boolean processed = false;
     private String processedValue;
@@ -45,6 +48,7 @@ public class SingleMessageResult {
         this.rawValue = other.rawValue;
         this.placeholders.putAll(other.placeholders);
         this.colorScheme = other.colorScheme;
+        this.messageTheme = other.messageTheme;
         this.messageConfig = other.messageConfig;
         this.processed = false; // Reset processed state for the copy
     }
@@ -75,6 +79,16 @@ public class SingleMessageResult {
         copy.colorScheme = colorScheme;
         return copy;
     }
+
+    /**
+     * Sets the MessageTheme for semantic style tags.
+     * Returns a new instance with the new message theme.
+     */
+    public SingleMessageResult withMessageTheme(MessageTheme messageTheme) {
+        SingleMessageResult copy = new SingleMessageResult(this);
+        copy.messageTheme = messageTheme;
+        return copy;
+    }
     
     /**
      * Sets the MessageConfig for @lc placeholder resolution.
@@ -86,13 +100,16 @@ public class SingleMessageResult {
     }
 
     /**
-     * Sets the context (locale, color scheme, config) from I18nContext.
+     * Sets the context (locale, color scheme, message theme, config) from I18nContext.
      * Internal use: Modifies the current instance.
      */
     public SingleMessageResult withContext(I18nContext context) {
         if (context != null) {
             if (this.colorScheme == null && context.getColorScheme() != null) {
                 this.colorScheme = context.getColorScheme();
+            }
+            if (this.messageTheme == null && context.getMessageTheme() != null) {
+                this.messageTheme = context.getMessageTheme();
             }
         }
         return this;
@@ -129,12 +146,15 @@ public class SingleMessageResult {
 
         process();
 
-        TagResolver resolver = colorScheme != null
-            ? ColorSchemeTagResolver.of(colorScheme)
-            : TagResolver.empty();
+        TagResolver themeResolver = TagResolver.empty();
+        if (messageTheme != null) {
+            themeResolver = MessageThemeTagResolver.of(messageTheme);
+        } else if (colorScheme != null) {
+            themeResolver = ColorSchemeTagResolver.of(colorScheme);
+        }
 
         MiniMessage miniMessage = MiniMessage.builder()
-            .tags(TagResolver.resolver(TagResolver.standard(), resolver))
+            .tags(TagResolver.resolver(TagResolver.standard(), themeResolver))
             .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
 

@@ -1,0 +1,81 @@
+{
+  "name": "cubiconomy - light",
+  "messages": {
+    "ERROR": {
+      "color": "#f05c5c",
+      "decorations": [
+        "BOLD"
+      ]
+    },
+    "SUCCESS": {
+      "color": "#5cf05c",
+      "decorations": [
+        "BOLD"
+      ]
+    },
+    "WARNING": {
+      "color": "#f2bd73",
+      "decorations": [
+        "BOLD"
+      ]
+    },
+    "INFO": {
+      "color": "#b3f37f",
+      "decorations": []
+    },
+    "HIGHLIGHT": {
+      "color": "#fbffb3",
+      "decorations": [
+        "BOLD"
+      ]
+    },
+    "PRIMARY": {
+      "color": "#edf37f",
+      "decorations": [
+        "BOLD"
+      ]
+    },
+    "SECONDARY": {
+      "color": "#b3f37f",
+      "decorations": []
+    },
+    "ACCENT": {
+      "color": "#f3bf7f",
+      "decorations": []
+    },
+    "TITLE": {
+      "color": "#FFFFFF",
+      "decorations": [
+        "BOLD"
+      ]
+    },
+    "SUBTITLE": {
+      "color": "#F0F0F0",
+      "decorations": []
+    },
+    "BODY": {
+      "color": "#FFFFFF",
+      "decorations": []
+    },
+    "LABEL": {
+      "color": "#C0C0C0",
+      "decorations": []
+    },
+    "MUTED": {
+      "color": "#A0A0A0",
+      "decorations": []
+    },
+    "LINK": {
+      "color": "#f3bf7f",
+      "decorations": [
+        "UNDERLINED"
+      ]
+    },
+    "DISABLED": {
+      "color": "#808080",
+      "decorations": [
+        "STRIKETHROUGH"
+      ]
+    }
+  }
+}

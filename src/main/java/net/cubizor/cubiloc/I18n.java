@@ -4,7 +4,9 @@ import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
 import net.cubizor.cubiloc.config.transformer.MessageSerdesPack;
 import net.cubizor.cubicolor.api.ColorScheme;
+import net.cubizor.cubicolor.exporter.MessageThemeJsonParser;
 import net.cubizor.cubicolor.exporter.ThemeLoader;
+import net.cubizor.cubicolor.text.MessageTheme;
 import net.cubizor.cubiloc.config.MessageConfig;
 import net.cubizor.cubiloc.context.I18nContext;
 import net.cubizor.cubiloc.context.I18nContextHolder;
@@ -58,9 +60,11 @@ public class I18n {
     
     private final Map<String, Map<Class<? extends MessageConfig>, MessageConfig>> localeConfigs = new HashMap<>();
     private final Map<String, ColorScheme> colorSchemes = new HashMap<>();
+    private final Map<String, MessageTheme> messageThemes = new HashMap<>();
     private final Map<Object, String> userSchemePreferences = new HashMap<>();
     private final List<LocaleProvider<?>> localeProviders = new ArrayList<>();
     private final ThemeLoader themeLoader;
+    private final MessageThemeJsonParser messageThemeJsonParser;
     
     private Locale defaultLocale = Locale.forLanguageTag("tr-TR");
     private String defaultScheme = "dark";
@@ -70,6 +74,7 @@ public class I18n {
      */
     public I18n() {
         this.themeLoader = new ThemeLoader();
+        this.messageThemeJsonParser = new MessageThemeJsonParser();
         // Register default providers
         this.localeProviders.add(new DefaultLocaleProvider(defaultLocale));
         this.localeProviders.add(new ReflectionLocaleProvider(defaultLocale));
@@ -81,6 +86,7 @@ public class I18n {
     public I18n(String defaultLocale) {
         this.defaultLocale = parseLocale(defaultLocale);
         this.themeLoader = new ThemeLoader();
+        this.messageThemeJsonParser = new MessageThemeJsonParser();
         // Register default providers
         this.localeProviders.add(new DefaultLocaleProvider(this.defaultLocale));
         this.localeProviders.add(new ReflectionLocaleProvider(this.defaultLocale));
@@ -92,6 +98,7 @@ public class I18n {
     public I18n(Locale defaultLocale) {
         this.defaultLocale = defaultLocale;
         this.themeLoader = new ThemeLoader();
+        this.messageThemeJsonParser = new MessageThemeJsonParser();
         // Register default providers
         this.localeProviders.add(new DefaultLocaleProvider(this.defaultLocale));
         this.localeProviders.add(new ReflectionLocaleProvider(this.defaultLocale));
@@ -172,9 +179,8 @@ public class I18n {
      * @throws IOException if file cannot be read
      */
     public I18n loadColorScheme(String key, Path filePath) throws IOException {
-        ColorScheme scheme = themeLoader.loadColorScheme(filePath);
-        colorSchemes.put(key, scheme);
-        return this;
+        String content = Files.readString(filePath);
+        return loadColorSchemeFromString(key, content);
     }
     
     /**
@@ -186,9 +192,7 @@ public class I18n {
      * @throws IOException if file cannot be read
      */
     public I18n loadColorScheme(String key, File file) throws IOException {
-        ColorScheme scheme = themeLoader.loadColorScheme(file);
-        colorSchemes.put(key, scheme);
-        return this;
+        return loadColorScheme(key, file.toPath());
     }
     
     /**
@@ -200,21 +204,29 @@ public class I18n {
      * @throws IOException if resource cannot be found or read
      */
     public I18n loadColorSchemeFromClasspath(String key, String resourcePath) throws IOException {
-        ColorScheme scheme = themeLoader.loadColorSchemeFromClasspath(resourcePath);
-        colorSchemes.put(key, scheme);
-        return this;
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+            if (in == null) throw new IOException("Resource not found: " + resourcePath);
+            String content = new String(in.readAllBytes());
+            return loadColorSchemeFromString(key, content);
+        }
     }
     
     /**
      * Loads a ColorScheme from a JSON string.
+     * Automatically detects if it's a MessageTheme (rich format) or a simple ColorScheme.
      * 
      * @param key unique identifier for this scheme
      * @param json the JSON string
      * @return this I18n instance for method chaining
      */
     public I18n loadColorSchemeFromString(String key, String json) {
-        ColorScheme scheme = themeLoader.loadColorSchemeFromString(json);
-        colorSchemes.put(key, scheme);
+        if (json.contains("\"messages\"")) {
+            MessageTheme theme = messageThemeJsonParser.parse(json);
+            messageThemes.put(key, theme);
+        } else {
+            ColorScheme scheme = themeLoader.loadColorSchemeFromString(json);
+            colorSchemes.put(key, scheme);
+        }
         return this;
     }
     
@@ -229,6 +241,61 @@ public class I18n {
         colorSchemes.put(key, scheme);
         return this;
     }
+
+    /**
+     * Registers a pre-built MessageTheme with a key.
+     * 
+     * @param key unique identifier for this theme
+     * @param theme the MessageTheme to register
+     * @return this I18n instance for method chaining
+     */
+    public I18n registerMessageTheme(String key, MessageTheme theme) {
+        messageThemes.put(key, theme);
+        return this;
+    }
+
+    /**
+     * Loads all color schemes and message themes from a directory.
+     * 
+     * @param directory the directory containing .json files
+     * @return this I18n instance for method chaining
+     * @throws IOException if directory cannot be read
+     */
+    public I18n loadThemes(File directory) throws IOException {
+        if (!directory.exists() || !directory.isDirectory()) return this;
+        File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
+        if (files != null) {
+            for (File file : files) {
+                String key = file.getName().replace(".json", "");
+                loadColorScheme(key, file);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Loads all color schemes and message themes from a classpath resource path.
+     * 
+     * @param resourcePath the path in classpath (e.g., "themes")
+     * @return this I18n instance for method chaining
+     * @throws IOException if resources cannot be read
+     */
+    public I18n loadThemesFromClasspath(String resourcePath) throws IOException {
+        try {
+            ConfigRegistration<?> dummy = new ConfigRegistration<>(this, MessageConfig.class);
+            java.util.Set<String> resourceFiles = dummy.findResourceFiles(resourcePath);
+            for (String resourceFile : resourceFiles) {
+                if (resourceFile.endsWith(".json")) {
+                    String fileName = resourceFile.substring(resourceFile.lastIndexOf('/') + 1);
+                    String key = fileName.replace(".json", "");
+                    loadColorSchemeFromClasspath(key, resourceFile);
+                }
+            }
+        } catch (Exception e) {
+            throw new IOException("Failed to load themes from classpath: " + resourcePath, e);
+        }
+        return this;
+    }
     
     /**
      * Gets a registered ColorScheme by key.
@@ -239,6 +306,16 @@ public class I18n {
     public ColorScheme getColorScheme(String key) {
         return colorSchemes.get(key);
     }
+
+    /**
+     * Gets a registered MessageTheme by key.
+     * 
+     * @param key the key
+     * @return the MessageTheme, or null if not found
+     */
+    public MessageTheme getMessageTheme(String key) {
+        return messageThemes.get(key);
+    }
     
     /**
      * Gets the default ColorScheme.
@@ -247,6 +324,15 @@ public class I18n {
      */
     public ColorScheme getDefaultColorScheme() {
         return colorSchemes.get(defaultScheme);
+    }
+
+    /**
+     * Gets the default MessageTheme.
+     * 
+     * @return the default MessageTheme
+     */
+    public MessageTheme getDefaultMessageTheme() {
+        return messageThemes.get(defaultScheme);
     }
     
     /**
@@ -259,6 +345,18 @@ public class I18n {
         String key = userSchemePreferences.getOrDefault(user, defaultScheme);
         ColorScheme scheme = colorSchemes.get(key);
         return scheme != null ? scheme : getDefaultColorScheme();
+    }
+
+    /**
+     * Gets the MessageTheme for a user, using their preference or default.
+     * 
+     * @param user the user object
+     * @return the MessageTheme for the user
+     */
+    public MessageTheme getMessageThemeForUser(Object user) {
+        String key = userSchemePreferences.getOrDefault(user, defaultScheme);
+        MessageTheme theme = messageThemes.get(key);
+        return theme != null ? theme : getDefaultMessageTheme();
     }
     
     /**
@@ -331,8 +429,9 @@ public class I18n {
     public I18nContext context(Object receiver) {
         Locale locale = resolveLocaleObject(receiver);
         ColorScheme colorScheme = getColorSchemeForUser(receiver);
+        MessageTheme messageTheme = getMessageThemeForUser(receiver);
 
-        return new I18nContext(receiver, locale, colorScheme);
+        return new I18nContext(receiver, locale, colorScheme, messageTheme);
     }
 
     /**
@@ -343,7 +442,18 @@ public class I18n {
      * @return an AutoCloseable I18nContext
      */
     public I18nContext context(Locale locale, ColorScheme colorScheme) {
-        return new I18nContext(null, locale, colorScheme);
+        return new I18nContext(null, locale, colorScheme, null);
+    }
+
+    /**
+     * Creates a context with specific locale and message theme.
+     *
+     * @param locale the locale for this context
+     * @param messageTheme the message theme for this context (may be null)
+     * @return an AutoCloseable I18nContext
+     */
+    public I18nContext context(Locale locale, MessageTheme messageTheme) {
+        return new I18nContext(null, locale, null, messageTheme);
     }
 
     /**
@@ -353,7 +463,7 @@ public class I18n {
      * @return an AutoCloseable I18nContext
      */
     public I18nContext context(Locale locale) {
-        return new I18nContext(null, locale, getDefaultColorScheme());
+        return new I18nContext(null, locale, getDefaultColorScheme(), getDefaultMessageTheme());
     }
 
     // ==================== Message Registration ====================
@@ -384,10 +494,17 @@ public class I18n {
      */
     public SingleMessageResult get(Object localeProvider, String message) {
         SingleMessageResult result = SingleMessageResult.of(message != null ? message : "");
-        ColorScheme colorScheme = getColorSchemeForUser(localeProvider);
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
+        
+        MessageTheme messageTheme = getMessageThemeForUser(localeProvider);
+        if (messageTheme != null) {
+            result.withMessageTheme(messageTheme);
+        } else {
+            ColorScheme colorScheme = getColorSchemeForUser(localeProvider);
+            if (colorScheme != null) {
+                result.withColorScheme(colorScheme);
+            }
         }
+        
         return result;
     }
     
@@ -405,10 +522,17 @@ public class I18n {
      */
     public ListMessageResult get(Object localeProvider, List<String> messages) {
         ListMessageResult result = ListMessageResult.of(messages != null ? messages : List.of());
-        ColorScheme colorScheme = getColorSchemeForUser(localeProvider);
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
+        
+        MessageTheme messageTheme = getMessageThemeForUser(localeProvider);
+        if (messageTheme != null) {
+            result.withMessageTheme(messageTheme);
+        } else {
+            ColorScheme colorScheme = getColorSchemeForUser(localeProvider);
+            if (colorScheme != null) {
+                result.withColorScheme(colorScheme);
+            }
         }
+        
         return result;
     }
     
@@ -420,10 +544,17 @@ public class I18n {
      */
     public SingleMessageResult get(String message) {
         SingleMessageResult result = SingleMessageResult.of(message != null ? message : "");
-        ColorScheme colorScheme = getDefaultColorScheme();
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
+        
+        MessageTheme messageTheme = getDefaultMessageTheme();
+        if (messageTheme != null) {
+            result.withMessageTheme(messageTheme);
+        } else {
+            ColorScheme colorScheme = getDefaultColorScheme();
+            if (colorScheme != null) {
+                result.withColorScheme(colorScheme);
+            }
         }
+        
         return result;
     }
     
@@ -435,10 +566,17 @@ public class I18n {
      */
     public ListMessageResult get(List<String> messages) {
         ListMessageResult result = ListMessageResult.of(messages != null ? messages : List.of());
-        ColorScheme colorScheme = getDefaultColorScheme();
-        if (colorScheme != null) {
-            result.withColorScheme(colorScheme);
+        
+        MessageTheme messageTheme = getDefaultMessageTheme();
+        if (messageTheme != null) {
+            result.withMessageTheme(messageTheme);
+        } else {
+            ColorScheme colorScheme = getDefaultColorScheme();
+            if (colorScheme != null) {
+                result.withColorScheme(colorScheme);
+            }
         }
+        
         return result;
     }
     

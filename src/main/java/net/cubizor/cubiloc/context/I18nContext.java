@@ -1,6 +1,7 @@
 package net.cubizor.cubiloc.context;
 
 import net.cubizor.cubicolor.api.ColorScheme;
+import net.cubizor.cubicolor.text.MessageTheme;
 import net.cubizor.cubiloc.config.MessageConfig;
 
 import java.util.Locale;
@@ -25,6 +26,7 @@ public final class I18nContext implements AutoCloseable {
     private final Object receiver;
     private final Locale locale;
     private final ColorScheme colorScheme;
+    private final MessageTheme messageTheme;
     private final boolean shouldRestore;
     private final I18nContext previousContext;
 
@@ -36,9 +38,22 @@ public final class I18nContext implements AutoCloseable {
      * @param colorScheme the color scheme for this context
      */
     public I18nContext(Object receiver, Locale locale, ColorScheme colorScheme) {
+        this(receiver, locale, colorScheme, null);
+    }
+
+    /**
+     * Creates a new I18nContext and sets it as the current context.
+     *
+     * @param receiver the receiver object (e.g., player)
+     * @param locale the locale for this context
+     * @param colorScheme the color scheme for this context
+     * @param messageTheme the message theme for this context
+     */
+    public I18nContext(Object receiver, Locale locale, ColorScheme colorScheme, MessageTheme messageTheme) {
         this.receiver = receiver;
         this.locale = locale;
         this.colorScheme = colorScheme;
+        this.messageTheme = messageTheme;
         this.previousContext = I18nContextHolder.get();
         this.shouldRestore = previousContext != null;
 
@@ -51,13 +66,14 @@ public final class I18nContext implements AutoCloseable {
      * Used as fallback when no context is set.
      */
     static I18nContext createDefault(Locale defaultLocale) {
-        return new I18nContext(null, defaultLocale, null, false);
+        return new I18nContext(null, defaultLocale, null, null, false);
     }
 
-    private I18nContext(Object receiver, Locale locale, ColorScheme colorScheme, boolean shouldRestore) {
+    private I18nContext(Object receiver, Locale locale, ColorScheme colorScheme, MessageTheme messageTheme, boolean shouldRestore) {
         this.receiver = receiver;
         this.locale = locale;
         this.colorScheme = colorScheme;
+        this.messageTheme = messageTheme;
         this.previousContext = null;
         this.shouldRestore = shouldRestore;
     }
@@ -87,6 +103,15 @@ public final class I18nContext implements AutoCloseable {
      */
     public ColorScheme getColorScheme() {
         return colorScheme;
+    }
+
+    /**
+     * Gets the message theme for this context.
+     *
+     * @return the message theme, may be null
+     */
+    public MessageTheme getMessageTheme() {
+        return messageTheme;
     }
 
     /**
