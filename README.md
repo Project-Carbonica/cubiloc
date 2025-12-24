@@ -105,6 +105,26 @@ void notifyStaff(MyMessages msg) {
 - ✅ No memory leaks (AutoCloseable)
 - ✅ Works in nested method calls
 
+## Global Placeholders
+
+You can register global placeholders that will be available in all messages, including those loaded from configuration files.
+
+```java
+// Register a global placeholder
+i18n.getPlaceholders().registerPlaceholders(new PlaceholderPack() {
+    @Override
+    public void register(PlaceholderContext context) {
+        context.registerPlaceholder(Player.class, "name", Player::getName);
+        context.registerPlaceholder(Player.class, "ping", Player::getPing);
+    }
+});
+
+// Or simple single registration
+i18n.getPlaceholders().registerPlaceholder(Server.class, "tps", s -> s.getTPS()[0]);
+```
+
+These placeholders are automatically injected into `SingleMessageResult` and `ListMessageResult` objects created by the `I18n` instance.
+
 ## Message Config Class Structure
 
 ```java

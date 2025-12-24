@@ -2,6 +2,7 @@ package net.cubizor.cubiloc;
 
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
+import eu.okaeri.placeholders.Placeholders;
 import net.cubizor.cubiloc.config.transformer.MessageSerdesPack;
 import net.cubizor.cubicolor.api.ColorScheme;
 import net.cubizor.cubicolor.exporter.MessageThemeJsonParser;
@@ -39,6 +40,7 @@ public class I18n {
     private final List<LocaleProvider<?>> localeProviders = new ArrayList<>();
     private final ThemeLoader themeLoader;
     private final MessageThemeJsonParser messageThemeJsonParser;
+    private final Placeholders placeholders = Placeholders.create();
     
     private Locale defaultLocale = Locale.forLanguageTag("tr-TR");
     private String defaultScheme = "dark";
@@ -66,6 +68,10 @@ public class I18n {
         this.localeProviders.add(new DefaultLocaleProvider(this.defaultLocale));
         this.localeProviders.add(new ReflectionLocaleProvider(this.defaultLocale));
         I18nContextHolder.setDefaultLocale(this.defaultLocale);
+    }
+
+    public Placeholders getPlaceholders() {
+        return placeholders;
     }
     
     public I18n registerLocaleProvider(LocaleProvider<?> provider) {
@@ -110,6 +116,11 @@ public class I18n {
         }
     }
 
+    public I18n loadColorScheme(String key, File file) throws IOException {
+        String content = Files.readString(file.toPath());
+        return loadColorSchemeFromString(key, content);
+    }
+
     public ColorScheme getColorScheme(String key) {
         return colorSchemes.get(key);
     }
@@ -148,7 +159,7 @@ public class I18n {
     }
 
     public SingleMessageResult get(String rawMessage) {
-        return SingleMessageResult.of(rawMessage);
+        return SingleMessageResult.of(rawMessage).withPlaceholders(placeholders);
     }
 
     public I18n loadThemesFromClasspath(String dir) throws IOException {
@@ -271,9 +282,9 @@ public class I18n {
 
                     Object value = field.get(current);
                     if (value instanceof SingleMessageResult) {
-                        ((SingleMessageResult) value).withConfig(root);
+                        ((SingleMessageResult) value).withConfig(root).withPlaceholders(placeholders);
                     } else if (value instanceof ListMessageResult) {
-                        ((ListMessageResult) value).withConfig(root);
+                        ((ListMessageResult) value).withConfig(root).withPlaceholders(placeholders);
                     } else if (value instanceof eu.okaeri.configs.OkaeriConfig) {
                         injectConfigIntoFields(root, (eu.okaeri.configs.OkaeriConfig) value);
                     }

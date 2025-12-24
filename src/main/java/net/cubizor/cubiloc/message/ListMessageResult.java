@@ -30,6 +30,7 @@ public class ListMessageResult {
     
     private final List<String> rawValue;
     private final Map<String, Object> placeholders = new HashMap<>();
+    private Placeholders globalPlaceholders;
     private ColorScheme colorScheme;
     private MessageTheme messageTheme;
     private MessageConfig messageConfig;
@@ -43,6 +44,7 @@ public class ListMessageResult {
     private ListMessageResult(ListMessageResult other) {
         this.rawValue = new ArrayList<>(other.rawValue);
         this.placeholders.putAll(other.placeholders);
+        this.globalPlaceholders = other.globalPlaceholders;
         this.colorScheme = other.colorScheme;
         this.messageTheme = other.messageTheme;
         this.messageConfig = other.messageConfig;
@@ -76,6 +78,11 @@ public class ListMessageResult {
         return this;
     }
 
+    public ListMessageResult withPlaceholders(Placeholders placeholders) {
+        this.globalPlaceholders = placeholders;
+        return this;
+    }
+
     public ListMessageResult withContext(I18nContext context) {
         if (context != null) {
             if (this.colorScheme == null && context.getColorScheme() != null) {
@@ -91,13 +98,15 @@ public class ListMessageResult {
     private void process() {
         if (processed) return;
         processedValue = new ArrayList<>();
+        Placeholders placeholdersInstance = (globalPlaceholders != null) ? globalPlaceholders : Placeholders.create();
+
         for (String line : rawValue) {
             String value = line;
             if (messageConfig != null) {
                 value = LocaleConfigPlaceholder.process(value, messageConfig, placeholders);
             }
             CompiledMessage compiled = CompiledMessage.of(value);
-            PlaceholderContext context = Placeholders.create().contextOf(compiled);
+            PlaceholderContext context = placeholdersInstance.contextOf(compiled);
             
             Map<String, Object> expandedPlaceholders = expandMap(placeholders);
             for (Map.Entry<String, Object> entry : expandedPlaceholders.entrySet()) {
