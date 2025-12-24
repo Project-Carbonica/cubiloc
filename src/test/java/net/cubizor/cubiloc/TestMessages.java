@@ -39,11 +39,16 @@ public class TestMessages extends MessageConfig {
     public SingleMessageResult dynamicStatus = new SingleMessageResult("<text>{name}: {statusActive,statusInactive@lc#enabled}</text>");
 
     public ErrorMessages errors = new ErrorMessages();
+    public OkaeriErrorMessages okaeriErrors = new OkaeriErrorMessages();
     public AdminMessages admin = new AdminMessages();
 
     public static class ErrorMessages extends MessageConfig {
         public SingleMessageResult notFound = new SingleMessageResult("<error>Error: Item '{item}' not found!</error>");
         public SingleMessageResult noPermission = SingleMessageResult.of("<error>You don't have permission!</error>");
+    }
+
+    public static class OkaeriErrorMessages extends eu.okaeri.configs.OkaeriConfig {
+        public SingleMessageResult noPermission = SingleMessageResult.of("<error>Okaeri Error: No permission!</error>");
     }
 
     public static class AdminMessages extends MessageConfig {

@@ -936,12 +936,22 @@ public class I18n {
                 });
                 config.load();  // Load the config from file
 
+                // IMPORTANT: Inject after load to catch any new instances created by Okaeri
                 i18n.injectConfigIntoFields(config, config);
 
                 // If this is the default locale and the class is a singleton (e.g. Kotlin object),
                 // update the singleton instance to match the loaded config.
                 if (locale.equals(defaultLocaleStr)) {
                     updateSingleton(config);
+                    // Also inject into the singleton
+                    try {
+                        java.lang.reflect.Field instanceField = configClass.getDeclaredField("INSTANCE");
+                        instanceField.setAccessible(true);
+                        Object singleton = instanceField.get(null);
+                        if (singleton instanceof MessageConfig) {
+                            i18n.injectConfigIntoFields(config, (MessageConfig) singleton);
+                        }
+                    } catch (Exception ignored) {}
                 }
 
                 i18n.localeConfigs
@@ -1004,11 +1014,11 @@ public class I18n {
      * Injects the root config instance into all SingleMessageResult and ListMessageResult fields
      * throughout the entire configuration hierarchy.
      */
-    void injectConfigIntoFields(MessageConfig root, MessageConfig current) {
+    void injectConfigIntoFields(MessageConfig root, eu.okaeri.configs.OkaeriConfig current) {
         if (current == null || root == null) return;
 
         Class<?> clazz = current.getClass();
-        // Traverse up to OkaeriConfig/MessageConfig
+        // Traverse up to Object
         while (clazz != null && clazz != Object.class) {
             for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
                 try {
@@ -1030,37 +1040,6 @@ public class I18n {
                     }
                 } catch (Exception e) {
                     // Ignore errors during injection
-                }
-            }
-            clazz = clazz.getSuperclass();
-        }
-    }
-
-    /**
-     * Internal version of injectConfigIntoFields for OkaeriConfig recursion.
-     */
-    private void injectConfigIntoFields(MessageConfig root, eu.okaeri.configs.OkaeriConfig current) {
-        if (current == null || root == null) return;
-
-        Class<?> clazz = current.getClass();
-        while (clazz != null && clazz != Object.class) {
-            for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
-                try {
-                    if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == clazz) {
-                        continue;
-                    }
-
-                    field.setAccessible(true);
-                    Object value = field.get(current);
-                    
-                    if (value instanceof SingleMessageResult) {
-                        ((SingleMessageResult) value).withConfig(root);
-                    } else if (value instanceof ListMessageResult) {
-                        ((ListMessageResult) value).withConfig(root);
-                    } else if (value instanceof eu.okaeri.configs.OkaeriConfig) {
-                        injectConfigIntoFields(root, (eu.okaeri.configs.OkaeriConfig) value);
-                    }
-                } catch (Exception e) {
                 }
             }
             clazz = clazz.getSuperclass();

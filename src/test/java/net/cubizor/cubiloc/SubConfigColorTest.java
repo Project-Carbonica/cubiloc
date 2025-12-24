@@ -67,6 +67,18 @@ class SubConfigColorTest {
         }
     }
 
+    @Test
+    void testColorInOkaeriConfigSubConfig() {
+        TestMessages msg = i18n.config(TestMessages.class);
+        TextColor expectedErrorColor = TextColor.color(0xCF, 0x66, 0x79);
+
+        try (var ctx = i18n.context(Locale.US)) {
+            // Using the OkaeriConfig subconfig
+            Component noPerm = msg.okaeriErrors.noPermission.component();
+            assertThat(hasColor(noPerm, expectedErrorColor)).isTrue();
+        }
+    }
+
     private boolean hasColor(Component component, TextColor color) {
         if (color.equals(component.color())) return true;
         for (Component child : component.children()) {
