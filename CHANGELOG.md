@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.5...v1.0.6) (2025-12-24)
+
+
+### Bug Fixes
+
+* improve theme and color scheme resolution in message results and support recursive config injection for subconfigs ([9f436d9](https://github.com/Project-Carbonica/cubiloc/commit/9f436d923b334373a7458db08c106df3f71f0501))
+
 ## [1.0.5](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.4...v1.0.5) (2025-12-24)
 
 
