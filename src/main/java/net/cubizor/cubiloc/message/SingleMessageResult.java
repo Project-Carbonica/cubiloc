@@ -1,5 +1,6 @@
 package net.cubizor.cubiloc.message;
 
+import eu.okaeri.placeholders.Placeholders;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import net.cubizor.cubicolor.api.ColorScheme;
@@ -22,13 +23,6 @@ import java.util.function.Function;
 
 /**
  * Message result for single-line String messages.
- * Provides {@link #component()} for converting to Adventure Component.
- * 
- * Supports @lc (locale-config) placeholders:
- * <ul>
- *   <li>{@code {@lc:path.to.message}} - Reference another message from the config</li>
- *   <li>{@code {trueValue,falseValue@lc#field}} - Conditional with config values</li>
- * </ul>
  */
 public class SingleMessageResult {
     
@@ -50,59 +44,36 @@ public class SingleMessageResult {
         this.colorScheme = other.colorScheme;
         this.messageTheme = other.messageTheme;
         this.messageConfig = other.messageConfig;
-        this.processed = false; // Reset processed state for the copy
+        this.processed = false;
     }
     
-    /**
-     * Creates a SingleMessageResult from a String value.
-     */
     public static SingleMessageResult of(String value) {
         return new SingleMessageResult(value);
     }
     
-    /**
-     * Adds a placeholder value.
-     * Returns a new instance with the added placeholder.
-     */
     public SingleMessageResult with(String key, Object value) {
         SingleMessageResult copy = new SingleMessageResult(this);
         copy.placeholders.put(key, value);
         return copy;
     }
     
-    /**
-     * Sets the ColorScheme for semantic color tags.
-     * Returns a new instance with the new color scheme.
-     */
     public SingleMessageResult withColorScheme(ColorScheme colorScheme) {
         SingleMessageResult copy = new SingleMessageResult(this);
         copy.colorScheme = colorScheme;
         return copy;
     }
 
-    /**
-     * Sets the MessageTheme for semantic style tags.
-     * Returns a new instance with the new message theme.
-     */
     public SingleMessageResult withMessageTheme(MessageTheme messageTheme) {
         SingleMessageResult copy = new SingleMessageResult(this);
         copy.messageTheme = messageTheme;
         return copy;
     }
     
-    /**
-     * Sets the MessageConfig for @lc placeholder resolution.
-     * Internal use: Modifies the current instance.
-     */
     public SingleMessageResult withConfig(MessageConfig config) {
         this.messageConfig = config;
         return this;
     }
 
-    /**
-     * Sets the context (locale, color scheme, message theme, config) from I18nContext.
-     * Internal use: Modifies the current instance.
-     */
     public SingleMessageResult withContext(I18nContext context) {
         if (context != null) {
             if (this.colorScheme == null && context.getColorScheme() != null) {
@@ -119,34 +90,69 @@ public class SingleMessageResult {
         if (processed) return;
         
         String value = rawValue;
-        
-        // First, resolve @lc placeholders if config is available
         if (messageConfig != null) {
             value = LocaleConfigPlaceholder.process(value, messageConfig, placeholders);
         }
         
-        // Then, apply okaeri-placeholders
         CompiledMessage compiled = CompiledMessage.of(value);
-        PlaceholderContext context = PlaceholderContext.of(compiled);
-        for (Map.Entry<String, Object> entry : placeholders.entrySet()) {
+        PlaceholderContext context = Placeholders.create().contextOf(compiled);
+        
+        Map<String, Object> expandedPlaceholders = expandMap(placeholders);
+        for (Map.Entry<String, Object> entry : expandedPlaceholders.entrySet()) {
             context.with(entry.getKey(), entry.getValue());
         }
-        processedValue = context.apply();
+
+        // Support for remaining fallback needs and nested maps
+        context.getPlaceholders().fallbackResolver((parent, field, ctx) -> {
+            String name = field.unsafe().getName();
+            if (parent instanceof Map) {
+                return ((Map<?, ?>) parent).get(name);
+            }
+            if (placeholders.containsKey(name)) {
+                return placeholders.get(name);
+            }
+            return null;
+        });
         
+        processedValue = context.apply();
         processed = true;
     }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> expandMap(Map<String, Object> source) {
+        Map<String, Object> result = new HashMap<>();
+        for (Map.Entry<String, Object> entry : source.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (key.contains(".")) {
+                String[] parts = key.split("\\.");
+                Map<String, Object> current = result;
+                for (int i = 0; i < parts.length - 1; i++) {
+                    Object next = current.computeIfAbsent(parts[i], k -> new HashMap<String, Object>());
+                    if (next instanceof Map) {
+                        current = (Map<String, Object>) next;
+                    } else {
+                        // Conflict: a.b exists but a is already a value. Skip or overwrite?
+                        // For Cubiloc, we'll overwrite with a map to support the dotted path.
+                        Map<String, Object> newMap = new HashMap<>();
+                        current.put(parts[i], newMap);
+                        current = newMap;
+                    }
+                }
+                current.put(parts[parts.length - 1], value);
+            } else {
+                result.put(key, value);
+            }
+        }
+        return result;
+    }
     
-    /**
-     * Converts to Adventure Component with MiniMessage and ColorScheme support.
-     * Automatically uses context if available.
-     */
     public Component component() {
         process();
 
-        // Resolve theme/scheme from current context or stored values
-        I18nContext context = I18nContextHolder.getOrNull();
-        MessageTheme themeToUse = (context != null && context.getMessageTheme() != null) ? context.getMessageTheme() : messageTheme;
-        ColorScheme schemeToUse = (context != null && context.getColorScheme() != null) ? context.getColorScheme() : colorScheme;
+        I18nContext context = I18nContextHolder.get();
+        MessageTheme themeToUse = (messageTheme != null) ? messageTheme : context.getMessageTheme();
+        ColorScheme schemeToUse = (colorScheme != null) ? colorScheme : context.getColorScheme();
 
         TagResolver themeResolver = TagResolver.empty();
         if (themeToUse != null) {
@@ -157,65 +163,47 @@ public class SingleMessageResult {
 
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), themeResolver))
-            .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
+            .postProcessor(c -> c.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
 
         return miniMessage.deserialize(processedValue);
     }
 
-    /**
-     * Applies context from ThreadLocal if not already set.
-     */
-    private void applyContextIfNeeded() {
-        I18nContext context = I18nContextHolder.getOrNull();
-        if (context != null) {
-            withContext(context);
-        }
-    }
-    
-    /**
-     * Converts to Adventure Component with custom deserializer.
-     */
     public Component component(Function<String, Component> deserializer) {
         process();
         return deserializer.apply(processedValue);
     }
     
-    /**
-     * Converts to Adventure Component with additional TagResolver.
-     */
     public Component component(TagResolver additionalResolver) {
         process();
         
-        TagResolver colorResolver = colorScheme != null 
-            ? ColorSchemeTagResolver.of(colorScheme)
-            : TagResolver.empty();
+        I18nContext context = I18nContextHolder.get();
+        MessageTheme themeToUse = (messageTheme != null) ? messageTheme : context.getMessageTheme();
+        ColorScheme schemeToUse = (colorScheme != null) ? colorScheme : context.getColorScheme();
+
+        TagResolver themeResolver = TagResolver.empty();
+        if (themeToUse != null) {
+            themeResolver = MessageThemeTagResolver.of(themeToUse);
+        } else if (schemeToUse != null) {
+            themeResolver = ColorSchemeTagResolver.of(schemeToUse);
+        }
         
         MiniMessage miniMessage = MiniMessage.builder()
-            .tags(TagResolver.resolver(TagResolver.standard(), colorResolver, additionalResolver))
+            .tags(TagResolver.resolver(TagResolver.standard(), themeResolver, additionalResolver))
             .build();
         
         return miniMessage.deserialize(processedValue);
     }
     
-    /**
-     * Converts to Adventure Component using legacy color codes (&amp;).
-     */
     public Component componentLegacy() {
         return component(LegacyComponentSerializer.legacyAmpersand()::deserialize);
     }
     
-    /**
-     * Returns the processed message as String.
-     */
     public String asString() {
         process();
         return processedValue;
     }
     
-    /**
-     * Returns the raw unprocessed value.
-     */
     public String raw() {
         return rawValue;
     }

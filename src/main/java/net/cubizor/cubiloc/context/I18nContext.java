@@ -65,8 +65,8 @@ public final class I18nContext implements AutoCloseable {
      * Creates a default I18nContext with default locale and no color scheme.
      * Used as fallback when no context is set.
      */
-    static I18nContext createDefault(Locale defaultLocale) {
-        return new I18nContext(null, defaultLocale, null, null, false);
+    static I18nContext createDefault(Locale defaultLocale, ColorScheme defaultColorScheme, MessageTheme defaultMessageTheme) {
+        return new I18nContext(null, defaultLocale, defaultColorScheme, defaultMessageTheme, false);
     }
 
     private I18nContext(Object receiver, Locale locale, ColorScheme colorScheme, MessageTheme messageTheme, boolean shouldRestore) {

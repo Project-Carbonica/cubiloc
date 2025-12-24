@@ -1,5 +1,6 @@
 package net.cubizor.cubiloc.message;
 
+import eu.okaeri.placeholders.Placeholders;
 import eu.okaeri.placeholders.context.PlaceholderContext;
 import eu.okaeri.placeholders.message.CompiledMessage;
 import net.cubizor.cubicolor.api.ColorScheme;
@@ -23,15 +24,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Message result for multi-line List&lt;String&gt; messages.
- * Provides {@link #components()} for converting to List&lt;Component&gt;
- * and {@link #component()} for a single joined Component.
- * 
- * Supports @lc (locale-config) placeholders:
- * <ul>
- *   <li>{@code {@lc:path.to.message}} - Reference another message from the config</li>
- *   <li>{@code {trueValue,falseValue@lc#field}} - Conditional with config values</li>
- * </ul>
+ * Message result for multi-line List<String> messages.
  */
 public class ListMessageResult {
     
@@ -53,59 +46,36 @@ public class ListMessageResult {
         this.colorScheme = other.colorScheme;
         this.messageTheme = other.messageTheme;
         this.messageConfig = other.messageConfig;
-        this.processed = false; // Reset processed state
+        this.processed = false;
     }
     
-    /**
-     * Creates a ListMessageResult from a List&lt;String&gt; value.
-     */
     public static ListMessageResult of(List<String> value) {
         return new ListMessageResult(value);
     }
     
-    /**
-     * Adds a placeholder value.
-     * Returns a new instance with the added placeholder.
-     */
     public ListMessageResult with(String key, Object value) {
         ListMessageResult copy = new ListMessageResult(this);
         copy.placeholders.put(key, value);
         return copy;
     }
     
-    /**
-     * Sets the ColorScheme for semantic color tags.
-     * Returns a new instance with the new color scheme.
-     */
     public ListMessageResult withColorScheme(ColorScheme colorScheme) {
         ListMessageResult copy = new ListMessageResult(this);
         copy.colorScheme = colorScheme;
         return copy;
     }
 
-    /**
-     * Sets the MessageTheme for semantic style tags.
-     * Returns a new instance with the new message theme.
-     */
     public ListMessageResult withMessageTheme(MessageTheme messageTheme) {
         ListMessageResult copy = new ListMessageResult(this);
         copy.messageTheme = messageTheme;
         return copy;
     }
     
-    /**
-     * Sets the MessageConfig for @lc placeholder resolution.
-     * Internal use: Modifies the current instance.
-     */
     public ListMessageResult withConfig(MessageConfig config) {
         this.messageConfig = config;
         return this;
     }
 
-    /**
-     * Sets the context (locale, color scheme, message theme, config) from I18nContext.
-     * Internal use: Modifies the current instance.
-     */
     public ListMessageResult withContext(I18nContext context) {
         if (context != null) {
             if (this.colorScheme == null && context.getColorScheme() != null) {
@@ -120,141 +90,129 @@ public class ListMessageResult {
     
     private void process() {
         if (processed) return;
-        
         processedValue = new ArrayList<>();
         for (String line : rawValue) {
             String value = line;
-            
-            // First, resolve @lc placeholders if config is available
             if (messageConfig != null) {
                 value = LocaleConfigPlaceholder.process(value, messageConfig, placeholders);
             }
-            
-            // Then, apply okaeri-placeholders
             CompiledMessage compiled = CompiledMessage.of(value);
-            PlaceholderContext lineContext = PlaceholderContext.of(compiled);
+            PlaceholderContext context = Placeholders.create().contextOf(compiled);
             
-            for (Map.Entry<String, Object> entry : placeholders.entrySet()) {
-                lineContext.with(entry.getKey(), entry.getValue());
+            Map<String, Object> expandedPlaceholders = expandMap(placeholders);
+            for (Map.Entry<String, Object> entry : expandedPlaceholders.entrySet()) {
+                context.with(entry.getKey(), entry.getValue());
             }
-            
-            processedValue.add(lineContext.apply());
+
+            context.getPlaceholders().fallbackResolver((parent, field, ctx) -> {
+                String name = field.unsafe().getName();
+                if (parent instanceof Map) {
+                    return ((Map<?, ?>) parent).get(name);
+                }
+                if (placeholders.containsKey(name)) {
+                    return placeholders.get(name);
+                }
+                return null;
+            });
+            processedValue.add(context.apply());
         }
         processed = true;
     }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> expandMap(Map<String, Object> source) {
+        Map<String, Object> result = new HashMap<>();
+        for (Map.Entry<String, Object> entry : source.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (key.contains(".")) {
+                String[] parts = key.split("\\.");
+                Map<String, Object> current = result;
+                for (int i = 0; i < parts.length - 1; i++) {
+                    Object next = current.computeIfAbsent(parts[i], k -> new HashMap<String, Object>());
+                    if (next instanceof Map) {
+                        current = (Map<String, Object>) next;
+                    } else {
+                        Map<String, Object> newMap = new HashMap<>();
+                        current.put(parts[i], newMap);
+                        current = newMap;
+                    }
+                }
+                current.put(parts[parts.length - 1], value);
+            } else {
+                result.put(key, value);
+            }
+        }
+        return result;
+    }
     
-    /**
-     * Converts to List of Adventure Components - one Component per line.
-     * This is the primary method for multi-line messages.
-     * Automatically uses context if available.
-     */
     public List<Component> components() {
         process();
-        
-        // Resolve theme/scheme from current context or stored values
-        I18nContext context = I18nContextHolder.getOrNull();
-        MessageTheme themeToUse = (context != null && context.getMessageTheme() != null) ? context.getMessageTheme() : messageTheme;
-        ColorScheme schemeToUse = (context != null && context.getColorScheme() != null) ? context.getColorScheme() : colorScheme;
+        I18nContext context = I18nContextHolder.get();
+        MessageTheme themeToUse = (messageTheme != null) ? messageTheme : context.getMessageTheme();
+        ColorScheme schemeToUse = (colorScheme != null) ? colorScheme : context.getColorScheme();
 
         TagResolver themeResolver = TagResolver.empty();
-        if (themeToUse != null) {
-            themeResolver = MessageThemeTagResolver.of(themeToUse);
-        } else if (schemeToUse != null) {
-            themeResolver = ColorSchemeTagResolver.of(schemeToUse);
-        }
+        if (themeToUse != null) themeResolver = MessageThemeTagResolver.of(themeToUse);
+        else if (schemeToUse != null) themeResolver = ColorSchemeTagResolver.of(schemeToUse);
         
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), themeResolver))
-            .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
+            .postProcessor(c -> c.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
         
         List<Component> result = new ArrayList<>();
-        for (String line : processedValue) {
-            result.add(miniMessage.deserialize(line));
-        }
+        for (String line : processedValue) result.add(miniMessage.deserialize(line));
         return result;
     }
 
-    /**
-     * Converts to a single Adventure Component with lines joined by newlines.
-     * Automatically uses context if available.
-     */
     public Component component() {
         process();
-        
-        // Resolve theme/scheme from current context or stored values
-        I18nContext context = I18nContextHolder.getOrNull();
-        MessageTheme themeToUse = (context != null && context.getMessageTheme() != null) ? context.getMessageTheme() : messageTheme;
-        ColorScheme schemeToUse = (context != null && context.getColorScheme() != null) ? context.getColorScheme() : colorScheme;
+        I18nContext context = I18nContextHolder.get();
+        MessageTheme themeToUse = (messageTheme != null) ? messageTheme : context.getMessageTheme();
+        ColorScheme schemeToUse = (colorScheme != null) ? colorScheme : context.getColorScheme();
 
         TagResolver themeResolver = TagResolver.empty();
-        if (themeToUse != null) {
-            themeResolver = MessageThemeTagResolver.of(themeToUse);
-        } else if (schemeToUse != null) {
-            themeResolver = ColorSchemeTagResolver.of(schemeToUse);
-        }
+        if (themeToUse != null) themeResolver = MessageThemeTagResolver.of(themeToUse);
+        else if (schemeToUse != null) themeResolver = ColorSchemeTagResolver.of(schemeToUse);
         
         MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.resolver(TagResolver.standard(), themeResolver))
-            .postProcessor(component -> component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
+            .postProcessor(c -> c.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE))
             .build();
         
-        if (processedValue.isEmpty()) {
-            return Component.empty();
-        }
-        
+        if (processedValue.isEmpty()) return Component.empty();
         Component result = miniMessage.deserialize(processedValue.get(0));
         for (int i = 1; i < processedValue.size(); i++) {
-            result = result.append(Component.newline())
-                           .append(miniMessage.deserialize(processedValue.get(i)));
+            result = result.append(Component.newline()).append(miniMessage.deserialize(processedValue.get(i)));
         }
         return result;
     }
     
-    /**
-     * Converts to a single Adventure Component with custom deserializer.
-     */
     public Component component(Function<String, Component> deserializer) {
         process();
-        
-        if (processedValue.isEmpty()) {
-            return Component.empty();
-        }
-        
+        if (processedValue.isEmpty()) return Component.empty();
         Component result = deserializer.apply(processedValue.get(0));
         for (int i = 1; i < processedValue.size(); i++) {
-            result = result.append(Component.newline())
-                           .append(deserializer.apply(processedValue.get(i)));
+            result = result.append(Component.newline()).append(deserializer.apply(processedValue.get(i)));
         }
         return result;
     }
     
-    /**
-     * Converts to Adventure Component using legacy color codes (&amp;).
-     */
     public Component componentLegacy() {
         return component(LegacyComponentSerializer.legacyAmpersand()::deserialize);
     }
     
-    /**
-     * Returns the processed messages as a single String joined by newlines.
-     */
     public String asString() {
         process();
         return String.join("\n", processedValue);
     }
     
-    /**
-     * Returns the processed messages as List&lt;String&gt;.
-     */
     public List<String> asList() {
         process();
         return new ArrayList<>(processedValue);
     }
-    
-    /**
-     * Returns the raw unprocessed value.
-     */
+
     public List<String> raw() {
         return new ArrayList<>(rawValue);
     }
