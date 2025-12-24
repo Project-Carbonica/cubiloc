@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.7...v1.0.8) (2025-12-24)
+
+
+### Bug Fixes
+
+* support nested placeholder keys with dot notation and improve context defaults ([fac1aac](https://github.com/Project-Carbonica/cubiloc/commit/fac1aacaa078776c0f411bfb3563a73b4fbee198))
+
 ## [1.0.7](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.6...v1.0.7) (2025-12-24)
 
 
