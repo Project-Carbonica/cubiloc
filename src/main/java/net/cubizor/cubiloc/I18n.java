@@ -1008,29 +1008,59 @@ public class I18n {
         if (current == null || root == null) return;
 
         Class<?> clazz = current.getClass();
-        // Traverse up to MessageConfig, but not MessageConfig itself or OkaeriConfig
-                while (clazz != null && clazz != MessageConfig.class && clazz != Object.class) {
-                    for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
-                        try {
-                            // Skip static fields ONLY if they are self-referencing (e.g. Singleton INSTANCE)
-                            // This allows Kotlin object properties (which are static) to be processed.
-                            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == clazz) {
-                                continue;
-                            }
-        
-                            field.setAccessible(true);
-                            Object value = field.get(current);
-        
-                            if (value instanceof SingleMessageResult) {
-                                ((SingleMessageResult) value).withConfig(root);
-                            } else if (value instanceof ListMessageResult) {
+        // Traverse up to OkaeriConfig/MessageConfig
+        while (clazz != null && clazz != Object.class) {
+            for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
+                try {
+                    // Skip static fields ONLY if they are self-referencing (e.g. Singleton INSTANCE)
+                    if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == clazz) {
+                        continue;
+                    }
+
+                    field.setAccessible(true);
+                    Object value = field.get(current);
+                    
+                    if (value instanceof SingleMessageResult) {
+                        ((SingleMessageResult) value).withConfig(root);
+                    } else if (value instanceof ListMessageResult) {
                         ((ListMessageResult) value).withConfig(root);
-                    } else if (value instanceof MessageConfig) {
+                    } else if (value instanceof eu.okaeri.configs.OkaeriConfig) {
                         // Recursively inject root into sub-configs
-                        injectConfigIntoFields(root, (MessageConfig) value);
+                        injectConfigIntoFields(root, (eu.okaeri.configs.OkaeriConfig) value);
                     }
                 } catch (Exception e) {
                     // Ignore errors during injection
+                }
+            }
+            clazz = clazz.getSuperclass();
+        }
+    }
+
+    /**
+     * Internal version of injectConfigIntoFields for OkaeriConfig recursion.
+     */
+    private void injectConfigIntoFields(MessageConfig root, eu.okaeri.configs.OkaeriConfig current) {
+        if (current == null || root == null) return;
+
+        Class<?> clazz = current.getClass();
+        while (clazz != null && clazz != Object.class) {
+            for (java.lang.reflect.Field field : clazz.getDeclaredFields()) {
+                try {
+                    if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && field.getType() == clazz) {
+                        continue;
+                    }
+
+                    field.setAccessible(true);
+                    Object value = field.get(current);
+                    
+                    if (value instanceof SingleMessageResult) {
+                        ((SingleMessageResult) value).withConfig(root);
+                    } else if (value instanceof ListMessageResult) {
+                        ((ListMessageResult) value).withConfig(root);
+                    } else if (value instanceof eu.okaeri.configs.OkaeriConfig) {
+                        injectConfigIntoFields(root, (eu.okaeri.configs.OkaeriConfig) value);
+                    }
+                } catch (Exception e) {
                 }
             }
             clazz = clazz.getSuperclass();

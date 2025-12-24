@@ -141,16 +141,18 @@ public class SingleMessageResult {
      * Automatically uses context if available.
      */
     public Component component() {
-        // Auto-apply context if not already set
-        applyContextIfNeeded();
-
         process();
 
+        // Resolve theme/scheme from current context or stored values
+        I18nContext context = I18nContextHolder.getOrNull();
+        MessageTheme themeToUse = (context != null && context.getMessageTheme() != null) ? context.getMessageTheme() : messageTheme;
+        ColorScheme schemeToUse = (context != null && context.getColorScheme() != null) ? context.getColorScheme() : colorScheme;
+
         TagResolver themeResolver = TagResolver.empty();
-        if (messageTheme != null) {
-            themeResolver = MessageThemeTagResolver.of(messageTheme);
-        } else if (colorScheme != null) {
-            themeResolver = ColorSchemeTagResolver.of(colorScheme);
+        if (themeToUse != null) {
+            themeResolver = MessageThemeTagResolver.of(themeToUse);
+        } else if (schemeToUse != null) {
+            themeResolver = ColorSchemeTagResolver.of(schemeToUse);
         }
 
         MiniMessage miniMessage = MiniMessage.builder()
