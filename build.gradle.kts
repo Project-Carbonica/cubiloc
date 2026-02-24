@@ -37,10 +37,10 @@ dependencies {
     implementation("net.kyori:adventure-text-minimessage:4.25.0")
 
     // Cubicolor - Color scheme support
-    implementation("net.cubizor.cubicolor:cubicolor-api:1.4.0")
-    implementation("net.cubizor.cubicolor:cubicolor-core:1.4.0")
-    implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.0")
-    implementation("net.cubizor.cubicolor:cubicolor-text:1.4.0")
+    implementation("net.cubizor.cubicolor:cubicolor-api:1.4.1")
+    implementation("net.cubizor.cubicolor:cubicolor-core:1.4.1")
+    implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.1")
+    implementation("net.cubizor.cubicolor:cubicolor-text:1.4.1")
 
     // ByteBuddy for runtime enhancement (Lombok-style)
     implementation("net.bytebuddy:byte-buddy:1.14.11")
