@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Project-Carbonica/cubiloc/compare/v1.1.0...v1.1.1) (2026-02-24)
+
+
+### Bug Fixes
+
+* new version update ([4c58d56](https://github.com/Project-Carbonica/cubiloc/commit/4c58d5623f67152d82faf4811859e2b6b20cc0a3))
+
 # [1.1.0](https://github.com/Project-Carbonica/cubiloc/compare/v1.0.8...v1.1.0) (2025-12-24)
 
 
