@@ -18,7 +18,12 @@ i18n API built on [okaeri-configs](https://github.com/OkaeriPoland/okaeri-config
 ```kotlin
 repositories {
     maven("https://repo.okaeri.cloud/releases")
-    maven("https://nexus.cubizor.net/repository/maven-releases/")
+    maven("https://maven.pkg.github.com/Project-Carbonica/cubiloc") {
+        credentials {
+            username = project.findProperty("gpr.user")?.toString() ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key")?.toString() ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {

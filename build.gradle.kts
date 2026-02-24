@@ -18,10 +18,10 @@ java {
 repositories {
     mavenCentral()
     maven("https://repo.okaeri.cloud/releases")
-    maven("https://nexus.cubizor.net/repository/maven-releases/") {
+    maven("https://maven.pkg.github.com/Project-Carbonica/Cubicolor") {
         credentials {
-            username = project.findProperty("nexus.user") as String? ?: System.getenv("NEXUS_USERNAME") ?: ""
-            password = project.findProperty("nexus.password") as String? ?: System.getenv("NEXUS_PASSWORD") ?: ""
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR") ?: ""
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN") ?: ""
         }
     }
 }
