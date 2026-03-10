@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/Project-Carbonica/cubiloc/compare/v1.1.1...v2.0.0) (2026-03-10)
+
+
+* feat!: rewrite entire project in Kotlin with YAML-only message system ([b0d1c74](https://github.com/Project-Carbonica/cubiloc/commit/b0d1c743a00a176fe501363e70ececefa4ff027e))
+
+
+### BREAKING CHANGES
+
+* entire API has changed - Java classes replaced with Kotlin,
+okaeri-configs removed, message config classes removed in favor of YAML-only
+approach with i18n.message(key) API
+
 ## [1.1.1](https://github.com/Project-Carbonica/cubiloc/compare/v1.1.0...v1.1.1) (2026-02-24)
 
 
