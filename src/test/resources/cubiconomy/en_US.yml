@@ -1,3 +1,0 @@
-prefix: "<primary>Cubi »</primary> "
-commandMessage:
-  balanceOther: "{@lc:prefix}<primary>{player}: {balance} {currency.symbol}</primary>"

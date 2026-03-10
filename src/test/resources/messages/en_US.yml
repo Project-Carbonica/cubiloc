@@ -10,16 +10,14 @@ helpMenu:
   - "<text>• /spawn - Return to spawn</text>"
   - "<accent>========================</accent>"
 
-# Status messages for @lc
 statusActive: "<success>Active</success>"
 statusInactive: "<error>Inactive</error>"
 statusOnline: "<success>Online</success>"
 statusOffline: "<text_secondary>Offline</text_secondary>"
 
-# @lc placeholder examples
-serverStatus: "<text>Server is {@lc:statusActive}</text>"
-playerStatus: "<text>Player: {player} - Status: {statusOnline,statusOffline@lc#online}</text>"
-dynamicStatus: "<text>{name}: {statusActive,statusInactive@lc#enabled}</text>"
+serverStatus: "<text>Server is {@statusActive}</text>"
+playerStatus: "<text>Player: {player} - Status: {statusOnline,statusOffline@#online}</text>"
+dynamicStatus: "<text>{name}: {statusActive,statusInactive@#enabled}</text>"
 
 errors:
   notFound: "<error>Error: Item '{item}' not found!</error>"

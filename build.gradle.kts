@@ -1,18 +1,8 @@
 plugins {
-    id("java")
-    `java-library`
-    `maven-publish`
+    id("cubiloc.library-conventions")
 }
 
-group = "net.cubizor.cubiloc"
-version = project.findProperty("version") as String ?: "0.0.1-SNAPSHOT"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-    withJavadocJar()
-    withSourcesJar()
-}
+version = project.findProperty("version") as String? ?: "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -26,50 +16,38 @@ repositories {
 }
 
 dependencies {
-    // Okaeri
-    implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.13")
-    implementation("eu.okaeri:okaeri-placeholders-core:5.1.2")
+    // Core
+    implementation(libs.snakeyaml)
+    implementation(libs.okaeri.placeholders)
 
-    // Kyori Adventure
-    implementation("net.kyori:adventure-api:4.25.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.25.0")
-    implementation("net.kyori:adventure-text-minimessage:4.25.0")
+    // Adventure
+    implementation(libs.bundles.adventure)
 
-    // Cubicolor - Color scheme support
-    implementation("net.cubizor.cubicolor:cubicolor-api:1.4.1")
-    implementation("net.cubizor.cubicolor:cubicolor-core:1.4.1")
-    implementation("net.cubizor.cubicolor:cubicolor-exporter:1.4.1")
-    implementation("net.cubizor.cubicolor:cubicolor-text:1.4.1")
-
-    // ByteBuddy for runtime enhancement (Lombok-style)
-    implementation("net.bytebuddy:byte-buddy:1.14.11")
+    // Cubicolor
+    implementation(libs.bundles.cubicolor)
 
     // Testing
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
-    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation(libs.bundles.junit)
+    testRuntimeOnly(libs.junit.launcher)
+    testImplementation(libs.assertj)
 }
 
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        showStandardStreams = true
-        events("passed", "skipped", "failed")
+// Message key generation
+tasks.register<GenerateMessageKeysTask>("generateMessageKeys") {
+    yamlFile.set(file("src/main/resources/messages/en_US.yml"))
+    outputDir.set(layout.buildDirectory.dir("generated/sources/messageKeys"))
+    packageName.set("net.cubizor.cubiloc")
+    objectName.set("M")
+}
+
+kotlin {
+    sourceSets.main {
+        kotlin.srcDir(tasks.named("generateMessageKeys").map {
+            layout.buildDirectory.dir("generated/sources/messageKeys")
+        })
     }
 }
 
-
-// Publishing configuration
-apply(from = "publishing.gradle")
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
+tasks.named("compileKotlin") {
+    dependsOn("generateMessageKeys")
 }
-
-tasks.withType<Javadoc> {
-    options.encoding = "UTF-8"
-    (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet")
-}
-
-// ByteBuddy no longer needed - using direct field approach with Okaeri transformers

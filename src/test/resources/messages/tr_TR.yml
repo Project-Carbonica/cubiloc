@@ -10,16 +10,14 @@ helpMenu:
   - "<text>• /spawn - Spawn'a ışınlan</text>"
   - "<accent>==========================</accent>"
 
-# Status messages for @lc
 statusActive: "<success>Aktif</success>"
 statusInactive: "<error>Pasif</error>"
 statusOnline: "<success>Çevrimiçi</success>"
 statusOffline: "<text_secondary>Çevrimdışı</text_secondary>"
 
-# @lc placeholder examples
-serverStatus: "<text>Sunucu {@lc:statusActive}</text>"
-playerStatus: "<text>Oyuncu: {player} - Durum: {statusOnline,statusOffline@lc#online}</text>"
-dynamicStatus: "<text>{name}: {statusActive,statusInactive@lc#enabled}</text>"
+serverStatus: "<text>Sunucu {@statusActive}</text>"
+playerStatus: "<text>Oyuncu: {player} - Durum: {statusOnline,statusOffline@#online}</text>"
+dynamicStatus: "<text>{name}: {statusActive,statusInactive@#enabled}</text>"
 
 errors:
   notFound: "<error>Hata: '{item}' bulunamadı!</error>"
