@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/Project-Carbonica/cubiloc/compare/v2.0.0...v2.0.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* improve fallback handling for missing i18n keys in message results ([b05a659](https://github.com/Project-Carbonica/cubiloc/commit/b05a659cb70807208cffcbcd9e339e864c2a633f))
+
 # [2.0.0](https://github.com/Project-Carbonica/cubiloc/compare/v1.1.1...v2.0.0) (2026-03-10)
 
 
