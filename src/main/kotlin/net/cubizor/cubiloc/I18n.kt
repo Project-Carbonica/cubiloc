@@ -59,7 +59,7 @@ class I18n(val defaultLocale: Locale) {
 
     fun message(key: String): SingleMessageResult {
         val locale = currentLocaleStr()
-        val rawValue = resolveKey(key, locale) as? String ?: key
+        val rawValue = resolveKey(key, locale) as? String ?: "key not found: $key"
         return SingleMessageResult(
             rawValue = rawValue,
             globalPlaceholders = placeholders,
@@ -73,7 +73,7 @@ class I18n(val defaultLocale: Locale) {
         val lines = when (rawValue) {
             is List<*> -> rawValue.map { it.toString() }
             is String -> listOf(rawValue)
-            else -> listOf(key)
+            else -> listOf("key not found: $key")
         }
         return ListMessageResult(
             rawValues = lines,
