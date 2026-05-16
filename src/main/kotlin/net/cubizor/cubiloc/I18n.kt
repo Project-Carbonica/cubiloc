@@ -49,11 +49,17 @@ class I18n(val defaultLocale: Locale) {
         val dir = File(dataFolder, path)
         dir.mkdirs()
         dir.listFiles { _, name -> name.endsWith(".yml") || name.endsWith(".yaml") }?.forEach { file ->
-            val locale = file.nameWithoutExtension
+            // Canonicalize the locale key so on-disk filename casing (en_us vs en_US, etc.)
+            // never breaks lookups. We parse the filename as a Locale and re-serialize via
+            // formatLocale so the key matches what currentLocaleStr() produces at runtime.
+            val locale = canonicalLocaleKey(file.nameWithoutExtension)
             localeMessages[locale] = YamlMessageLoader.load(file)
         }
         return this
     }
+
+    private fun canonicalLocaleKey(filenameStem: String): String =
+        runCatching { formatLocale(parseLocale(filenameStem)) }.getOrDefault(filenameStem)
 
     // ==================== Message Access ====================
 
