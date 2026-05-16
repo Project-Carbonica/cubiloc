@@ -64,12 +64,14 @@ class I18n(val defaultLocale: Locale) {
     // ==================== Message Access ====================
 
     fun message(key: String): SingleMessageResult {
-        val locale = currentLocaleStr()
-        val rawValue = resolveKey(key, locale) as? String ?: "key not found: $key"
+        // Lazy result — resolves the actual locale value at process()-time using whatever
+        // I18nContext is active then. Lets callers do `i18n.message(k).asComponent(player)`
+        // outside any context block and still get the right language.
         return SingleMessageResult(
-            rawValue = rawValue,
+            i18n = this,
+            messageKey = key,
+            rawValueOverride = null,
             globalPlaceholders = placeholders,
-            messageMap = getMessageMap(locale),
         )
     }
 
@@ -193,9 +195,13 @@ class I18n(val defaultLocale: Locale) {
         return formatLocale(context?.locale ?: defaultLocale)
     }
 
-    private fun resolveKey(key: String, locale: String): Any? =
+    internal fun resolveKey(key: String, locale: String): Any? =
         localeMessages[locale]?.get(key)
             ?: localeMessages[formatLocale(defaultLocale)]?.get(key)
+
+    internal fun currentLocaleStrInternal(): String = currentLocaleStr()
+
+    internal fun getMessageMapInternal(locale: String): Map<String, Any> = getMessageMap(locale)
 
     private fun getMessageMap(locale: String): Map<String, Any> {
         val defaultMap = localeMessages[formatLocale(defaultLocale)] ?: emptyMap()
