@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/Project-Carbonica/cubiloc/compare/v2.0.1...v2.0.2) (2026-05-16)
+
+
+### Bug Fixes
+
+* normalize locale key casing in I18n YAML loader ([86920f5](https://github.com/Project-Carbonica/cubiloc/commit/86920f5e6e5583e8bc996d4dba9dfe6885d58518))
+
 ## [2.0.1](https://github.com/Project-Carbonica/cubiloc/compare/v2.0.0...v2.0.1) (2026-04-06)
 
 
