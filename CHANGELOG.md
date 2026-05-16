@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/Project-Carbonica/cubiloc/compare/v2.0.2...v2.1.0) (2026-05-16)
+
+
+### Features
+
+* add lazy message resolution to `SingleMessageResult` ([0a77217](https://github.com/Project-Carbonica/cubiloc/commit/0a77217b31ddc77c4618d1755b1289f1b8e4df13))
+
 ## [2.0.2](https://github.com/Project-Carbonica/cubiloc/compare/v2.0.1...v2.0.2) (2026-05-16)
 
 
